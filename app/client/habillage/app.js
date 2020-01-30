@@ -6,12 +6,14 @@
 
 'use strict';
 
-let animClock = require('./anim-clock.js')
-  , animOnair = require('./anim-onair.js')
-  , truncate = require('./truncate.js');
+let animClock = require('./anim-clock')
+  , animOnair = require('./anim-onair')
+  , truncate = require('./truncate');
 
 class App {
+
   constructor() {
+
     this.options = {
       // serveur temps réel
       WEBSOCKET_SERVER: settings.ws

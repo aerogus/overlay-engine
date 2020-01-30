@@ -4,7 +4,7 @@ html
   head
     meta(charset="utf-8")
     title Habillage Admin
-    link(rel="stylesheet" href="css/admin.20170113.min.css")
+    link(rel="stylesheet" href="/css/admin.css")
 
   body
 
@@ -74,13 +74,15 @@ html
             th ads
             td#var_ads
 
-    script(src="js/jquery-3.4.1.min.js").
-    script(src="/socket.io/socket.io.js").
-    script(src="js/admin.20170614.min.js").
     script.
+      var app;
       var settings = settings || [];
       settings.ws = 'http://#{ws_host}:#{ws_port}';
+    script(src="/js/jquery-3.4.1.min.js")
+    script(src="/js/moment-2.24.0.min.js")
+    script(src="/socket.io/socket.io.js")
+    script(src="/js/admin.js").
     script.
-      document.addEventListener("DOMContentLoaded", function (event) {
-        var app = new (require('admin/app'));
+      document.addEventListener('DOMContentLoaded', () => {
+        app = new (require('admin/app'));
       });

@@ -1,19 +1,14 @@
 {
   "name": "overlay-engine",
   "version": "1.0.0",
-  "description": "Moteur d'habillage",
+  "description": "Moteur d'habillage pour stream",
   "private": true,
   "author": "Guillaume Seznec <guillaume@seznec.fr>",
   "license": "GPL",
-  "bin": {
-    "overlay-engine": "./app/server.js"
-  },
   "scripts": {
     "start": "./app/server.js",
-    "start2": "./overlay-engine.sh start",
-    "stop": "./overlay-engine.sh stop",
-    "restart": "./overlay-engine.sh restart",
-    "build": "./node_modules/.bin/brunch build --production"
+    "start-static": "brunch watch --server",
+    "build": "brunch build --production"
   },
   "dependencies": {
     "express": "4.17.1",
@@ -28,13 +23,11 @@
   },
   "devDependencies": {
     "autoprefixer": "9.7.4",
-    "brunch": "3.0.0",
-    "babel-brunch": "7.0.1",
-    "clean-css-brunch": "3.0.0",
+    "brunch": "2.10.2",
+    "babel-brunch": "6.1.1",
+    "clean-css-brunch": "2.10.0",
     "eslint-brunch": "3.12.0",
-    "postcss-assets": "5.0.0",
-    "postcss-brunch": "3.0.0",
-    "stylus-brunch": "3.0.0",
+    "stylus-brunch": "2.10.1",
     "uglify-js-brunch": "2.10.0"
   }
 }

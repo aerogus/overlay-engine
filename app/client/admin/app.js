@@ -8,7 +8,9 @@
 'use strict';
 
 class App {
+
   constructor() {
+
     this.options = {
       // serveur temps réel
       WEBSOCKET_SERVER: settings.ws

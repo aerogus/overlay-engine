@@ -1,5 +1,5 @@
 /**
- * animation de l'horloge
+ * module d'animation de l'horloge + timeline + émission
  */
 
 'use strict';
@@ -64,6 +64,9 @@ module.exports = {
 
 };
 
+/**
+ * reset des timers
+ */
 function reset() {
   if (first) {
     first = false;

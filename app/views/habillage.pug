@@ -4,7 +4,7 @@ html
   head
     meta(charset="utf-8")
     title Overlay Engine
-    link(rel="stylesheet" href="css/habillage.20170124.min.css")
+    link(rel="stylesheet" href="css/habillage.css")
 
   body
     #global
@@ -48,14 +48,15 @@ html
           .news__hdr OSCARS 2020:
           .news__title Titre fictif
 
-    script(src="js/jquery-3.4.1.min.js").
-    script(src="/socket.io/socket.io.js").
-    script(src="js/moment-2.24.0.min.js").
-    script(src="js/habillage.20170614.min.js").
     script.
+      var app;
       var settings = settings || [];
       settings.ws = 'http://#{ws_host}:#{ws_port}';
+    script(src="/js/jquery-3.4.1.min.js")
+    script(src="/js/moment-2.24.0.min.js")
+    script(src="/socket.io/socket.io.js")
+    script(src="/js/habillage.js")
     script.
-      document.addEventListener("DOMContentLoaded", function (event) {
-        var app = new (require('habillage/app'));
+      document.addEventListener('DOMContentLoaded', () => {
+        app = new (require('habillage/app'));
       });

@@ -156,6 +156,9 @@ function loopCount(length) {
   return Math.floor(available / loop);
 }
 
+/**
+ *
+ */
 function reset() {
   if (first) {
     first = false;
@@ -187,6 +190,9 @@ function reset() {
 
 }
 
+/**
+ *
+ */
 function preOutro() {
   $('.visuel').css('visibility', 'hidden');
   $('.onair').css('backgroundColor', 'transparent');

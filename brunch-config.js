@@ -1,29 +1,24 @@
-exports.config = {
-  paths: {
-    watched: ['app/assets', 'app/styles', 'app/views', 'app/client']
-  },
-  files: {
-    stylesheets: {
-      joinTo: {
-        'css/habillage.min.css': /^app\/styles\/habillage.styl$/,
-        'css/admin.min.css': /^app\/styles\/admin.styl$/
-      }
-    },
-    javascripts: {
-      joinTo: {
-        'js/habillage.min.js': /^app\/client\/habillage/,
-        'js/admin.min.js': /^app\/client\/admin/
-      }
+exports.paths = {
+  watched: ['app/assets', 'app/styles', 'app/views', 'app/client']
+};
+
+exports.files =  {
+  javascripts: {
+    joinTo: {
+      'js/habillage.js': /^app\/client\/habillage/,
+      'js/admin.js': /^app\/client\/admin/
     }
   },
-  modules: {
-    nameCleaner: function(path) {
-      return path.replace(/^app\/client\//, '');
+  stylesheets: {
+    joinTo: {
+      'css/habillage.css': /^app\/styles\/habillage.styl$/,
+      'css/admin.css': /^app\/styles\/admin.styl$/
     }
-  },
-  plugins: {
-    postcss: {
-      processors: [require('postcss-assets'), require('autoprefixer')(['last 3 versions'])]
-    }
+  }
+};
+
+exports.modules = {
+  nameCleaner: function(path) {
+    return path.replace(/^app\/client\//, '');
   }
 };
