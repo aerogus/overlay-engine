@@ -1,0 +1,61 @@
+doctype html
+html
+
+  head
+    meta(charset="utf-8")
+    title Overlay Engine
+    link(rel="stylesheet" href="css/habillage.20170124.min.css")
+
+  body
+    #global
+
+      section#onair-screen
+
+      section#music-screen
+        .background
+        .pano
+
+      section#ads-screen
+        .background
+        .pano
+
+      #logo
+
+      #clock_wrap
+        #clock 88H88
+        #timeline
+          #start 00H00
+          #line
+            #cursor
+          #end 24H00
+        #show Rock non Stop
+
+      .onair_wrap
+        .onair
+          .artist
+          .title
+      .visuel_wrap
+        .visuel
+      .social_wrap
+        .social
+          img.avatar(src="img/avatar.svg" width="150" height="150" alt="")
+          img.network(src="img/network.svg" width="40" height="40" alt="")
+          h3
+          span
+      .footer
+        .claim <strong>blpradio.fr</strong>
+        .news
+          .news__hdr OSCARS 2020:
+          .news__title Titre fictif
+
+    script(src="js/jquery-3.4.1.min.js").
+    script(src="/socket.io/socket.io.js").
+    script(src="js/moment-2.24.0.min.js").
+    script(src="js/habillage.20170614.min.js").
+    script.
+      var settings = settings || [];
+      settings.ws = 'http://#{ws_host}:#{ws_port}';
+    script.
+      document.addEventListener("DOMContentLoaded", function (event) {
+        var app = new (require('habillage/app'));
+      });

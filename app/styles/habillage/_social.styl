@@ -1,0 +1,67 @@
+/* bloc social */
+
+.social_wrap
+  position absolute
+  overflow hidden
+  right 30px
+  bottom 80px
+
+  .social
+    position relative
+    overflow hidden
+    background-color #fff
+    width 915px
+    height 190px
+    transform translateX(0)
+
+    &.expanded
+      animation social_expand 2s cubic-bezier(0,.5,.5,1) forwards
+
+    &.folded
+      animation social_fold 2s cubic-bezier(0,.5,.5,1) forwards
+
+    .avatar
+      width 150px
+      height 150px
+      margin 20px
+
+    .network
+      position absolute
+      width 40px
+      height 40px
+      top 20px
+      left 190px
+
+    h3
+      position absolute
+      top 35px
+      left 240px
+      font-size 24px
+      font-family Arial
+      font-weight bold
+
+    span
+      position absolute
+      overflow hidden
+      top 80px
+      left 190px
+      font-family Arial
+      color #292933
+      font-size 26px
+      line-height 29px
+      width 705px
+      height 90px
+
+/* animation relative à .social */
+
+@keyframes social_expand
+  0%
+    transform translateX(calc(100% + 1px))
+  100%
+    transform translateX(0)
+
+@keyframes social_fold
+  0%
+    transform translateX(0)
+  100%
+    transform translateX(calc(100% + 1px))

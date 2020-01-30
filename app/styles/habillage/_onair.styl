@@ -1,0 +1,111 @@
+/* block titre artiste */
+
+.visuel_wrap
+  position absolute
+  left 30px
+  right 30px
+  bottom 80px
+  overflow hidden
+
+  .visuel
+    position relative
+    width 548px
+    height 190px
+    background no-repeat center / 548px
+    transform translateX(calc(-100% - 1px))
+    visibility hidden
+    transition visibility 0s
+    z-index 1
+    left 0
+
+    &.expanded
+      animation visuel_expand 2s cubic-bezier(0,.5,.5,1) forwards
+
+    &.folded
+      animation visuel_fold 2s cubic-bezier(0,.5,.5,1) forwards
+
+
+.onair_wrap
+  position absolute
+  display flex
+  left 30px
+  bottom 80px
+  overflow hidden
+  max-height 0
+  background-color #fff
+
+  &.expanded
+    animation height_in 1s cubic-bezier(0,.5,.5,1) forwards
+    .onair
+      animation translateY_in 1s cubic-bezier(0,.5,.5,1) forwards
+
+  &.folded
+    animation height_out 1s cubic-bezier(0,.5,.5,1) forwards
+    .onair
+      animation translateY_out 1s cubic-bezier(1,0,1,1) forwards
+
+  .onair
+    display inline-block
+    background-color transparent
+    color #292933
+    position relative
+    padding 29px 10px
+    margin-top auto
+    margin-bottom auto
+    transform translateY(calc(100% + 1px))
+    z-index 2
+    font-family TradeGothic
+    white-space nowrap
+    overflow hidden
+    max-width 915px
+
+    .artist
+      font-weight bold
+      font-size 80px
+      text-overflow ellipsis
+      overflow hidden
+
+    .title
+      font-size 52px
+      text-overflow ellipsis
+      overflow hidden
+
+@keyframes height_in
+  0%
+    max-height 0
+  100%
+    max-height 190px
+
+@keyframes height_out
+  0%
+    max-height 190px
+  100%
+    max-height 0
+
+@keyframes translateY_in
+  0%
+    opacity 0
+    transform translateY(calc(100% + 1 px))
+  100%
+    opacity 1
+    transform translateY(0)
+
+@keyframes translateY_out
+  0%
+    opacity 1
+    transform translateY(0)
+  100%
+    opacity 0
+    transform translateY(calc(100% + 1px))
+
+@keyframes visuel_expand
+  0%
+    transform translateX(calc(-100% - 1px))
+  100%
+    transform translateX(0)
+
+@keyframes visuel_fold
+  0%
+    transform translateX(0)
+  100%
+    transform translateX(calc(-100% - 1px))

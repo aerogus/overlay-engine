@@ -1,0 +1,21 @@
+# divers
+.DS_Store
+Thumb.db
+
+log
+
+# stockage variable d'environnement
+.env
+
+# dépendances npm
+node_modules
+
+# export brunch
+public
+
+# journaux
+log
+npm-debug.log
+
+# Intellij
+.idea

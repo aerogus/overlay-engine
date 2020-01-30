@@ -1,0 +1,144 @@
+/**
+ * Console d'administration
+ */
+
+body
+  background #292933
+  color #fff
+  margin 20px
+  font-family Arial
+
+h1
+  background #f7303c
+  padding 5px
+  margin-bottom 20px
+  font-weight bold
+  text-transform uppercase
+
+header
+  margin-bottom 20px
+  display flex
+
+#main
+  display flex
+
+section h2
+  text-transform uppercase
+  background #f0f0f0
+  padding 5px
+  color #000
+  font-weight bold
+  margin-bottom 10px
+
+section#habillage
+  display block
+
+#video_wrap
+  width 640px
+  height 360px
+  border 5px solid #f7303c
+  padding 0
+  overflow hidden
+
+#video
+  width 1920px
+  height 1080px
+  border 0
+  transform: scale(0.33);
+  transform-origin: 0 0;
+
+section#commandes
+
+  margin 0 20px
+
+  ul
+    li
+      margin-bottom 10px
+
+section#variables
+  flex 1
+
+button.message
+  padding 5px 5px 5px 30px
+  background #ccc url(../img/icons/pulse.svg) no-repeat 2px / 24px
+  color #000
+  border 0
+  font-size 16px
+  width 70px
+  cursor pointer
+  transition .2s all
+  font-weight bold
+
+  &[data-msg=\"MON\"]
+    background #ccc url(../img/icons/tools.svg) no-repeat 5px / 20px
+
+  &[data-msg=\"ZON\"]
+    background #ccc url(../img/icons/b1.svg) no-repeat 4px / 22px
+
+  &[data-msg=\"AON\"]
+    background #ccc url(../img/icons/mic.svg) no-repeat 0 / 30px
+
+  &[data-msg=\"PON\"]
+    background #ccc url(../img/icons/money.svg) no-repeat 5px / 20px
+
+  &[data-msg=\"UPD\"]
+    background #ccc url(../img/icons/refresh.svg) no-repeat 4px / 20px
+
+  &:hover
+    background-color #fff
+
+button#conx
+  border 0
+  font-size 16px
+  font-weight bold
+  padding 5px
+
+  &.connected
+    background #c66
+
+  &.disconnected
+    background #6c6
+
+.dump
+  font-family monospace
+  color #000
+  background #fff
+  font-size 16px
+
+  th, td
+    padding 10px
+
+  th
+    text-align right
+    font-weight bold
+
+  td
+    text-align left
+    color #f00
+    width 100%
+
+#message_response
+  padding 5px
+  background #0ba8ff
+  color #fff
+  font-weight bold
+  margin-left 20px
+
+ol
+  margin-left 40px
+  list-style initial
+  list-style-type decimal-leading-zero
+
+button.delete
+  cursor pointer
+  background #292933 url(../img/icons/trash.svg) no-repeat center center / 24px
+  color #fff
+  border 0
+  padding 16px
+  margin-right 5px
+  margin-bottom 5px
+  font-weight bold
+  text-transform uppercase
+
+  &:hover
+    background-color #f7303c

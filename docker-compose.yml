@@ -1,0 +1,14 @@
+##
+# Environnement de développement de l'application overlay-engine
+##
+
+version: '3.7'
+
+services:
+  node:
+    image: node:lts
+    hostname: node
+    ports:
+      - 10230:10230
+    volumes:
+       - .:/app

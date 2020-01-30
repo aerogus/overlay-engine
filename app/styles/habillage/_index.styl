@@ -1,0 +1,81 @@
+/**
+ * Stylage de l'habillage
+ */
+
+@import _fonts
+@import _colors
+
+body
+  background #000
+
+/* conteneur global */
+
+#global
+  width 1920px
+  height 1080px
+  position relative
+  overflow hidden
+  background #000 url(../img/mire.svg) no-repeat center center / contain
+
+
+/* logo */
+
+#logo
+  position absolute
+  top 30px
+  left 30px
+  width 128px
+  height 95px
+  background url(../img/blpradio.png) no-repeat 0 0 / cover
+
+/* chaque écran est encapsulé dans une section */
+
+section
+  width 1920px
+  height 1080px
+  display none
+  background #000
+  left 0
+  top 0
+  position absolute
+
+  &#onair-screen
+    background chromakey
+
+/* visuel flouté de fond pour certains écrans */
+
+.background
+  position absolute
+  width 1920px
+  height 1080px
+  background-color #000
+  background-size cover
+  filter blur(20px) brightness(.5)
+  transform scale(1.5, 1.5)
+  overflow hidden
+
+
+/* visuel panoramique artiste ou ads */
+
+.pano
+  position absolute
+  width 1062px
+  height 400px
+  background-repeat no-repeat
+  background-size cover
+  left 429px
+  top 220px
+
+  &:after
+    position absolute
+    content ' '
+    width 1062px
+    height 60px
+    background url(../img/shadow-pano.png) no-repeat 0 0
+    top 400px
+
+
+@import _clock
+@import _social
+@import _onair
+@import _footer
