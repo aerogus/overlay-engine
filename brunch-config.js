@@ -1,3 +1,5 @@
+exports.optimize = true;
+
 exports.paths = {
   watched: ['app/assets', 'app/styles', 'app/views', 'app/client']
 };
@@ -21,4 +23,8 @@ exports.modules = {
   nameCleaner: function(path) {
     return path.replace(/^app\/client\//, '');
   }
+};
+
+exports.plugins = {
+  babel: {presets: ['@babel/preset-env']}
 };

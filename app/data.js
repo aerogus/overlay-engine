@@ -1,11 +1,11 @@
 /**
  * Gestion du stockage des données en mémoire
+ * + données initiales
  */
 
 'use strict';
 
 let sha1 = require('sha1')
-  , request = require('request-json')
   , log = require('./log')
   , settings = require('./settings');
 
@@ -48,7 +48,7 @@ module.exports = {
   music: {
     artist: 'BLP Radio',
     title: 'La Webradio du Nord Essonne',
-    img: '/img/default-artiste.jpg',
+    img: '/img/artistes/default.jpg',
     length: 10000 // 10 sec
   },
 
@@ -80,13 +80,13 @@ module.exports = {
    * @var object
    */
   show: {
-    title: 'Rock non Stop',
-    color: '#f7303c',
+    title: 'Émission spéciale Oscars',
+    color: '#bfa267',
     color_alt: '#ffffff',
-    hashtag: 'ouifm',
-    horaire: '0H-24H',
-    start: '',
-    end: ''
+    hashtag: 'blpradio',
+    horaire: '23H-6H',
+    start: Date.now(),
+    end: Date.now() + 3600 * 1000
   },
 
   /**
@@ -100,28 +100,28 @@ module.exports = {
    * @var array d'objets .avatar, .name, .network, .message
    */
   social: [{
-    avatar: 'https://pbs.twimg.com/profile_images/831548575125483522/k9Kukioo.jpg',
-    name: 'Clément Potier @clem_oui_fm',
+    avatar: 'https://pbs.twimg.com/profile_images/1039188008543678464/3dzfOoBY_400x400.jpg',
+    name: 'Aurélien Taché @Aurelientache',
     network: 'twitter',
-    message: '@Arnold_Officiel @ouifm oui en effet, la protubérance nasale touche les 3 micros en même temps. Je tente de gérer ça avec la technique.'
+    message: `Très fier que #LesMiserables soient aux #Oscars2020. J'espère de tout coeur que cette œuvre majeure, sur le plan cinématographique, comme sur celui de la lutte contre les #discriminations, sera primée. Et que ceux qui ont diffamés un homme qui a purgé sa peine, seront condamnés.`
   }, {
-    avatar: 'https://pbs.twimg.com/profile_images/865634968659087361/AEPx1P71.jpg',
-    name: 'Arnold @Arnold_Officiel',
+    avatar: 'https://pbs.twimg.com/profile_images/835778286731022337/kdE5YWci_400x400.jpg',
+    name: `Le Fraik' @leFraik`,
     network: 'twitter',
-    message: '@ouifm bonjour, j\'entends comme des petits coups sourds sur le micro dès que l\'animatrice s\'exprime. Comme si un nez heurtait la bonnette'
+    message: 'Dévoiler la chanson titre de #NoTimeToDie aux #Oscars2020 ça aurait pas un peu de la gueule quand même ?....#BillieEilish #jamesbond'
   }],
 
   /**
    * Liste des publicités (= sliders)
    * @var array d'objets .img
    */
-  ads: [{
-    img: '/img/ads/default.jpg'
+  ads: [],/*{
+    img: 'img/ads/default.jpg'
   }, {
-    img: '/img/ads/default.jpg'
+    img: 'img/ads/default.jpg'
   }, {
-    img: '/img/ads/default.jpg'
-  }],
+    img: 'img/ads/default.jpg'
+  }],*/
 
   /**
    * nombre de news à stocker
@@ -208,6 +208,7 @@ module.exports = {
       new_screen = 'music';
     }
     if (this.screen !== new_screen) {
+      console.log('switch to screen ' + new_screen);
       this.screen = new_screen;
       return true;
     }

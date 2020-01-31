@@ -196,14 +196,12 @@ class App {
    */
   initClock() {
     let clock = $(this.UI.clock);
-    //let startClockShow = this.animClock.start;
     let animClock = this.animClock;
     (function clock_update_ui() {
       let now = new Date();
       let hour = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2);
       if (clock.html() !== hour) {
         clock.html(hour);
-        //startClockShow();
         animClock.start();
       }
       setTimeout(clock_update_ui, 1000);
@@ -242,11 +240,12 @@ class App {
         case 51: // touche 3
           this.requestScreen('ads');
           break;
+        case 102: // touche F pour fullscreen
+          document.documentElement.requestFullscreen();
+          break;
       }
     });
   }
-
-
 
   /**
    * demande d'affichage d'un nouvel écran
@@ -318,6 +317,7 @@ class App {
       $('#music-screen .background').css('backgroundImage', 'url(' + this.data.music.img + ')');
       $('#music-screen .pano').css('backgroundImage', 'url(' + this.data.music.img + ')');
       this.ready.music = true;
+      console.log('trigger musicReady');
       $('body').trigger('musicReady');
       let do_expand_visuel = (this.screen.current === 'onair');
       this.animOnair.start(this.data.music, do_expand_visuel);
@@ -333,9 +333,10 @@ class App {
 
     this.ready.ads = false;
 
-    // @todo: on attend que toutes les images soient chargées
+    // @todo: on attend que toutes les images des pubs soient chargées
 
     this.ready.ads = true;
+    console.log('trigger adsReady');
     $('body').trigger('adsReady');
 
   }
@@ -377,7 +378,7 @@ class App {
     this.ready.social = false;
     let _this = this;
     (function social_update_ui() {
-      console.log('length = ' + _this.data.social.length);
+      console.log('social length = ' + _this.data.social.length);
       if (!_this.data.social.length) {
         _this.ready.social = true;
         $('.social_wrap').css('opacity', 0);
@@ -403,6 +404,7 @@ class App {
             $('.social h3').hide().html(_this.data.social[_this.random_index.social].name).fadeIn(300);
             $('.social span').hide().html(_this.data.social[_this.random_index.social].message).fadeIn(300);
             _this.ready.social = true;
+            console.log('trigger socialReady');
             $('body').trigger('socialReady');
           };
           network.src = 'img/' + _this.data.social[_this.random_index.social].network + '.svg';
@@ -418,7 +420,6 @@ class App {
    * met à jour le composant ads + init de la boucle
    */
   initAdsUI() {
-
     let _this = this;
     (function ads_update_ui() {
       if (!_this.data.ads.length) {
@@ -426,6 +427,7 @@ class App {
         $('body').trigger('adsReady');
       } else {
         _this.ready.ads = false;
+        console.log('ads length = ' +  _this.data.ads.length);
         if (_this.data.ads.length > 1) {
           let random_index = _this.random_index.ads;
           do {
@@ -436,12 +438,15 @@ class App {
         }
         let ads = new Image();
         ads.onload = () => {
+          console.log('onload OK');
           $('#ads-screen .background').css('backgroundImage', 'url(' + _this.data.ads[_this.random_index.ads].img + ')');
           $('#ads-screen .pano').css('backgroundImage', 'url(' + _this.data.ads[_this.random_index.ads].img + ')');
           _this.ready.ads = true;
+          console.log('trigger adsReady');
           $('body').trigger('adsReady');
         };
         ads.src = _this.data.ads[_this.random_index.ads].img;
+        console.log('--- : ' + ads.src);
       }
       _this.timer.ads = setTimeout(ads_update_ui, _this.tempo.ads * 1000);
     })();

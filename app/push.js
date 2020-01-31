@@ -21,7 +21,7 @@ if (process.argv.length <= 2) {
 let msg = process.argv[2];
 
 const settings = require('./settings');
-const socket = require('socket.io-client')('ws://' + settings.WS.HOST + ':' + settings.WS.PORT.PUBLIC);
+const socket = require('socket.io-client')('ws://' + settings.ws.host + ':' + settings.ws.port);
 
 socket.on('connect', () => {
 
@@ -40,18 +40,38 @@ socket.on('connect', () => {
 
     // activation mode plein gaz / Beats1 Always on
     case 'ZON':
+      socket.emit('ZON');
+      console.log('ZON emitted');
       break;
 
     // désactivation mode plein gaz / Beats1 Always on
     case 'ZOF':
+      socket.emit('ZOF');
+      console.log('ZOF emitted');
       break;
 
-    // activation mode maintenance
+    // activation des micros
+    case 'AON':
+      socket.emit('AON');
+      console.log('AON emitted');
+      break;
+
+    // désactivation des micros
+    case 'AOF':
+      socket.emit('AOF');
+      console.log('AOF emitted');
+      break;
+
+      // activation mode maintenance
     case 'MON':
+      socket.emit('MON');
+      console.log('MON emitted');
       break;
 
     // désactivation mode maintenance
     case 'MOF':
+      socket.emit('MOF');
+      console.log('MOF emitted');
       break;
 
     // demande mise à jour de l'habillage côté client
@@ -60,6 +80,10 @@ socket.on('connect', () => {
 
     // nouvelle news
     case 'NWS':
+      socket.emit('NWS', {
+        title: 'BPL Radio - La webradio du Nord Essonne'
+      });
+      console.log('NWS emitted');
       break;
 
     // nouveau message social
