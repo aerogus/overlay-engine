@@ -109,7 +109,7 @@ socket.on('connect', () => {
         color_alt: '#ffffff',
         hashtag: 'blpradio',
         horaire: '0H-24H',
-        start: Date.now(),
+        start: Date.now() - 3600 * 1000,
         end: Date.now() + 3600 * 1000
       });
       console.log('EMI emitted');
