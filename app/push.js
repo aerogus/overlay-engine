@@ -30,10 +30,10 @@ socket.on('connect', () => {
     // début chanson
     case 'ZIK':
       socket.emit('ZIK', {
-        artist: 'OÜI FM',
-        title: '#ROCKRADIO',
-        img: 'https://www.ouifm.fr/wp-content/uploads/artistes/the-rolling-stones.jpg',
-        length: 160000 // 1 min
+        artist: 'Artiste',
+        title: 'Titre',
+        img: 'img/artistes/default.jpg',
+        length: 60000 // en ms. mini 60000 (durée animation)
       });
       console.log('ZIK emitted');
       break;
@@ -89,10 +89,10 @@ socket.on('connect', () => {
     // nouveau message social
     case 'SOC':
       socket.emit('SOC', {
-        avatar: 'https://pbs.twimg.com/profile_images/831548575125483522/k9Kukioo.jpg',
-        name: 'Clément Potier @clem_oui_fm',
+        avatar: 'https://pbs.twimg.com/profile_images/1039188008543678464/3dzfOoBY_400x400.jpg',
+        name: 'Aurélien Taché @Aurelientache',
         network: 'twitter',
-        message: '@Arnold_Officiel @ouifm oui en effet, la protubérance nasale touche les 3 micros en même temps. Je tente de gérer ça avec la technique.'
+        message: 'Très fier que #LesMiserables soient aux #Oscars2020.'
       });
       console.log('SOC emitted');
       break;
@@ -101,8 +101,18 @@ socket.on('connect', () => {
     case 'SOCDEL':
       break;
 
-    // infos de l'émission courante
+    // début nouvelle émission
     case 'EMI':
+      socket.emit('EMI', {
+        title: 'Nom Émission',
+        color: '#bfa267',
+        color_alt: '#ffffff',
+        hashtag: 'blpradio',
+        horaire: '0H-24H',
+        start: Date.now(),
+        end: Date.now() + 3600 * 1000
+      });
+      console.log('EMI emitted');
       break;
 
     // bloc de sliders

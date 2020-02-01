@@ -48,7 +48,7 @@ module.exports = {
   music: {
     artist: 'BLP Radio',
     title: 'La Webradio du Nord Essonne',
-    img: '/img/artistes/default.jpg',
+    img: 'http://' + settings.ws.host + ':' + settings.ws.port + '/img/artistes/default.jpg',
     length: 10000 // 10 sec
   },
 
@@ -115,13 +115,13 @@ module.exports = {
    * Liste des publicités (= sliders)
    * @var array d'objets .img
    */
-  ads: [],/*{
-    img: 'img/ads/default.jpg'
+  ads: [{
+    img: 'http://' + settings.ws.host + ':' + settings.ws.port + '/img/ads/default.jpg'
   }, {
-    img: 'img/ads/default.jpg'
+    img: 'http://' + settings.ws.host + ':' + settings.ws.port + '/img/ads/default.jpg'
   }, {
-    img: 'img/ads/default.jpg'
-  }],*/
+    img: 'http://' + settings.ws.host + ':' + settings.ws.port + '/img/ads/default.jpg'
+  }],
 
   /**
    * nombre de news à stocker

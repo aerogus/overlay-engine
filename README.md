@@ -17,6 +17,8 @@ Système d'incrustation dynamique et administrable pour stream live
 - Une webapp "console d'administration" : /admin
   Visualisation de l'habillage + commandes d'envoi des messages + dump des variables système en temps réel
 
+- Une webapp "tweet wall" : /tweet-wall
+
 ## Installation de dev
 
 git clone git@github.com:aerogus/overlay-engine.git .
@@ -26,13 +28,24 @@ npm install
 npm run build
 npm start
 
-aller sur http://localhost:6666
+aller sur http://localhost
 
-## Installation de prod
+## Installation de prod sous Debian
 
 - raspberry pi avec sortie HDMI vers mélangeur vidéo
 - à l'allumage, doit lancer direct l'app d'habillage (Firefox plein écran, ou app electron)
 - cable ethernet direct vers PC d'admin
+
+(en root)
+mkdir /var/www/overlay-engine
+cd /var/www/overlay-engine
+git clone https://github.com/aerogus/overlay-engine.git .
+npm install
+npm run build
+cp overlay-service /etc/systemd/system/overlay-engine.service
+systemctl daemon-reload
+systemctl enable overlay-engine
+systemctl start overlay-engine
 
 ## Architecture
 
@@ -56,5 +69,6 @@ Ces messages sont envoyables par la console d'admin
 - OFF AIR
 
 
-Title:
+Title (todo à parser):
 http://www.blpradio.fr/sam/livetitle.php
+
