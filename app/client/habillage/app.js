@@ -107,6 +107,7 @@ class App {
     // à la réception du dump initial de la mémoire
     this.socket.on('dumped', dump => {
       console.log('dump received');
+      console.log(dump);
 
       this.data.music = dump.music;
       this.updateMusicUI();

@@ -1,11 +1,11 @@
 /**
- * Gestion du stockage des données en mémoire
- * + données initiales
+ * Structure des données en mémoire + état initial
  */
 
 'use strict';
 
-let sha1 = require('sha1');
+let sha1 = require('sha1')
+  , moment = require('moment');
 
 let log = require('./log')
   , settings = require('./settings');
@@ -81,13 +81,11 @@ module.exports = {
    * @var object
    */
   show: {
-    title: 'Émission spéciale Oscars',
+    title: 'BLP Radio',
     color: '#bfa267',
     color_alt: '#ffffff',
-    hashtag: 'blpradio',
-    horaire: '23H-6H',
-    start: Date.now(),
-    end: Date.now() + 3600 * 1000
+    start: moment().startOf('day').unix() * 1000,
+    end: (moment().endOf('day').unix() + 1) * 1000
   },
 
   /**
