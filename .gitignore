@@ -4,8 +4,8 @@ Thumb.db
 
 log
 
-# stockage variable d'environnement
-.env
+# paramètres
+settings.json
 
 # dépendances npm
 node_modules
@@ -16,6 +16,3 @@ public
 # journaux
 log
 npm-debug.log
-
-# Intellij
-.idea

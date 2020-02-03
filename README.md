@@ -21,12 +21,15 @@ Système d'incrustation dynamique et administrable pour stream live
 
 ## Installation de dev
 
-git clone git@github.com:aerogus/overlay-engine.git .
+```
+git clone https://github.com/aerogus/overlay-engine.git
 cd overlay-engine
-éditer conf/overlay-engine.yaml
+cp settings.json.dist settings.json
+adapter settings.json
 npm install
 npm run build
 npm start
+```
 
 aller sur http://localhost
 
@@ -36,16 +39,19 @@ aller sur http://localhost
 - à l'allumage, doit lancer direct l'app d'habillage (Firefox plein écran, ou app electron)
 - cable ethernet direct vers PC d'admin
 
+```
 (en root)
-mkdir /var/www/overlay-engine
-cd /var/www/overlay-engine
+cd /var/www
 git clone https://github.com/aerogus/overlay-engine.git .
+cd overlay-engine
 npm install
 npm run build
-cp overlay-service /etc/systemd/system/overlay-engine.service
+cp *.service /etc/systemd/system
 systemctl daemon-reload
-systemctl enable overlay-engine
-systemctl start overlay-engine
+systemctl enable overlay-engine-server overlay-engine-update-title overlay-engine-update-social
+systemctl start overlay-engine-server overlay-engine-update-title overlay-engine-update-social
+crontab crontab
+```
 
 ## Architecture
 

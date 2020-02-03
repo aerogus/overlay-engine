@@ -6,9 +6,9 @@
   "author": "Guillaume Seznec <guillaume@seznec.fr>",
   "license": "GPL",
   "scripts": {
-    "start": "./app/server.js",
-    "sstart": "brunch watch --server",
-    "build": "brunch build --production"
+    "build": "brunch build --production",
+    "clean": "rm -Rf node_modules public log",
+    "start": "./app/server.js"
   },
   "dependencies": {
     "express": "4.17.1",
@@ -19,7 +19,8 @@
     "request-json": "0.6.4",
     "sha1": "1.1.1",
     "socket.io": "2.3.0",
-    "socket.io-client": "2.3.0"
+    "socket.io-client": "2.3.0",
+    "twitter": "1.7.1"
   },
   "devDependencies": {
     "autoprefixer": "9.7.4",

@@ -24,9 +24,9 @@ let fs = require('fs')
   , morgan = require('morgan')
   , FileStreamRotator = require('file-stream-rotator');
 
-let settings = require('./settings')
-  , log = require('./log')
-  , data = require('./data');
+let settings = require('./lib/settings')
+  , log = require('./lib/log')
+  , data = require('./lib/data');
 
 let app = express();
 let server = http.Server(app);
@@ -276,13 +276,13 @@ io.on('connection', socket => {
 });
 
 // démarrage serveur
-log(settings.ws.host + ' server starting ...');
+log(settings.server.HOST + ' server starting ...');
 
 // chargement initial des données
 data.load();
 
-server.listen(settings.ws.port, () => {
-  log('listening to port ' + settings.ws.port);
+server.listen(settings.server.PORT, () => {
+  log('listening to port ' + settings.server.PORT);
 });
 
 app.disable('x-powered-by');
@@ -296,16 +296,16 @@ app.set('view engine', 'pug');
 // habillage
 app.get(/^\/$/, (req, res) => {
   res.render('habillage', {
-    ws_host: settings.ws.host,
-    ws_port: settings.ws.port
+    ws_host: settings.server.HOST,
+    ws_port: settings.server.PORT
   });
 });
 
 // console d'admin
 app.get(/^\/admin$/, (req, res) => {
   res.render('admin', {
-    ws_host: settings.ws.host,
-    ws_port: settings.ws.port
+    ws_host: settings.server.HOST,
+    ws_port: settings.server.PORT
   });
 });
 
@@ -313,7 +313,7 @@ app.get(/^\/admin$/, (req, res) => {
 app.get(/^\/push$/, (req, res) => {
   let msg = req.query.msg;
 
-  let socket = require('socket.io-client')('ws://' + settings.ws.host + ':' + settings.ws.port);
+  let socket = require('socket.io-client')('ws://' + settings.server.HOST + ':' + settings.server.PORT);
   socket.on('connect', () => {
     socket.emit(msg);
     socket.disconnect();
@@ -332,12 +332,12 @@ app.use(express.static(__dirname + '/../public'));
 
 // écoute le signal TERM (ex: kill)
 process.on('SIGTERM', () => {
-  log('SIGTERM : shutting down ' + settings.ws.host + ' server ...');
+  log('SIGTERM : shutting down ' + settings.server.HOST + ' server ...');
   process.exit();
 });
 
 // écoute le signal INT (ex: Ctrl-C)
 process.on('SIGINT', () => {
-  log('SIGINT : shutting down ' + settings.ws.host + ' server ...');
+  log('SIGINT : shutting down ' + settings.server.HOST + ' server ...');
   process.exit();
 });

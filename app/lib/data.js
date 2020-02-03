@@ -5,8 +5,9 @@
 
 'use strict';
 
-let sha1 = require('sha1')
-  , log = require('./log')
+let sha1 = require('sha1');
+
+let log = require('./log')
   , settings = require('./settings');
 
 module.exports = {
@@ -48,8 +49,8 @@ module.exports = {
   music: {
     artist: 'BLP Radio',
     title: 'La Webradio du Nord Essonne',
-    img: 'http://' + settings.ws.host + ':' + settings.ws.port + '/img/artistes/default.jpg',
-    length: 10000 // 10 sec
+    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/artistes/default.jpg',
+    length: 60000 // mini 60 sec (doit être > durée de l'animation)
   },
 
   /**
@@ -72,7 +73,7 @@ module.exports = {
     artist: 'ROCK RADIO',
     title: 'OUI FM',
     img: 'https://www.ouifm.fr/wp-content/uploads/artistes/default.jpg',
-    length: 10000 // 10 sec
+    length: 60000 // mini 60 sec (doit être > durée de l'animation)
   },
 
   /**
@@ -116,11 +117,11 @@ module.exports = {
    * @var array d'objets .img
    */
   ads: [{
-    img: 'http://' + settings.ws.host + ':' + settings.ws.port + '/img/ads/default.jpg'
+    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/ads/default.jpg'
   }, {
-    img: 'http://' + settings.ws.host + ':' + settings.ws.port + '/img/ads/default.jpg'
+    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/ads/default.jpg'
   }, {
-    img: 'http://' + settings.ws.host + ':' + settings.ws.port + '/img/ads/default.jpg'
+    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/ads/default.jpg'
   }],
 
   /**

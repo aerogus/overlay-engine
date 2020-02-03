@@ -20,8 +20,8 @@ if (process.argv.length <= 2) {
 
 let msg = process.argv[2];
 
-const settings = require('./settings');
-const socket = require('socket.io-client')('ws://' + settings.ws.host + ':' + settings.ws.port);
+const settings = require('./lib/settings');
+const socket = require('socket.io-client')('ws://' + settings.server.HOST + ':' + settings.server.PORT);
 
 socket.on('connect', () => {
 

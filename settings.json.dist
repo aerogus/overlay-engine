@@ -1,0 +1,14 @@
+{
+  "server": {
+    "PORT": 80,
+    "HOST": "localhost"
+  },
+  "twitter": {
+    "CONSUMER_KEY": "",
+    "CONSUMER_SECRET": "",
+    "TOKEN_KEY": "",
+    "ACCESS_TOKEN_SECRET": "",
+    "LANGUAGE": "fr",
+    "TRACK": ""
+  }
+}
