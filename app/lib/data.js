@@ -101,12 +101,12 @@ module.exports = {
    * @var array d'objets .avatar, .name, .network, .message
    */
   social: [{
-    avatar: 'https://pbs.twimg.com/profile_images/1039188008543678464/3dzfOoBY_400x400.jpg',
+    avatar: 'https://pbs.twimg.com/profile_images/1039188008543678464/3dzfOoBY_bigger.jpg',
     name: 'Aurélien Taché @Aurelientache',
     network: 'twitter',
     message: `Très fier que #LesMiserables soient aux #Oscars2020. J'espère de tout coeur que cette œuvre majeure, sur le plan cinématographique, comme sur celui de la lutte contre les #discriminations, sera primée. Et que ceux qui ont diffamés un homme qui a purgé sa peine, seront condamnés.`
   }, {
-    avatar: 'https://pbs.twimg.com/profile_images/835778286731022337/kdE5YWci_400x400.jpg',
+    avatar: 'https://pbs.twimg.com/profile_images/835778286731022337/kdE5YWci_bigger.jpg',
     name: `Le Fraik' @leFraik`,
     network: 'twitter',
     message: 'Dévoiler la chanson titre de #NoTimeToDie aux #Oscars2020 ça aurait pas un peu de la gueule quand même ?....#BillieEilish #jamesbond'

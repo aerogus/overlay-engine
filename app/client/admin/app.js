@@ -65,6 +65,10 @@ class App {
       this.updateDumpUI(dump);
     });
 
+    this.socket.on('SOC', (social) => {
+      console.log('SOC received', social);
+    });
+
     // liste des messages entrainant un rafraichissement de l'interface
     const msgs_with_refresh = [
       'ZIK', 'AON', 'AOF',

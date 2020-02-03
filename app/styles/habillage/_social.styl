@@ -2,18 +2,17 @@
 
 .social_wrap
   position absolute
-  overflow hidden
   right 30px
   bottom 100px
 
   .social
     position relative
-    overflow hidden
+    display inline-flex
     background-color #fff
     width 915px
-    height 190px
     transform translateX(0)
-    border-radius 10px
+    border-radius 1rem
+    padding 1rem
 
     &.expanded
       animation social_expand 2s cubic-bezier(0,.5,.5,1) forwards
@@ -24,34 +23,31 @@
     .avatar
       width 150px
       height 150px
-      margin 20px
 
-    .network
-      position absolute
-      width 40px
-      height 40px
-      top 20px
-      left 190px
+    .soc_inner
+      padding 0 1rem
 
-    h3
-      position absolute
-      top 35px
-      left 240px
-      font-size 24px
-      font-family Arial
-      font-weight bold
+      .network
+        display inline-block
+        width 40px
+        height 40px
+        margin-right 1rem
 
-    span
-      position absolute
-      overflow hidden
-      top 80px
-      left 190px
-      font-family Arial
-      color #292933
-      font-size 26px
-      line-height 29px
-      width 705px
-      height 90px
+      h3
+        display inline-block
+        vertical-align top
+        font-size 24px
+        font-family Arial
+        font-weight bold
+        line-height 40px
+
+      span
+        display block
+        font-family Arial
+        color #292933
+        font-size 26px
+        line-height 29px
+        padding-top 1rem
 
 /* animation relative à .social */
 

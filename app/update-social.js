@@ -27,26 +27,36 @@ let client = new Twitter({
 
 client.stream('statuses/filter', {track: settings.twitter.TRACK, language: settings.twitter.LANGUAGE}, (stream) => {
   stream.on('data', (tweet) => {
-    if (!isReply(tweet)) {
-      log(tweet.text);
-      log('-');
+    if (!tweet.id) return;
+    if (isReply(tweet)) return;
+    if (tweet.is_quote_status) return;
 
-      const msg = {
-        body: tweet.text
-      };
-      const io = require('socket.io-client');
-      const socket = io('ws://' + settings.server.HOST + ':' + settings.server.PORT, {autoConnect: false, reconnectionAttempts: 2});
-      socket.open();
-      socket.on('connect', () => {
-        socket.emit('SOC', msg);
-        log('SOC emitted');
-        socket.disconnect();
-      });
-      socket.on('connect_error', () => {
-        log('connexion WS impossible');
-        socket.disconnect();
-      });
-    }
+    //log(tweet);
+
+    const social = {
+      avatar: (tweet.user.default_profile_image ? 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png' : tweet.user.profile_image_url_https.replace('_normal', '_bigger')),
+      name: tweet.user.name + ' @' + tweet.user.screen_name,
+      network: 'twitter',
+      message: (tweet.truncated ? tweet.extended_tweet.full_text : tweet.text)
+    };
+
+    //if (social.message.match(/(https:\/\/t.co)/)) return;
+
+    log(social);
+    log('-');
+
+    const io = require('socket.io-client');
+    const socket = io('ws://' + settings.server.HOST + ':' + settings.server.PORT, {autoConnect: false, reconnectionAttempts: 2});
+    socket.open();
+    socket.on('connect', () => {
+      socket.emit('SOC', social);
+      log('SOC emitted');
+      socket.disconnect();
+    });
+    socket.on('connect_error', () => {
+      log('connexion WS impossible');
+      socket.disconnect();
+    });
   });
 
   stream.on('error', (error) => {

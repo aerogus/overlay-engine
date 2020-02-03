@@ -35,7 +35,7 @@ class App {
      * Taille max d'un titre de news
      * @var int
      */
-    this.MAX_NEWS_LENGTH = 88;
+    this.MAX_NEWS_LENGTH = 240;
 
     /**
      * les données du serveur
