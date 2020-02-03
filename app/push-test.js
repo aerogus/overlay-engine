@@ -32,7 +32,7 @@ socket.on('connect', () => {
       socket.emit('ZIK', {
         artist: 'Artiste',
         title: 'Titre',
-        img: 'img/artistes/default.jpg',
+        img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/artistes/default.jpg',
         length: 60000 // en ms. mini 60000 (durée animation)
       });
       console.log('ZIK emitted');

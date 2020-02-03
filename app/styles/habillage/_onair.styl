@@ -4,7 +4,7 @@
   position absolute
   left 30px
   right 30px
-  bottom 80px
+  bottom 100px
   overflow hidden
 
   .visuel
@@ -12,6 +12,8 @@
     width 548px
     height 190px
     background no-repeat center / 548px
+    border-top-right-radius 1rem
+    border-bottom-right-radius 1rem
     transform translateX(calc(-100% - 1px))
     visibility hidden
     transition visibility 0s
@@ -29,10 +31,12 @@
   position absolute
   display flex
   left 30px
-  bottom 80px
+  bottom 100px
   overflow hidden
   max-height 0
   background-color #fff
+  border-top-left-radius 1rem
+  border-bottom-left-radius 1rem
 
   &.expanded
     animation height_in 1s cubic-bezier(0,.5,.5,1) forwards
@@ -47,7 +51,6 @@
   .onair
     display inline-block
     background-color transparent
-    color #292933
     position relative
     padding 29px 10px
     margin-top auto
@@ -55,9 +58,12 @@
     transform translateY(calc(100% + 1px))
     z-index 2
     font-family TradeGothic
+    text-transform uppercase
     white-space nowrap
     overflow hidden
     max-width 915px
+    border-top-left-radius 1rem
+    border-bottom-left-radius 1rem
 
     .artist
       font-weight bold

@@ -16,7 +16,7 @@ module.exports = {
    * État des micros
    * @var bool
    */
-  mic: false,
+  mic: true,
 
   /**
    * État de la publicité

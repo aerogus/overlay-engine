@@ -397,18 +397,12 @@ class App {
         let avatar = new Image();
         avatar.onload = () => {
           console.log('avatar image loaded');
-          let network = new Image();
-          network.onload = () => {
-            console.log('network image loaded');
-            $('.social img.avatar').hide().attr('src', _this.data.social[_this.random_index.social].avatar).fadeIn(300);
-            $('.social img.network').hide().attr('src', 'img/' + _this.data.social[_this.random_index.social].network + '.svg').fadeIn(300);
-            $('.social h3').hide().html(_this.data.social[_this.random_index.social].name).fadeIn(300);
-            $('.social span').hide().html(_this.data.social[_this.random_index.social].message).fadeIn(300);
-            _this.ready.social = true;
-            console.log('trigger socialReady');
-            $('body').trigger('socialReady');
-          };
-          network.src = 'img/' + _this.data.social[_this.random_index.social].network + '.svg';
+          $('.social img.avatar').hide().attr('src', _this.data.social[_this.random_index.social].avatar).fadeIn(300);
+          $('.social h3').hide().html(_this.data.social[_this.random_index.social].name).fadeIn(300);
+          $('.social span').hide().html(_this.data.social[_this.random_index.social].message).fadeIn(300);
+          _this.ready.social = true;
+          console.log('trigger socialReady');
+          $('body').trigger('socialReady');
         };
         avatar.src = _this.data.social[_this.random_index.social].avatar;
       }
