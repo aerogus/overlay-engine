@@ -8,7 +8,8 @@ let sha1 = require('sha1')
   , moment = require('moment');
 
 let log = require('./log')
-  , settings = require('./settings');
+  , settings = require('./settings')
+  , show = require('./show');
 
 module.exports = {
 
@@ -145,6 +146,7 @@ module.exports = {
    */
   load() {
     log('data.load');
+    this.show = show.getCurrent();
     this.computeScreen();
   },
 
