@@ -25,7 +25,7 @@ const tempo = 10; // temporisation entre 2 poll, en secondes
 let song = { // objet chanson
   'artist': 'Artiste',
   'title': 'Titre',
-  'img': 'img/artistes/default.jpg',
+  'img': 'img/music/default.jpg',
   'length': 60000 // en ms. mini 60000 (durée animation)
 };
 

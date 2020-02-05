@@ -32,7 +32,7 @@ socket.on('connect', () => {
       socket.emit('ZIK', {
         artist: 'Artiste',
         title: 'Titre',
-        img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/artistes/default.jpg',
+        img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/music/default.jpg',
         length: 60000 // en ms. mini 60000 (durée animation)
       });
       console.log('ZIK emitted');
@@ -60,18 +60,6 @@ socket.on('connect', () => {
     case 'AOF':
       socket.emit('AOF');
       console.log('AOF emitted');
-      break;
-
-      // activation mode maintenance
-    case 'MON':
-      socket.emit('MON');
-      console.log('MON emitted');
-      break;
-
-    // désactivation mode maintenance
-    case 'MOF':
-      socket.emit('MOF');
-      console.log('MOF emitted');
       break;
 
     // demande mise à jour de l'habillage côté client

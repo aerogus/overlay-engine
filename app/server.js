@@ -150,35 +150,6 @@ io.on('connection', socket => {
     log('UPD broadcasted');
   });
 
-  // réception d'une impulsion d'activation du mode maintenance
-  socket.on('MON', () => {
-    log('MON received');
-
-    data.maintenance = true;
-
-    io.emit('MON');
-    log('MON broadcasted');
-
-    if (data.computeScreen()) {
-      io.emit('screen', data.screen);
-      log('screen ' + data.screen + ' broadcasted');
-    }
-  });
-
-  // réception d'une impulsion de désactivation du mode maintenance
-  socket.on('MOF', () => {
-    log('MOF received');
-    data.maintenance = false;
-
-    io.emit('MOF');
-    log('MOF broadcasted');
-
-    if (data.computeScreen()) {
-      io.emit('screen', data.screen);
-      log('screen ' + data.screen + ' broadcasted');
-    }
-  });
-
   // réception d'une impulsion d'activation du mode always on
   socket.on('ZON', () => {
     log('ZON received');

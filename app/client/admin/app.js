@@ -19,7 +19,6 @@ class App {
     this.UI = {
       flash_msg: '#message_response',
       dump: {
-        maintenance: '#var_maintenance',
         always: '#var_always',
         screen: '#var_screen',
         mic: '#var_mic',
@@ -207,7 +206,6 @@ class App {
    * @param object data
    */
   updateDumpUI(data) {
-    $(this.UI.dump.maintenance).html(data.maintenance.toString());
     $(this.UI.dump.always).html(data.always.toString());
     $(this.UI.dump.screen).html(data.screen.toString());
     $(this.UI.dump.mic).html(data.mic.toString());

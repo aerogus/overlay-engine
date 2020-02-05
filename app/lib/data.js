@@ -26,12 +26,6 @@ module.exports = {
   pub: false,
 
   /**
-   * État du mode maintenance
-   * @var bool
-   */
-  maintenance: false,
-
-  /**
    * État du mode always on
    * @var bool
    */
@@ -50,7 +44,7 @@ module.exports = {
   music: {
     artist: 'BLP Radio',
     title: 'La Webradio du Nord Essonne',
-    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/artistes/default.jpg',
+    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/music/default.jpg',
     length: 60000 // mini 60 sec (doit être > durée de l'animation)
   },
 
@@ -61,7 +55,7 @@ module.exports = {
   music_pon: {
     artist: 'DANS UN INSTANT',
     title: 'LE RETOUR DU ROCK',
-    img: 'https://www.ouifm.fr/wp-content/uploads/artistes/default.jpg',
+    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/music/default.jpg',
     length: 180000 // moyenne de 3 min
   },
 
@@ -73,7 +67,7 @@ module.exports = {
   music_pof: {
     artist: 'ROCK RADIO',
     title: 'OUI FM',
-    img: 'https://www.ouifm.fr/wp-content/uploads/artistes/default.jpg',
+    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/music/default.jpg',
     length: 60000 // mini 60 sec (doit être > durée de l'animation)
   },
 
@@ -201,7 +195,7 @@ module.exports = {
    */
   computeScreen() {
     let new_screen;
-    if ((this.always || this.mic) && !this.maintenance) {
+    if (this.always || this.mic) {
       new_screen = 'onair';
     } else if (this.pub) {
       new_screen = 'ads';
@@ -225,7 +219,6 @@ module.exports = {
     return {
       mic: this.mic,
       pub: this.pub,
-      maintenance: this.maintenance,
       always: this.always,
       screen: this.screen,
       music: this.music,
