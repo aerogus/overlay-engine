@@ -8,16 +8,20 @@ Système d'incrustation dynamique et administrable pour stream live
   Application node.js / socket.io. Réceptif à divers messages envoyé par websocket
 
 - Une webapp "habillage" : /habillage
-  Simple page web 1920x1080 affichée dans un navigateur plein écran dont la sortie vidéo
+  Simple page web en full HD (1920x1080 non responsive) affichée dans un navigateur plein écran dont la sortie vidéo
   doit être envoyée au mélangeur vidéo.
+  la couleur de chromakey est #00ff01 (vert), elle est appliquée à la balise <body>
+  OBS peut bypasser cette valeur pour la rendre transparente
 
-- Une passerelle HTTP REST : /push
+- Une passerelle HTTP REST : GET /push?e=xxx
   Pour les clients sources qui ne communiquent pas en websocket
+  ex: /push?e=AOF
 
 - Une webapp "console d'administration" : /admin
   Visualisation de l'habillage + commandes d'envoi des messages + dump des variables système en temps réel
 
-- Une webapp "tweet wall" : /tweet-wall
+- Une webapp "social wall" : /social-wall
+  avec les derniers tweets des critères sélectionnés
 
 ## Installation de dev
 
@@ -73,8 +77,3 @@ Ces messages sont envoyables par la console d'admin
 - Bandeau News OFF
 - ON AIR
 - OFF AIR
-
-
-Title (todo à parser):
-http://www.blpradio.fr/sam/livetitle.php
-

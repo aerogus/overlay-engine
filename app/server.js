@@ -15,8 +15,6 @@
 
 'use strict';
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
 let fs = require('fs')
   , path = require('path')
   , http = require('http')
@@ -309,18 +307,25 @@ app.get(/^\/admin$/, (req, res) => {
   });
 });
 
+// console d'admin
+app.get(/^\/wall$/, (req, res) => {
+  res.render('wall', {
+    ws_host: settings.server.HOST,
+    ws_port: settings.server.PORT
+  });
+});
+
 // passerelle push utilisée par l'arduino qui ne communique pas directement en websocket
 app.get(/^\/push$/, (req, res) => {
-  let msg = req.query.msg;
-
+  let event = req.query.e;
   let socket = require('socket.io-client')('ws://' + settings.server.HOST + ':' + settings.server.PORT);
   socket.on('connect', () => {
-    socket.emit(msg);
+    socket.emit(event);
     socket.disconnect();
   });
 
   res.setHeader('Content-Type', 'text/html');
-  res.send('push ' + msg);
+  res.send(`push ${event}`);
 });
 
 app.use(express.static(__dirname + '/../public'), (req, res, next) => {

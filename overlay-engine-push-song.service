@@ -1,11 +1,11 @@
 [Unit]
-Description=Mise à jour des messages twitter pour le moteur d'habillage
+Description=Mise à jour des titres pour le moteur d'habillage
 After=network.target
 
 [Service]
 User=root
 Group=root
-ExecStart=/usr/bin/node /var/www/overlay-engine/app/update-social.js
+ExecStart=/usr/bin/node /var/www/overlay-engine/app/push-song.js
 Restart=always
 RestartSec=10
 StandardOutput=syslog

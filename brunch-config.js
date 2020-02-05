@@ -7,14 +7,16 @@ exports.paths = {
 exports.files =  {
   javascripts: {
     joinTo: {
+      'js/admin.js': /^app\/client\/admin/,
       'js/habillage.js': /^app\/client\/habillage/,
-      'js/admin.js': /^app\/client\/admin/
+      'js/wall.js': /^app\/client\/wall/
     }
   },
   stylesheets: {
     joinTo: {
+      'css/admin.css': /^app\/styles\/admin.styl$/,
       'css/habillage.css': /^app\/styles\/habillage.styl$/,
-      'css/admin.css': /^app\/styles\/admin.styl$/
+      'css/wall.css': /^app\/styles\/wall.styl$/,
     }
   }
 };

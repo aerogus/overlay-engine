@@ -1,13 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * envoi de l'événement ZIK à chaque changement de chanson
+ * envoi de l'événement ZIK à chaque nouvelle chanson
  * poll régulier sur l'url d'info titre/artiste courant de BLP Radio
  */
 
 'use strict';
-
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const request = require('request');
 
