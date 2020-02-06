@@ -26,7 +26,7 @@ let client = new Twitter({
 });
 
 const io = require('socket.io-client');
-const socket = io('ws://' + settings.server.HOST + ':' + settings.server.PORT, {autoConnect: false, reconnectionAttempts: 2});
+const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`, {autoConnect: false, reconnectionAttempts: 2});
 
 client.stream('statuses/filter', {track: settings.twitter.TRACK, language: settings.twitter.LANGUAGE}, (stream) => {
 
@@ -37,13 +37,10 @@ client.stream('statuses/filter', {track: settings.twitter.TRACK, language: setti
 
     const social = {
       avatar: (tweet.user.default_profile_image ? 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png' : tweet.user.profile_image_url_https.replace('_normal', '_bigger')),
-      name: tweet.user.name + ' @' + tweet.user.screen_name,
-      network: 'twitter',
-      message: (tweet.truncated ? tweet.extended_tweet.full_text : tweet.text)
+      name: tweet.user.name,
+      screen_name: `@${tweet.user.screen_name}`,
+      text: (tweet.truncated ? tweet.extended_tweet.full_text : tweet.text)
     };
-
-    // exclure les messages avec des liens ?
-    //if (social.message.match(/(https:\/\/t.co)/)) return;
 
     log(social);
     log('-');

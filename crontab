@@ -1,2 +1,2 @@
-# émet l'évenement EMI avec l'émission courante
-*/5 * * * * /var/www/overlay-engine/app/push-show.js
+# émet l'événement EMI avec l'émission courante
+* * * * * /var/www/overlay-engine/app/push-show.js

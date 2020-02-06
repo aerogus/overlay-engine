@@ -11,11 +11,7 @@ html
 
       section#onair-screen
 
-      section#music-screen
-        .background
-        .pano
-
-      section#ads-screen
+      section#offair-screen
         .background
         .pano
 
@@ -39,10 +35,12 @@ html
         .visuel
       .social_wrap
         .social
-          img.avatar(src="img/avatar.svg" width="150" height="150" alt="")
-          .soc_inner
-            h3
-            span
+          .soc__hdr
+            img.soc_avatar(src="img/avatar.svg" width="80" height="80" alt="")
+            .soc_hdr_meta
+              .soc_name
+              .soc_screen_name
+          .soc_text
       .footer
         .claim Réagissez #BlpRadio ☎ 01 80 85 58 90
         .news
@@ -54,6 +52,7 @@ html
       settings.ws = 'http://#{ws_host}:#{ws_port}';
     script(src="/js/jquery-3.4.1.min.js")
     script(src="/js/moment-2.24.0.min.js")
+    script(src="/js/telex-2.0.4.min.js")
     script(src="/socket.io/socket.io.js")
     script(src="/js/habillage.js")
     script.

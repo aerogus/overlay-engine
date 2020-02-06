@@ -12,9 +12,7 @@
   },
   "dependencies": {
     "express": "4.17.1",
-    "file-stream-rotator": "0.5.7",
     "moment": "2.24.0",
-    "morgan": "1.9.1",
     "pug": "2.0.4",
     "request-json": "0.6.4",
     "sha1": "1.1.1",

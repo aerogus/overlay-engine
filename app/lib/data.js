@@ -9,27 +9,10 @@ let sha1 = require('sha1')
 
 let log = require('./log')
   , settings = require('./settings')
+  , music = require('./music')
   , show = require('./show');
 
 module.exports = {
-
-  /**
-   * État des micros
-   * @var bool
-   */
-  mic: true,
-
-  /**
-   * État de la publicité
-   * @var bool
-   */
-  pub: false,
-
-  /**
-   * État du mode always on
-   * @var bool
-   */
-  always: false,
 
   /**
    * Nom de l'écran courant
@@ -44,29 +27,6 @@ module.exports = {
   music: {
     artist: 'BLP Radio',
     title: 'La Webradio du Nord Essonne',
-    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/music/default.jpg',
-    length: 60000 // mini 60 sec (doit être > durée de l'animation)
-  },
-
-  /**
-   * Objet musique au démarrage de la pub
-   * @var object
-   */
-  music_pon: {
-    artist: 'DANS UN INSTANT',
-    title: 'LE RETOUR DU ROCK',
-    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/music/default.jpg',
-    length: 180000 // moyenne de 3 min
-  },
-
-  /**
-   * Objet musique à la fin de la pub
-   * /!\ POF est souvent envoyé après ZIK
-   * @var object
-   */
-  music_pof: {
-    artist: 'ROCK RADIO',
-    title: 'OUI FM',
     img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/music/default.jpg',
     length: 60000 // mini 60 sec (doit être > durée de l'animation)
   },
@@ -87,7 +47,7 @@ module.exports = {
    * nombre de messages sociaux à stocker
    * @var int
    */
-  MAX_SOCIAL: 30,
+  MAX_SOCIAL: 10,
 
   /**
    * Liste des messages sociaux
@@ -95,45 +55,38 @@ module.exports = {
    */
   social: [{
     avatar: 'https://pbs.twimg.com/profile_images/1039188008543678464/3dzfOoBY_bigger.jpg',
-    name: 'Aurélien Taché @Aurelientache',
-    network: 'twitter',
-    message: `Très fier que #LesMiserables soient aux #Oscars2020. J'espère de tout coeur que cette œuvre majeure, sur le plan cinématographique, comme sur celui de la lutte contre les #discriminations, sera primée. Et que ceux qui ont diffamés un homme qui a purgé sa peine, seront condamnés.`
+    name: 'Aurélien Taché',
+    screen_name: '@Aurelientache',
+    text: `Très fier que #LesMiserables soient aux #Oscars2020. J'espère de tout coeur que cette œuvre majeure, sur le plan cinématographique, comme sur celui de la lutte contre les #discriminations, sera primée. Et que ceux qui ont diffamés un homme qui a purgé sa peine, seront condamnés.`
   }, {
     avatar: 'https://pbs.twimg.com/profile_images/835778286731022337/kdE5YWci_bigger.jpg',
-    name: `Le Fraik' @leFraik`,
-    network: 'twitter',
-    message: 'Dévoiler la chanson titre de #NoTimeToDie aux #Oscars2020 ça aurait pas un peu de la gueule quand même ?....#BillieEilish #jamesbond'
+    name: 'Le Fraik',
+    screen_name: '@leFraik',
+    text: 'Dévoiler la chanson titre de #NoTimeToDie aux #Oscars2020 ça aurait pas un peu de la gueule quand même ?....#BillieEilish #jamesbond'
   }],
 
   /**
-   * Liste des publicités (= sliders)
+   * Liste des images éditoriales
    * @var array d'objets .img
    */
-  ads: [{
-    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/ads/default.jpg'
-  }, {
-    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/ads/default.jpg'
-  }, {
-    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/ads/default.jpg'
+  edito: [{
+    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/edito/default.jpg'
   }],
 
   /**
    * nombre de news à stocker
    * @var int
    */
-  MAX_NEWS: 30,
+  MAX_NEWS: 10,
 
   /**
    * Liste des derniers articles du site
    * @var array d'objets .title
    */
-  news: [{
-    title: 'Toutes les semaines, JJBEN vous propose 1/2 heure de chroniques: séries TV, films, albums...'
-  }, {
-    title: 'Live spécial cérémonie des Oscars 2020 toute la nuit'
-  }, {
-    title: 'La webradio du Nord Essonne'
-  }],
+  telex: [
+    'La webradio du Nord Essonne',
+    'Émission spéciale Oscars'
+  ],
 
   /**
    * Chargement initial des données
@@ -141,7 +94,17 @@ module.exports = {
   load() {
     log('data.load');
     this.show = show.getCurrent();
-    this.computeScreen();
+    log('show');
+    log(this.show);
+    music.getCurrent()
+      .then(song => {
+        this.music = song;
+        log('music');
+        log(this.music);
+      }, error => {
+        log(error);
+      });
+
   },
 
   /**
@@ -188,43 +151,17 @@ module.exports = {
   },
 
   /**
-   * Calcule l'écran à afficher en fonction des états et des impulsions
-   * et met à jour data.screen
-   *
-   * @return bool true si screen à changé, false sinon
-   */
-  computeScreen() {
-    let new_screen;
-    if (this.always || this.mic) {
-      new_screen = 'onair';
-    } else if (this.pub) {
-      new_screen = 'ads';
-    } else {
-      new_screen = 'music';
-    }
-    if (this.screen !== new_screen) {
-      console.log('switch to screen ' + new_screen);
-      this.screen = new_screen;
-      return true;
-    }
-    return false;
-  },
-
-  /**
    * Retourne l'ensemble des données
    *
    * @return object
    */
   dump() {
     return {
-      mic: this.mic,
-      pub: this.pub,
-      always: this.always,
       screen: this.screen,
       music: this.music,
       show: this.show,
       social: this.social,
-      ads: this.ads,
+      edito: this.edito,
       news: this.news
     };
   }

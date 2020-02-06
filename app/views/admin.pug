@@ -8,11 +8,11 @@ html
 
   body
 
-    h1 Admin Habillage
-
     header
-      button(id="conx" title="Connexion" data-key="48") Se connecter
       p#message_response
+      button(id="btn-onair" class="message" data-msg="AON" title="ON AIR") ON AIR
+      button(id="btn-offair" class="message" data-msg="AOF" title="OFF AIR") OFF AIR
+      button(id="refresh" class="message" data-msg="UPD" title="refresh habillage") UPD
 
     div#main
 
@@ -20,37 +20,11 @@ html
         #video_wrap
           iframe(id="video" src="/" width="640" height="360" frameborder="0")
 
-      section#commandes
-        ul.btn_grid
-          li
-            button(class="message" data-msg="ZON" title="début always on") ZON
-          li
-            button(class="message" data-msg="ZOF" title="fin always on") ZOF
-          li
-            button(class="message" data-msg="AON" title="ouverture micro") AON
-          li
-            button(class="message" data-msg="AOF" title="fermeture micro") AOF
-          li
-            button(class="message" data-msg="PON" title="début écran pub") PON
-          li
-            button(class="message" data-msg="POF" title="fin écran pub") POF
-          li
-            button(class="message" data-msg="UPD" title="refresh habillage") UPD
-
       section#variables
         table.dump
           tr
-            th always on
-            td#var_always
-          tr
             th screen
             td#var_screen
-          tr
-            th mic
-            td#var_mic
-          tr
-            th pub
-            td#var_pub
           tr
             th show
             td#var_show
@@ -61,11 +35,31 @@ html
             th social
             td#var_social
           tr
-            th news
-            td#var_news
+            th telex
+            td#var_telex
           tr
-            th ads
-            td#var_ads
+            th edito
+            td#var_edito
+
+    div#cmd
+
+      section#live_song(style="display:block")
+        h2 Musique
+        div
+          label(for="live_song_artist") Artiste
+          input(type="text" id="live_song_artist")
+        div
+          label(for="live_song_title") Titre
+          input(type="text" id="live_song_title")
+        div
+          button(id="btn_ZIK" class="message") Envoyer la ZIK
+
+      section#live_telex(style="display:block")
+        h2 Telex
+        div
+          input(type="text" id="live_telex")
+        div
+          button(id="btn_TLX" class="message") Envoyer le TELEX
 
     script.
       var app;

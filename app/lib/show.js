@@ -7,9 +7,7 @@
 const fs = require('fs')
   , moment = require('moment');
 
-//moment.tz.setDefault('Europe/Paris');
-
-const gridFile = __dirname + '/../../grid.json';
+const gridFile = `${__dirname}/../../grid.json`;
 
 /**
  * Lit le fichier json de la grille
@@ -43,7 +41,7 @@ function readGridFile(gridFile) {
 module.exports = {
 
   /**
-   * une nouvelle émission démarre-t-elle à cette minute ?
+   * une nouvelle émission démarre-t-elle à la minute courante ?
    * si oui retourne l'objet show, sinon false
    *
    * @return object|false

@@ -4,7 +4,7 @@
 
 'use strict';
 
-const settingsFile = __dirname + '/../../settings.json';
+const settingsFile = `${__dirname}/../../settings.json`;
 const fs = require('fs');
 const settings = JSON.parse(fs.readFileSync(settingsFile, 'utf8'));
 

@@ -6,22 +6,16 @@
 
 /*globals $ */
 
-// animation "clock"
+// animation "clock" (durée totale 15s, doit être sous-multiple de 60s)
 
-const t1 =  5000; // début anim clock fold
-const t2 =  6000; // début anim timeline expand
-const t3 =  7000; // début anim show expand
-const t4 = 12000; // début anim show fold
-const t5 = 13000; // début anim timeline fold
-const t6 = 14000; // début anim clock expand
-
-// durée des animations css
-//const a1 = 1000; // clock fold
-//const a2 = 1000; // timeline expand
-//const a3 = 1000; // show expand
-//const a4 = 1000; // show fold
-//const a5 = 1000; // timeline fold
-//const a6 = 1000; // clock expand
+//const t0 =     0; // début du cycle
+const t1 =  5000; // clock fold (durée 1s, cf. css)
+const t2 =  6000; // timeline expand (durée 1s, cf. css)
+const t3 =  7000; // show expand (durée 1s, cf. css)
+const t4 = 12000; // show fold (durée 1s, cf. css)
+const t5 = 13000; // timeline fold (durée 1s, cf. css)
+const t6 = 14000; // clock expand (durée 1s, cf. css)
+//const t7 = 15000; // fin du cycle
 
 let timers = [];
 let first = true;
@@ -36,30 +30,39 @@ module.exports = {
 
     reset();
 
-    timers.push(setTimeout(function () {
+    // t0: début du cycle
+
+    // t1: clock fold
+    timers.push(setTimeout(() => {
       $('#clock').removeClass('expanded').addClass('folded');
     }, t1));
 
-    timers.push(setTimeout(function () {
+    // t2: timeline expand
+    timers.push(setTimeout(() => {
       $('#timeline').removeClass('folded').addClass('expanded');
     }, t2));
 
-    timers.push(setTimeout(function () {
+    // t3: show expand
+    timers.push(setTimeout(() => {
       $('#show').removeClass('folded').addClass('expanded');
     }, t3));
 
-    timers.push(setTimeout(function () {
+    // t4: show fold
+    timers.push(setTimeout(() => {
       $('#show').removeClass('expanded').addClass('folded');
     }, t4));
 
-    timers.push(setTimeout(function () {
+    // t5: timeline fold
+    timers.push(setTimeout(() => {
       $('#timeline').removeClass('expanded').addClass('folded');
     }, t5));
 
-    timers.push(setTimeout(function () {
+    // t6: clock expand
+    timers.push(setTimeout(() => {
       $('#clock').removeClass('folded').addClass('expanded');
     }, t6));
 
+    // t7: fin du cycle
   }
 
 };
@@ -72,11 +75,9 @@ function reset() {
     first = false;
     return;
   }
-  timers.forEach(function (timer) {
+  timers.forEach((timer) => {
     clearTimeout(timer);
   });
   timers = [];
-  $('#show').removeClass('expanded').addClass('folded');
-  $('#timeline').removeClass('expanded').addClass('folded');
-  $('#clock').removeClass('folded').addClass('expanded');
+  $('#show,#timeline,#clock').removeClass('expanded folded');
 }

@@ -23,30 +23,25 @@ class App {
      * nombre de messages sociaux à stocker
      * @var int
      */
-    this.MAX_SOCIAL = 30;
+    this.MAX_SOCIAL = 10;
 
     /**
      * nombre de news à stocker
      * @var int
      */
-    this.MAX_NEWS = 30;
-
-    /**
-     * Taille max d'un titre de news
-     * @var int
-     */
-    this.MAX_NEWS_LENGTH = 240;
+    this.MAX_TELEX = 10;
 
     /**
      * les données du serveur
      * @var object
      */
     this.data = {
+      screen: '',
       music: {},
       show: {},
       social: [],
-      news: [],
-      ads: []
+      telex: [],
+      edito: []
     };
 
     // éléments de l'interface
@@ -57,21 +52,21 @@ class App {
     // les différents minuteurs
     this.timer = {
       social: false,
-      ads: false,
-      news: false
+      edito: false,
+      telex: false
     };
 
     // les différentes temporisation (en sec.)
     this.tempo = {
       social: 7,
-      ads: 20,
-      news: 5
+      edito: 20,
+      telex: 5
     };
 
     // nombres aléatoires
     this.random_index = {
-      news: null,
-      ads: null,
+      telex: null,
+      edito: null,
       social: null
     };
 
@@ -80,7 +75,7 @@ class App {
       music: false,
       show: false,
       social: false,
-      ads: false
+      edito: false
     };
 
     // écrans courant et précédent
@@ -93,15 +88,15 @@ class App {
     this.socket.emit('dump');
 
     this.socket.on('connect', () => {
-      console.log('[OK] connected to ' + this.options.WEBSOCKET_SERVER);
+      console.log(`[OK] connected to ${this.options.WEBSOCKET_SERVER}`);
     });
 
     this.socket.on('connect_error', () => {
-      console.log('[KO] ' + this.options.WEBSOCKET_SERVER + ' not launched');
+      console.log(`[KO] ${this.options.WEBSOCKET_SERVER} not launched`);
     });
 
     this.socket.on('disconnect', () => {
-      console.log('[OK] disconnected from ' + this.options.WEBSOCKET_SERVER);
+      console.log(`[OK] disconnected from ${this.options.WEBSOCKET_SERVER}`);
     });
 
     // à la réception du dump initial de la mémoire
@@ -118,18 +113,18 @@ class App {
       this.data.social = dump.social;
       this.initSocialUI();
 
-      this.data.news = dump.news;
-      this.initNewsUI();
+      this.data.telex = dump.telex;
+      this.initTelexUI();
 
-      this.data.ads = dump.ads;
-      this.initAdsUI();
+      this.data.edito = dump.edito;
+      this.initEditoUI();
 
       this.requestScreen(dump.screen);
     });
 
     // changement d'écran
     this.socket.on('screen', screen => {
-      console.log('switch to screen ' + screen);
+      console.log(`switch to screen ${screen}`);
       this.requestScreen(screen);
     });
 
@@ -149,12 +144,12 @@ class App {
       this.updateShowUI();
     });
 
-    // réception pack de sliders
-    this.socket.on('ADS', ads => {
-      console.log('ADS');
-      console.debug(ads);
-      this.data.ads = ads;
-      this.updateAdsUI();
+    // réception pack d'infos éditoriales
+    this.socket.on('EDI', edi => {
+      console.log('edi');
+      console.debug(edi);
+      this.data.edi = edi;
+      this.updateEdiUI();
     });
 
     // nouveau message social reçu
@@ -171,14 +166,16 @@ class App {
       this.delSocial(key);
     });
 
-    // nouvelle news publiée
-    this.socket.on('NWS', news => {
-      console.log('NWS');
-      console.debug(news);
-      this.addNews(news);
+    // nouveau telex publié
+    // remplace tout ?
+    this.socket.on('TLX', telex => {
+      console.log('TLX');
+      console.debug(telex);
+      this.data.telex = telex;
+      //this.addNews(news);
     });
 
-    // rechargement de la page
+    // rechargement complet de la page
     this.socket.on('UPD', () => {
       location.reload(true);
     });
@@ -187,6 +184,7 @@ class App {
     this.animOnair = animOnair;
 
     this.initClock();
+    this.initTelex();
     this.initReadyListeners();
     this.initKeyboard();
   }
@@ -210,11 +208,19 @@ class App {
   }
 
   /**
+   * telex
+   * @see https://github.com/sjaakp/telex
+   */
+  initTelex() {
+    return false;
+  }
+
+  /**
    * On ne déclenche le changement d'écran qu'une fois tous les composants chargés
    */
   initReadyListeners() {
-    $('body').on('musicReady showReady socialReady adsReady screenRequested', () => {
-      if (this.ready.music && this.ready.show && this.ready.social && this.ready.ads) {
+    $('body').on('musicReady showReady socialReady editoReady screenRequested', () => {
+      if (this.ready.music && this.ready.show && this.ready.social && this.ready.edito) {
         console.debug(this.ready);
         // rien à faire si on ne change pas d'écran
         if (this.screen.current === this.screen.previous) {
@@ -236,10 +242,7 @@ class App {
           this.requestScreen('onair');
           break;
         case 50: // touche 2
-          this.requestScreen('music');
-          break;
-        case 51: // touche 3
-          this.requestScreen('ads');
+          this.requestScreen('offair');
           break;
         case 102: // touche F pour fullscreen
           document.documentElement.requestFullscreen();
@@ -256,7 +259,7 @@ class App {
    */
   requestScreen(screen) {
 
-    console.log('requestScreen ' + screen);
+    console.log(`requestScreen ${screen}`);
 
     this.screen.previous = this.screen.current;
     this.screen.current = screen;
@@ -320,7 +323,7 @@ class App {
       this.ready.music = true;
       console.log('trigger musicReady');
       $('body').trigger('musicReady');
-      let do_expand_visuel = (this.screen.current === 'onair');
+      let do_expand_visuel = true;
       this.animOnair.start(this.data.music, do_expand_visuel);
     };
     artiste.src = this.data.music.img;
@@ -328,17 +331,17 @@ class App {
   }
 
   /**
-   * met à jour les composants relatifs aux sliders
+   * met à jour les composants relatifs aux photos éditoriales
    */
-  updateAdsUI() {
+  updateEditoUI() {
 
-    this.ready.ads = false;
+    this.ready.edito = false;
 
-    // @todo: on attend que toutes les images des pubs soient chargées
+    // @todo: on attend que toutes les images éditoriales soient chargées
 
-    this.ready.ads = true;
-    console.log('trigger adsReady');
-    $('body').trigger('adsReady');
+    this.ready.edito = true;
+    console.log('trigger editoReady');
+    $('body').trigger('editoReady');
 
   }
 
@@ -347,26 +350,26 @@ class App {
    *
    * @param array arr [] .title
    */
-  initNewsUI() {
+  initTelexUI() {
 
-    if (!this.data.news.length) {
+    if (!this.data.telex.length) {
       return;
     }
 
     let _this = this;
-    (function news_update_ui() {
-      if (_this.data.news.length > 1) {
-        let random_index = _this.random_index.news;
+    (function telex_update_ui() {
+      if (_this.data.telex.length > 1) {
+        let random_index = _this.random_index.telex;
         do {
-          _this.random_index.news = Math.floor(Math.random() * _this.data.news.length);
-        } while (_this.random_index.news === random_index); // anti doublon consécutif
+          _this.random_index.telex = Math.floor(Math.random() * _this.data.telex.length);
+        } while (_this.random_index.telex === random_index); // anti doublon consécutif
       } else {
-        _this.random_index.news = 0;
+        _this.random_index.telex = 0;
       }
       // décodage html via jQuery ...
-      let content = $('<textarea/>').html(_this.data.news[_this.random_index.news].title).text();
-      $('.news__title').hide().html(truncate(content, _this.MAX_NEWS_LENGTH)).fadeIn(300);
-      _this.timer.news = setTimeout(news_update_ui, _this.tempo.news * 1000);
+      let content = $('<textarea/>').html(_this.data.telex[_this.random_index.telex].title).text();
+      $('.news__title').hide().html(truncate(content, _this.MAX_TELEX_LENGTH)).fadeIn(300);
+      _this.timer.telex = setTimeout(telex_update_ui, _this.tempo.telex * 1000);
     })();
 
   }
@@ -379,7 +382,7 @@ class App {
     this.ready.social = false;
     let _this = this;
     (function social_update_ui() {
-      console.log('social length = ' + _this.data.social.length);
+      console.log(`social length = ${_this.data.social.length}`);
       if (!_this.data.social.length) {
         _this.ready.social = true;
         $('.social_wrap').css('opacity', 0);
@@ -397,9 +400,10 @@ class App {
         let avatar = new Image();
         avatar.onload = () => {
           console.log('avatar image loaded');
-          $('.social img.avatar').hide().attr('src', _this.data.social[_this.random_index.social].avatar).fadeIn(300);
-          $('.social h3').hide().html(_this.data.social[_this.random_index.social].name).fadeIn(300);
-          $('.social span').hide().html(_this.data.social[_this.random_index.social].message).fadeIn(300);
+          $('.social .soc_avatar').hide().attr('src', _this.data.social[_this.random_index.social].avatar).fadeIn(300);
+          $('.social .soc_name').hide().html(_this.data.social[_this.random_index.social].name).fadeIn(300);
+          $('.social .soc_screen_name').hide().html(_this.data.social[_this.random_index.social].screen_name).fadeIn(300);
+          $('.social .soc_text').hide().html(_this.data.social[_this.random_index.social].text).fadeIn(300);
           _this.ready.social = true;
           console.log('trigger socialReady');
           $('body').trigger('socialReady');
@@ -412,38 +416,38 @@ class App {
   }
 
   /**
-   * met à jour le composant ads + init de la boucle
+   * met à jour le composant edito + init de la boucle
    */
-  initAdsUI() {
+  initEditoUI() {
     let _this = this;
-    (function ads_update_ui() {
-      if (!_this.data.ads.length) {
-        _this.ready.ads = true;
-        $('body').trigger('adsReady');
+    (function edito_update_ui() {
+      if (!_this.data.edito.length) {
+        _this.ready.edito = true;
+        $('body').trigger('editoReady');
       } else {
-        _this.ready.ads = false;
-        console.log('ads length = ' +  _this.data.ads.length);
-        if (_this.data.ads.length > 1) {
-          let random_index = _this.random_index.ads;
+        _this.ready.edito = false;
+        console.log('edito length = ' +  _this.data.edito.length);
+        if (_this.data.edito.length > 1) {
+          let random_index = _this.random_index.edito;
           do {
-            _this.random_index.ads = Math.floor(Math.random() * _this.data.ads.length);
-          } while (_this.random_index.ads === random_index); // anti doublon consécutif
+            _this.random_index.edito = Math.floor(Math.random() * _this.data.edito.length);
+          } while (_this.random_index.edito === random_index); // anti doublon consécutif
         } else {
-          _this.random_index.ads = 0;
+          _this.random_index.edito = 0;
         }
-        let ads = new Image();
-        ads.onload = () => {
+        let edito = new Image();
+        edito.onload = () => {
           console.log('onload OK');
-          $('#ads-screen .background').css('backgroundImage', 'url(' + _this.data.ads[_this.random_index.ads].img + ')');
-          $('#ads-screen .pano').css('backgroundImage', 'url(' + _this.data.ads[_this.random_index.ads].img + ')');
-          _this.ready.ads = true;
-          console.log('trigger adsReady');
-          $('body').trigger('adsReady');
+          $('#edito-screen .background').css('backgroundImage', 'url(' + _this.data.edito[_this.random_index.edito].img + ')');
+          $('#edito-screen .pano').css('backgroundImage', 'url(' + _this.data.edito[_this.random_index.edito].img + ')');
+          _this.ready.edito = true;
+          console.log('trigger editoReady');
+          $('body').trigger('editoReady');
         };
-        ads.src = _this.data.ads[_this.random_index.ads].img;
-        console.log('--- : ' + ads.src);
+        edito.src = _this.data.edito[_this.random_index.edito].img;
+        console.log('--- : ' + edito.src);
       }
-      _this.timer.ads = setTimeout(ads_update_ui, _this.tempo.ads * 1000);
+      _this.timer.edito = setTimeout(edito_update_ui, _this.tempo.edito * 1000);
     })();
 
   }

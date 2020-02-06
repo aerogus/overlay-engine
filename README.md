@@ -65,15 +65,29 @@ approche modulaire ?
 - module clock
 - module logo
 
-## Type de messages
+## Type de messages websocket
 
-Ces messages sont envoyables par la console d'admin
+Tous les messages clients sont émis vers le serveur
+Tous les messages du serveur sont broadcastés
+Les clients n'écoutent que les messages qui les intéressent
 
-- Horloge ON
-- Horloge OFF
-- Logo ON
-- Logo OFF
-- Bandeau News ON
-- Bandeau News OFF
-- ON AIR
-- OFF AIR
+Nom | Expéditeurs  | Destinataires | Description
+====|==============|===============|===================
+SOC | push-social  | wall          | Message social non modéré
+    |              | wall
+
+PSO | wall         | habillage     | Afficher le message social modéré
+
+USO | wall         | habillage     | Cacher le message social
+
+ZIK | push-title   | habillage     |
+    | admin        | admin         |
+
+EMI | push-show    | habillage     |
+                   | admin         |
+
+TLX | telex        | habillage     | Tableau des messages du telex
+                   | admin         |
+
+DMP | serveur      | tous          | Dump de l'état de la mémoire du serveur
+    |              |               | pour l'init des clients

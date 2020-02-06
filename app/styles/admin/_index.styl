@@ -1,26 +1,35 @@
 /**
- * Console d'administration
+ * Console d‘administration
  */
 
 body
-  background #292933
+  background #000
   color #fff
-  margin 20px
   font-family Arial
 
-h1
-  background #f7303c
-  padding 5px
-  margin-bottom 20px
-  font-weight bold
-  text-transform uppercase
-
 header
-  margin-bottom 20px
+  margin 1rem
   display flex
+  justify-content center
 
 #main
   display flex
+
+  section#habillage
+    display block
+
+    #video_wrap
+      width 640px
+      height 360px
+      padding 0
+      overflow hidden
+
+    #video
+      width 1920px
+      height 1080px
+      border 0
+      transform scale(0.3333)
+      transform-origin 0 0
 
 section h2
   text-transform uppercase
@@ -28,58 +37,32 @@ section h2
   padding 5px
   color #000
   font-weight bold
-  margin-bottom 10px
+  margin-bottom 1rem
 
-section#habillage
-  display block
+#cmd
+  margin 1rem 0
+  display flex
 
-#video_wrap
-  width 640px
-  height 360px
-  border 5px solid #f7303c
-  padding 0
-  overflow hidden
-
-#video
-  width 1920px
-  height 1080px
-  border 0
-  transform: scale(0.33);
-  transform-origin: 0 0;
-
-section#commandes
-
-  margin 0 20px
-
-  ul
-    li
-      margin-bottom 10px
+  section
+    margin 0 1rem
 
 section#variables
   flex 1
+  margin-left 1rem
 
 button.message
   padding 5px 5px 5px 30px
+  margin-left 1rem
   background #ccc url(../img/icons/pulse.svg) no-repeat 2px / 24px
   color #000
   border 0
   font-size 16px
-  width 70px
   cursor pointer
   transition .2s all
   font-weight bold
 
-  &[data-msg=\"MON\"]
-    background #ccc url(../img/icons/tools.svg) no-repeat 5px / 20px
-
-  &[data-msg=\"ZON\"]
-    background #ccc url(../img/icons/b1.svg) no-repeat 4px / 22px
-
   &[data-msg=\"AON\"]
     background #ccc url(../img/icons/mic.svg) no-repeat 0 / 30px
-
-  &[data-msg=\"PON\"]
-    background #ccc url(../img/icons/money.svg) no-repeat 5px / 20px
 
   &[data-msg=\"UPD\"]
     background #ccc url(../img/icons/refresh.svg) no-repeat 4px / 20px
@@ -118,11 +101,14 @@ button#conx
     width 100%
 
 #message_response
+  position absolute
+  display none
+  top 1rem
+  left 1rem
   padding 5px
   background #0ba8ff
   color #fff
   font-weight bold
-  margin-left 20px
 
 ol
   margin-left 40px
