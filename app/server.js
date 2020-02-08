@@ -59,15 +59,27 @@ io.on('connection', socket => {
     log('UPD broadcasted');
   });
 
-  // réception d'une nouvelle news + metainfo
-  socket.on('NWS', news => {
-    log('NWS received width object');
-    log(news);
+  // réception d'un nouveau telex
+  // broadcast de l'ensemble des telex
+  socket.on('TLX', telex => {
+    log('TLX received width object');
+    log(telex);
 
-    data.addNews(news);
+    data.addTelex(telex); // fait le check max
 
-    io.emit('NWS', news);
-    log('NWS broadcasted');
+    io.emit('TLX', data.telex);
+    log('TLX broadcasted');
+  });
+
+  // suppression d'un telex identifié
+  // broadcast de l'ensemble des telex
+  socket.on('TLX_DEL', (id) => {
+    log(`TLX_DEL ${id}`);
+
+    data.delTelex(id);
+
+    io.emit('TLX', data.telex);
+    log('TLX broadcasted');
   });
 
   // réception d'un nouveau message social + metainfo

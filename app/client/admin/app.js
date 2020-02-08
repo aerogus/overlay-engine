@@ -1,5 +1,5 @@
 /**
- * Module d'admin l'application
+ * Module d‘admin
  * exporte la classe
  */
 
@@ -28,17 +28,16 @@ class App {
       }
     };
 
-    this.initConnectButtons();
+    this.initTelexSendButton();
+    this.initTelexDeleteButtons();
+
     this.initMessageButtons();
-    this.initInfoBulle();
 
     this.socket = io(this.options.WEBSOCKET_SERVER);
     this.socket.emit('dump');
 
     this.socket.on('connect', () => {
       console.log(`[OK] connected to ${this.options.WEBSOCKET_SERVER}`);
-      $('#conx').removeClass('disconnected').addClass('connected');
-      $('#conx').html('Se déconnecter');
       this.flash(`Connecté à ${this.options.WEBSOCKET_SERVER}`);
     });
 
@@ -48,46 +47,31 @@ class App {
 
     this.socket.on('disconnect', () => {
       console.log(`[OK] disconnected from ${this.options.WEBSOCKET_SERVER}`);
-      $('#conx').removeClass('connected').addClass('disconnected');
-      $('#conx').html('Se connecter');
       this.flash('Déconnecté');
     });
 
-    // à la réception du dump initial de la mémoire
+    // réception du dump initial de la mémoire
     this.socket.on('dumped', dump => {
       console.log('dump received');
       console.debug(dump);
       this.updateDumpUI(dump);
     });
 
+    // réception d'un message social brut
     this.socket.on('SOC', (social) => {
       console.log('SOC received', social);
     });
 
-    // liste des messages entrainant un rafraichissement de l'interface
+    // liste des messages entrainant un rafraichissement de l‘interface d‘admin
     const msgs_with_refresh = [
       'ZIK', 'EMI', 'SCR', 'TLX', 'EDI', 'PSO', 'USO'
     ];
 
     msgs_with_refresh.forEach(msg => {
       this.socket.on(msg, () => {
+        // émet un dump pour mettre à jour les composants d'UI
         this.socket.emit('dump');
       });
-    });
-  }
-
-  /**
-   * Gestion du bouton de connexion
-   */
-  initConnectButtons() {
-    $('#conx').click(() => {
-      if (this.socket.connected) {
-        this.flash('Déconnexion ...');
-        this.socket.disconnect();
-      } else {
-        this.flash(`Connexion à ${this.options.WEBSOCKET_SERVER} ...`);
-        this.socket.connect(this.options.WEBSOCKET_SERVER);
-      }
     });
   }
 
@@ -95,6 +79,7 @@ class App {
    * le click sur un bouton de contôle envoi un message au serveur
    */
   initMessageButtons() {
+    /*
     $('.message').click(e => {
       e.preventDefault();
       let msg = $(e.currentTarget).data('msg');
@@ -108,18 +93,26 @@ class App {
         this.flash('non connecté');
       }
     });
+    */
   }
 
-  /**
-   * affichage d'infobulle au survol
-   */
-  initInfoBulle() {
-    console.log('initInfoBulle');
-    $('.message').hover(e => {
-      let title = $(e.currentTarget).attr('title');
-      $('#btn_description').html(title).fadeIn();
-    }, () => {
-      $('#btn_description').html('&nbsp;');
+  initTelexSendButton() {
+    $('#live_telex_send').click(() => {
+      console.log('ici');
+      //e.preventDefault();
+      let content = $('#live_telex_content').val();
+      $('#live_telex_content').value = '';
+      this.socket.emit('TLX', content);
+      console.log('TLX', content);
+    });
+  }
+
+  initTelexDeleteButtons() {
+    $('#var_telex').on('click', 'button', (e) => {
+      e.preventDefault();
+      let id = $(e.currentTarget).parent().data('id');
+      this.socket.emit('TLX_DEL', id);
+      console.log('TLX_DEL', id);
     });
   }
 
@@ -129,25 +122,8 @@ class App {
    * @param object data
    */
   updateDumpUI(data) {
+
     $(this.UI.dump.screen).html(data.screen.toString());
-
-    let social = $('<ul/>');
-    data.social.forEach(item => {
-      let li = $('<li/>', { 'data-key': item.key })
-        .append($('<span/>', { text: item.text } ));
-      social.append(li);
-    });
-    $(this.UI.dump.social).empty().append(social);
-
-    let telex = $('<ol/>');
-    data.telex.forEach(item => {
-      let li = $('<li/>', {
-        // décodage html
-        text: $('<textarea/>').html(item).text()
-      });
-      telex.append(li);
-    });
-    $(this.UI.dump.telex).empty().append(telex);
 
     let show = $('<ul/>');
     for (let key in data.show) {
@@ -171,9 +147,26 @@ class App {
     }
     $(this.UI.dump.music).empty().append(music);
 
-    let edito = $('<ol/>');
+    let social = $('<ul/>');
+    data.social.forEach(item => {
+      let li = $('<li/>', { 'data-key': item.key })
+        .append($('<button/>', { text: 'Del' } ))
+        .append($('<span/>', { text: item.text } ));
+      social.append(li);
+    });
+    $(this.UI.dump.social).empty().append(social);
+
+    let telex = $('<ul/>');
+    data.telex.forEach(item => {
+      let li = $('<li/>', { 'data-id': item.id })
+        .append($('<button/>', { text: 'Del' }))
+        .append($('<span/>', { text: item.content } ));
+      telex.append(li);
+    });
+    $(this.UI.dump.telex).empty().append(telex);
+
+    let edito = $('<ul/>');
     data.edito.forEach(item => {
-      console.debug(item);
       let li = $('<li/>', {
         text: item.img
       });

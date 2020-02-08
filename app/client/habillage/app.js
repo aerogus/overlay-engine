@@ -2,13 +2,12 @@
  * Module d'habillage
  */
 
-/*globals settings, $, io, moment */
+/*globals settings, $, io, moment, Telex */
 
 'use strict';
 
 let animClock = require('./anim-clock')
-  , animOnair = require('./anim-onair')
-  , truncate = require('./truncate');
+  , animOnair = require('./anim-onair');
 
 class App {
 
@@ -84,6 +83,8 @@ class App {
       previous: ''
     };
 
+    this.qtx = {};
+
     this.socket = io.connect(this.options.WEBSOCKET_SERVER);
     this.socket.emit('dump');
 
@@ -114,7 +115,7 @@ class App {
       this.initSocialUI();
 
       this.data.telex = dump.telex;
-      this.initTelexUI();
+      this.initTelex();
 
       this.data.edito = dump.edito;
       this.initEditoUI();
@@ -166,13 +167,15 @@ class App {
       this.delSocial(key);
     });
 
-    // nouveau telex publié
-    // remplace tout ?
+    // maj telex
     this.socket.on('TLX', telex => {
       console.log('TLX');
       console.debug(telex);
       this.data.telex = telex;
-      //this.addNews(news);
+      if (!this.qtx && this.data.telex.length) {
+        this.qtx = Telex.widget('tx', { speed: 100 }, this.data.telex);
+        this.qtx.messages = this.data.telex;
+      }
     });
 
     // rechargement complet de la page
@@ -184,7 +187,6 @@ class App {
     this.animOnair = animOnair;
 
     this.initClock();
-    this.initTelex();
     this.initReadyListeners();
     this.initKeyboard();
   }
@@ -212,7 +214,10 @@ class App {
    * @see https://github.com/sjaakp/telex
    */
   initTelex() {
-    return false;
+    console.log('initTelex');
+    if (this.data.telex.length) {
+      this.qtx = Telex.widget('tx', { speed: 100 }, this.data.telex);
+    }
   }
 
   /**
@@ -342,35 +347,6 @@ class App {
     this.ready.edito = true;
     console.log('trigger editoReady');
     $('body').trigger('editoReady');
-
-  }
-
-  /**
-   * met à jour le bandeau des news + init de la boucle
-   *
-   * @param array arr [] .title
-   */
-  initTelexUI() {
-
-    if (!this.data.telex.length) {
-      return;
-    }
-
-    let _this = this;
-    (function telex_update_ui() {
-      if (_this.data.telex.length > 1) {
-        let random_index = _this.random_index.telex;
-        do {
-          _this.random_index.telex = Math.floor(Math.random() * _this.data.telex.length);
-        } while (_this.random_index.telex === random_index); // anti doublon consécutif
-      } else {
-        _this.random_index.telex = 0;
-      }
-      // décodage html via jQuery ...
-      let content = $('<textarea/>').html(_this.data.telex[_this.random_index.telex].title).text();
-      $('.news__title').hide().html(truncate(content, _this.MAX_TELEX_LENGTH)).fadeIn(300);
-      _this.timer.telex = setTimeout(telex_update_ui, _this.tempo.telex * 1000);
-    })();
 
   }
 

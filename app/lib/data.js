@@ -27,7 +27,7 @@ module.exports = {
   music: {
     artist: 'BLP Radio',
     title: 'La Webradio du Nord Essonne',
-    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/music/default.jpg',
+    img: `http://${settings.server.HOST}:${settings.server.PORT}/img/music/default.jpg`,
     length: 60000 // mini 60 sec (doit être > durée de l'animation)
   },
 
@@ -57,7 +57,7 @@ module.exports = {
     avatar: 'https://pbs.twimg.com/profile_images/1039188008543678464/3dzfOoBY_bigger.jpg',
     name: 'Aurélien Taché',
     screen_name: '@Aurelientache',
-    text: `Très fier que #LesMiserables soient aux #Oscars2020. J'espère de tout coeur que cette œuvre majeure, sur le plan cinématographique, comme sur celui de la lutte contre les #discriminations, sera primée. Et que ceux qui ont diffamés un homme qui a purgé sa peine, seront condamnés.`
+    text: 'Très fier que #LesMiserables soient aux #Oscars2020. J‘espère de tout coeur que cette œuvre majeure, sur le plan cinématographique, comme sur celui de la lutte contre les #discriminations, sera primée. Et que ceux qui ont diffamés un homme qui a purgé sa peine, seront condamnés.'
   }, {
     avatar: 'https://pbs.twimg.com/profile_images/835778286731022337/kdE5YWci_bigger.jpg',
     name: 'Le Fraik',
@@ -70,23 +70,21 @@ module.exports = {
    * @var array d'objets .img
    */
   edito: [{
-    img: 'http://' + settings.server.HOST + ':' + settings.server.PORT + '/img/edito/default.jpg'
+    img: `http://${settings.server.HOST}:${settings.server.PORT}/img/edito/default.jpg`
   }],
 
   /**
-   * nombre de news à stocker
+   * nombre max de telex à stocker
    * @var int
    */
-  MAX_NEWS: 10,
+  MAX_TELEX: 10,
 
   /**
-   * Liste des derniers articles du site
-   * @var array d'objets .title
+   * Liste des telex
+   *
+   * @var array de strings
    */
-  telex: [
-    'La webradio du Nord Essonne',
-    'Émission spéciale Oscars'
-  ],
+  telex: [],
 
   /**
    * Chargement initial des données
@@ -94,6 +92,10 @@ module.exports = {
   load() {
     log('data.load');
     this.show = show.getCurrent();
+    this.addTelex('La webradio du Nord Essonne');
+    this.addTelex('Émission spéciale Oscars');
+    this.addTelex('JJ Ben et ses invités débattent toute la soirée');
+
     log('show');
     log(this.show);
     music.getCurrent()
@@ -104,21 +106,39 @@ module.exports = {
       }, error => {
         log(error);
       });
-
   },
 
   /**
-   * Ajoute une news au tableau
-   * @var object news .title
+   * Ajoute un telex au tableau
+   *
+   * @var string msg
    */
-  addNews(news) {
-    // ajoute une news au début du tableau
-    this.news.unshift(news);
+  addTelex(msg) {
+    let telex = {
+      id: sha1(JSON.stringify(msg)),
+      content: msg
+    };
 
-    // limite la taille du tableau, efface la plus ancienne news
-    if (this.news.length > this.MAX_NEWS) {
-      this.news.pop();
+    // ajoute un telex au début du tableau
+    this.telex.unshift(telex);
+
+    // limite la taille du tableau, efface le plus ancien telex
+    if (this.telex.length > this.MAX_TELEX) {
+      this.telex.pop();
     }
+  },
+
+  /**
+   * Efface le message social du tableau, identifié par sa clé
+   *
+   * @var string id
+   */
+  delTelex(id) {
+    if (!this.telex.length) {
+      return;
+    }
+
+    this.telex = this.telex.filter(item => item.id !== id);
   },
 
   /**
@@ -162,7 +182,7 @@ module.exports = {
       show: this.show,
       social: this.social,
       edito: this.edito,
-      news: this.news
+      telex: this.telex
     };
   }
 };
