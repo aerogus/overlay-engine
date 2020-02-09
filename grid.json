@@ -1,6 +1,6 @@
 {
   "monday": {
-    "0000-0600": "Les Nuits de BLP Radio",
+    "0000-0600": "JJBen - 92ème cérémonie des Oscars",
     "0600-0900": "La Matinale",
     "0900-0915": "Flash Infos",
     "0915-1200": "La Matinale",
@@ -119,6 +119,8 @@
     "1630-1700": "BLP Radio",
     "1700-1800": "Prog 50",
     "1800-1810": "Flash Infos",
-    "1810-2400": "Playlist"
+    "1810-1900": "Playlist",
+    "1900-2200": "Playlist Oscars",
+    "2200-2400": "JJBen - 92ème cérémonie des Oscars"
   }
 }

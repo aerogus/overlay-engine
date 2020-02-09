@@ -13,21 +13,19 @@ const settings = require('./lib/settings')
 
 const tempo = 10; // temporisation entre 2 poll, en secondes
 const io = require('socket.io-client');
-const socket = io('ws://' + settings.server.HOST + ':' + settings.server.PORT, {autoConnect: false, reconnectionAttempts: 2});
+const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`, {autoConnect: false, reconnectionAttempts: 2});
 
 const currentSong = { // objet chanson
   'artist': '',
   'title': '',
-  'img': 'img/music/default.jpg',
-  'length': 60000 // en ms. mini 60000 (durée animation)
 };
 
 (function update_title() {
   let timer;
   music.getCurrent()
-    .then(currentSong => {
+    .then(newSong => {
       if ((currentSong.artist !== newSong.artist) || (currentSong.title !== newSong.title)) {
-        log(newSong.artist + ' - ' + newSong.title); // nouvelle chanson !
+        log(newSong.artist + ' - ' + newSong.title);
         currentSong.artist = newSong.artist;
         currentSong.title = newSong.title;
         socket.open();

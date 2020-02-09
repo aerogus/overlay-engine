@@ -14,8 +14,6 @@ const regexpFlash = /<strong>([^>]+)<\/strong>/;
 const song = { // objet chanson
   'artist': '',
   'title': '',
-  'img': 'img/music/default.jpg',
-  'length': 60000 // en ms. mini 60000 (durée animation)
 };
 
 module.exports = {
