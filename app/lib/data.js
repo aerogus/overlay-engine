@@ -47,7 +47,7 @@ module.exports = {
    * nombre de messages sociaux à stocker
    * @var int
    */
-  MAX_SOCIAL: 10,
+  MAX_SOCIAL: 100,
 
   /**
    * Liste des messages sociaux

@@ -9,7 +9,7 @@
 let timers = [];
 let first = true;
 
-const t1 = 2000;  // expand social
+const t1 = 0;  // expand social
 const t4 = 10000; // fold social
 
 module.exports = {

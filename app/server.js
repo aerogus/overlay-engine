@@ -83,8 +83,8 @@ io.on('connection', socket => {
   });
 
   // réception d'un nouveau message social + metainfo
-  socket.on('SOC', social => {
-    log('SOC received with object');
+  socket.on('TWI', social => {
+    log('TWI received with object');
     log(social);
 
     data.addSocial(social);

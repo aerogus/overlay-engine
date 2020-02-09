@@ -3,7 +3,7 @@
  */
 
 body
-  background #000
+  background #000 url(/img/oscars-background.png) repeat center / cover
   color #fff
   font-family Arial
 
@@ -17,14 +17,17 @@ body
   .social
     position relative
     font-family Arial
-    background-color #fff
+    background-color #ececec
     width 100%
     border-radius 1rem
     padding 1rem
     box-shadow 2px 2px 5px #000
     margin-bottom 1rem
 
-    .soc__hdr
+    &:hover 
+      background-color #fff
+
+    .soc_hdr
       display flex
       align-items center
 

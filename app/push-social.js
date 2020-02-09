@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * envoi de l‘événement SOC à chaque nouveau message
+ * envoi de l‘événement TWI à chaque nouveau tweet reçu
  */
 
 const Twitter = require('twitter');
@@ -26,43 +26,40 @@ let client = new Twitter({
 });
 
 const io = require('socket.io-client');
-const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`, {autoConnect: false, reconnectionAttempts: 2});
+const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
 
-client.stream('statuses/filter', {track: settings.twitter.TRACK, language: settings.twitter.LANGUAGE}, (stream) => {
+socket.on('connect_error', () => {
+  log('connexion WS impossible');
+});
 
-  stream.on('data', (tweet) => {
-    if (!tweet.id) return;
-    if (isReply(tweet)) return;
-    if (tweet.is_quote_status) return;
+socket.on('connect', () => {
+  log('connecté');
+  client.stream('statuses/filter', {track: settings.twitter.TRACK, language: settings.twitter.LANGUAGE}, (stream) => {
 
-    const social = {
-      avatar: (tweet.user.default_profile_image ? 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png' : tweet.user.profile_image_url_https.replace('_normal', '_bigger')),
-      name: tweet.user.name,
-      screen_name: `@${tweet.user.screen_name}`,
-      text: (tweet.truncated ? tweet.extended_tweet.full_text : tweet.text)
-    };
+    stream.on('data', (tweet) => {
+      if (!tweet.id) return;
+      if (isReply(tweet)) return;
+      if (tweet.is_quote_status) return;
 
-    log(social);
-    log('-');
+      const social = {
+        avatar: (tweet.user.default_profile_image ? 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png' : tweet.user.profile_image_url_https.replace('_normal', '_bigger')),
+        name: tweet.user.name,
+        screen_name: `@${tweet.user.screen_name}`,
+        text: (tweet.truncated ? tweet.extended_tweet.full_text : tweet.text)
+      };
 
-    socket.open();
+      log(social);
+      log('-');
 
-    socket.on('connect', () => {
-      socket.emit('SOC', social);
-      socket.emit('SOC_AIR', social);
-      log('SOC emitted');
-      socket.disconnect();
+      socket.emit('TWI', social);
+      log('TWI emitted');
+
     });
 
-    socket.on('connect_error', () => {
-      log('connexion WS impossible');
-      socket.disconnect();
+    stream.on('error', (error) => {
+      log(error);
     });
 
-  });
-
-  stream.on('error', (error) => {
-    log(error);
   });
 
 });
