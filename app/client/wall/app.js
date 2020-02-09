@@ -127,6 +127,10 @@ class App {
         screen_name: $(e.currentTarget).parent().find('.soc_screen_name').text(),
         text: $(e.currentTarget).parent().find('.soc_text').text()
       };
+
+      // filtrage urls
+      social.text = social.text.replace(/(?:https?):\/\/[\n\S]+/g, '');
+
       this.socket.emit('SOC_AIR', social);
       console.log('SOC_AIR', social);
     });

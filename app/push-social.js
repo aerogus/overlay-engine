@@ -56,7 +56,7 @@ socket.on('connect', () => {
       log('-');
 
       // filtrage des urls
-      social.text = social.text.replace(/(?:https?):\/\/[\n\S]+/g, '');
+      //social.text = social.text.replace(/(?:https?):\/\/[\n\S]+/g, '');
 
       socket.emit('TWI', social);
       log('TWI emitted');
