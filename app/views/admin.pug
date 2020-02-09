@@ -47,18 +47,18 @@ html
         h2 Musique
         div
           label(for="live_song_artist") Artiste
-          input(type="text" id="live_song_artist")
+          input(type="text" id="live_song_artist" placeholder="Artiste")
         div
           label(for="live_song_title") Titre
-          input(type="text" id="live_song_title")
+          input(type="text" id="live_song_title" placeholder="Titre")
         div
-          button(id="btn_ZIK" class="message") Envoyer
+          button(id="live_song_send" class="message") Envoyer
 
       section#live_telex(style="display:block")
         h2 Telex
         div
           input(type="text" id="live_telex_content" value="ppp" placeholder="Texte")
-          button(class="messag" id="live_telex_send") Envoyer
+          button(class="message" id="live_telex_send") Envoyer
 
     script.
       var app;

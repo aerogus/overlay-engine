@@ -4,7 +4,9 @@
  * envoi de l‘événement TWI à chaque nouveau tweet reçu
  */
 
-const Twitter = require('twitter');
+const Twitter = require('twitter')
+  , sha1 = require('sha1');
+
 const settings = require('./lib/settings')
   , log = require('./lib/log');
 
@@ -47,6 +49,8 @@ socket.on('connect', () => {
         screen_name: `@${tweet.user.screen_name}`,
         text: (tweet.truncated ? tweet.extended_tweet.full_text : tweet.text)
       };
+
+      social.key = sha1(JSON.stringify(social));
 
       log(social);
       log('-');

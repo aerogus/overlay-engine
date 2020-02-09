@@ -36,12 +36,11 @@ class App {
       console.log('dump received');
       this.social = dump.social;
       this.initUI(this.social);
-      this.initOnaAirButtons();
+      this.initOnAirButtons();
     });
 
     // réception d'un message social brut
     this.socket.on('SOC', (social) => {
-      //console.log('SOC received', social);
       this.social.push(social);
       this.pushSocialUI(social);
       if (this.social.length > this.options.MAX_ITEMS) {
@@ -108,6 +107,7 @@ class App {
         $('<button/>', {
           title: 'Mettre ce tweet à l‘écran'
         })
+        .addClass('btn')
         .append('ON AIR')
       )
       .prependTo('.wall');
@@ -116,9 +116,10 @@ class App {
   /**
    * envoi du msg SOC_AIR sur le tweet sélectionné
    */
-  initOnaAirButtons() {
-    $('.social button').click((e) => {
-      e.preventDefault();
+  initOnAirButtons() {
+    $('body').on('click', '.btn', (e) => {
+      //e.preventDefault();
+      console.log('click');
       let social = {
         key: $(e.currentTarget).parent().data('key'),
         avatar: $(e.currentTarget).parent().find('.soc_avatar')[0].src,
@@ -126,7 +127,6 @@ class App {
         screen_name: $(e.currentTarget).parent().find('.soc_screen_name').text(),
         text: $(e.currentTarget).parent().find('.soc_text').text()
       };
-      console.log(social);
       this.socket.emit('SOC_AIR', social);
       console.log('SOC_AIR', social);
     });

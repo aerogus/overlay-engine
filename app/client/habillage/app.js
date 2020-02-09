@@ -152,6 +152,8 @@ class App {
       this.data.telex = telex;
       if (!this.qtx && this.data.telex.length) {
         this.qtx = Telex.widget('tx', { speed: 100 }, this.data.telex);
+      }
+      if (this.data.telex.length) {
         this.qtx.messages = this.data.telex;
       }
     });

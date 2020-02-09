@@ -28,10 +28,9 @@ class App {
       }
     };
 
+    this.initSongSendButton();
     this.initTelexSendButton();
     this.initTelexDeleteButtons();
-
-    this.initMessageButtons();
 
     this.socket = io(this.options.WEBSOCKET_SERVER);
     this.socket.emit('dump');
@@ -75,35 +74,27 @@ class App {
     });
   }
 
-  /**
-   * le click sur un bouton de contôle envoi un message au serveur
-   */
-  initMessageButtons() {
-    /*
-    $('.message').click(e => {
+  initSongSendButton() {
+    $('#live_song_send').click((e) => {
       e.preventDefault();
-      let msg = $(e.currentTarget).data('msg');
-      console.log('message clicked');
-      if (this.socket.connected) {
-        var obj = {};
-        this.socket.emit(msg, obj);
-        this.flash('msg ' + msg + ' envoyé');
-        this.socket.emit('dump');
-      } else {
-        this.flash('non connecté');
-      }
+      let song = {
+        artist: $('#live_song_artist').val(),
+        title: $('#live_song_title').val()
+      };
+      this.socket.emit('ZIK', song);
+      console.log('ZIK', song);
+      $('#live_song_artist').val('');
+      $('#live_song_title').val('');
     });
-    */
   }
 
   initTelexSendButton() {
-    $('#live_telex_send').click(() => {
-      console.log('ici');
-      //e.preventDefault();
+    $('#live_telex_send').click((e) => {
+      e.preventDefault();
       let content = $('#live_telex_content').val();
-      $('#live_telex_content').value = '';
       this.socket.emit('TLX', content);
       console.log('TLX', content);
+      $('#live_telex_content').val('');
     });
   }
 
