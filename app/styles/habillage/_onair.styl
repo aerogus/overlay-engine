@@ -1,31 +1,5 @@
 /* block titre artiste */
 
-.visuel_wrap
-  position absolute
-  left 30px
-  right 30px
-  bottom 100px
-  overflow hidden
-
-  .visuel
-    position relative
-    width 548px
-    height 190px
-    background no-repeat center / 548px
-    border-top-right-radius 1rem
-    border-bottom-right-radius 1rem
-    transform translateX(calc(-100% - 1px))
-    visibility hidden
-    transition visibility 0s
-    z-index 1
-    left 0
-
-    &.expanded
-      animation visuel_expand 2s cubic-bezier(0,.5,.5,1) forwards
-
-    &.folded
-      animation visuel_fold 2s cubic-bezier(0,.5,.5,1) forwards
-
 .onair_wrap
   position absolute
   display flex
@@ -34,8 +8,7 @@
   overflow hidden
   max-height 0
   background-color #fff
-  border-top-left-radius 1rem
-  border-bottom-left-radius 1rem
+  border-radius 1rem
 
   &.expanded
     animation height_in 1s cubic-bezier(0,.5,.5,1) forwards
@@ -49,7 +22,6 @@
 
   .onair
     display inline-block
-    background-color transparent
     position relative
     padding 29px 10px
     margin-top auto
@@ -61,8 +33,7 @@
     white-space nowrap
     overflow hidden
     max-width 915px
-    border-top-left-radius 1rem
-    border-bottom-left-radius 1rem
+    border-radius 1rem
 
     .artist
       font-weight bold
@@ -102,15 +73,3 @@
   100%
     opacity 0
     transform translateY(calc(100% + 1px))
-
-@keyframes visuel_expand
-  0%
-    transform translateX(calc(-100% - 1px))
-  100%
-    transform translateX(0)
-
-@keyframes visuel_fold
-  0%
-    transform translateX(0)
-  100%
-    transform translateX(calc(-100% - 1px))

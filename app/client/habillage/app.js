@@ -7,7 +7,8 @@
 'use strict';
 
 let animClock = require('./anim-clock')
-  , animOnair = require('./anim-onair');
+  , animSong = require('./anim-song')
+  , animSocial = require('./anim-social');
 
 class App {
 
@@ -39,6 +40,7 @@ class App {
       music: {},
       show: {},
       social: [],
+      social_air: {},
       telex: [],
       edito: []
     };
@@ -52,29 +54,11 @@ class App {
     this.timer = {
       social: false,
       edito: false,
-      telex: false
     };
 
     // les différentes temporisation (en sec.)
     this.tempo = {
-      social: 7,
       edito: 20,
-      telex: 5
-    };
-
-    // nombres aléatoires
-    this.random_index = {
-      telex: null,
-      edito: null,
-      social: null
-    };
-
-    // les composants sont-ils bien chargés ?
-    this.ready = {
-      music: false,
-      show: false,
-      social: false,
-      edito: false
     };
 
     // écrans courant et précédent
@@ -111,7 +95,7 @@ class App {
       this.data.show = dump.show;
       this.updateShowUI();
 
-      this.data.social = dump.social;
+      this.data.tweet = dump.tweet;
       this.initSocialUI();
 
       this.data.telex = dump.telex;
@@ -120,13 +104,13 @@ class App {
       this.data.edito = dump.edito;
       this.initEditoUI();
 
-      this.requestScreen(dump.screen);
+      this.switchToScreen(dump.screen);
     });
 
     // changement d'écran
     this.socket.on('screen', screen => {
       console.log(`switch to screen ${screen}`);
-      this.requestScreen(screen);
+      this.switchToScreen(screen);
     });
 
     // début nouvelle chanson
@@ -153,18 +137,12 @@ class App {
       this.updateEdiUI();
     });
 
-    // nouveau message social reçu
-    this.socket.on('SOC', social => {
-      console.log('SOC');
+    // nouveau message social modéré reçu
+    this.socket.on('SOC_AIR', social => {
+      console.log('SOC_AIR');
       console.debug(social);
-      this.addSocial(social);
-    });
-
-    // modération d'un message social
-    this.socket.on('SOCDEL', key => {
-      console.log('SOCDEL');
-      console.debug(key);
-      this.delSocial(key);
+      this.data.social_air = social;
+      this.animSocial.start(this.data.social_air);
     });
 
     // maj telex
@@ -184,10 +162,10 @@ class App {
     });
 
     this.animClock = animClock;
-    this.animOnair = animOnair;
+    this.animSocial = animSocial;
+    this.animSong = animSong;
 
     this.initClock();
-    this.initReadyListeners();
     this.initKeyboard();
   }
 
@@ -221,23 +199,6 @@ class App {
   }
 
   /**
-   * On ne déclenche le changement d'écran qu'une fois tous les composants chargés
-   */
-  initReadyListeners() {
-    $('body').on('musicReady showReady socialReady editoReady screenRequested', () => {
-      if (this.ready.music && this.ready.show && this.ready.social && this.ready.edito) {
-        console.debug(this.ready);
-        // rien à faire si on ne change pas d'écran
-        if (this.screen.current === this.screen.previous) {
-          return;
-        }
-        $('#' + this.screen.previous + '-screen').hide();
-        $('#' + this.screen.current + '-screen').show();
-      }
-    });
-  }
-
-  /**
    * contrôle au clavier pour debug
    */
   initKeyboard() {
@@ -257,30 +218,27 @@ class App {
   }
 
   /**
-   * demande d'affichage d'un nouvel écran
-   * set de la variable système puis trigge requestScreen
+   * change d‘écran
    *
    * @param string screen
    */
-  requestScreen(screen) {
+  switchToScreen(screen) {
 
-    console.log(`requestScreen ${screen}`);
+    console.log(`switchToScreen ${screen}`);
 
     this.screen.previous = this.screen.current;
     this.screen.current = screen;
 
-    $('body').trigger('requestScreen');
+    $('#' + this.screen.previous + '-screen').hide();
+    $('#' + this.screen.current + '-screen').show();
 
   }
 
   /**
    * Charge les ressources relatives à une émission,
    * met à jour les composants relatifs cette émission
-   * trigge l'événement showReady
    */
   updateShowUI() {
-
-    this.ready.show = false;
 
     $('#show')
       .css('backgroundColor', this.data.show.color)
@@ -306,10 +264,6 @@ class App {
     $('#start').html(start.format('HH[H]mm'));
     $('#end').html(end.format('HH[H]mm'));
     $('#cursor').css('left', offset + 'px');
-
-    this.ready.show = true;
-    $('body').trigger('showReady');
-
   }
 
   /**
@@ -317,78 +271,21 @@ class App {
    * déclenché à l'init + réception msg ZIK
    */
   updateMusicUI() {
-
-    this.ready.music = false;
-
-    // on attend que l'image soit chargée
-    let artiste = new Image();
-    artiste.onload = () => {
-      $('#music-screen .background').css('backgroundImage', 'url(' + this.data.music.img + ')');
-      $('#music-screen .pano').css('backgroundImage', 'url(' + this.data.music.img + ')');
-      this.ready.music = true;
-      console.log('trigger musicReady');
-      $('body').trigger('musicReady');
-      let do_expand_visuel = true;
-      this.animOnair.start(this.data.music, do_expand_visuel);
-    };
-    artiste.src = this.data.music.img;
-
+    this.animSong.start(this.data.music);
   }
 
   /**
    * met à jour les composants relatifs aux photos éditoriales
    */
   updateEditoUI() {
-
-    this.ready.edito = false;
-
-    // @todo: on attend que toutes les images éditoriales soient chargées
-
-    this.ready.edito = true;
-    console.log('trigger editoReady');
-    $('body').trigger('editoReady');
-
   }
 
   /**
    * met à jour le composant social + init de la boucle
    */
   initSocialUI() {
-
-    this.ready.social = false;
-    let _this = this;
-    (function social_update_ui() {
-      console.log(`social length = ${_this.data.social.length}`);
-      if (!_this.data.social.length) {
-        _this.ready.social = true;
-        $('.social_wrap').css('opacity', 0);
-        $('body').trigger('socialReady');
-      } else {
-        $('.social_wrap').css('opacity', 1);
-        if (_this.data.social.length > 1) {
-          let random_index = _this.random_index.social;
-          do {
-            _this.random_index.social = Math.floor(Math.random() * _this.data.social.length);
-          } while (_this.random_index.social === random_index); // anti doublon consécutif
-        } else {
-          _this.random_index.social = 0;
-        }
-        let avatar = new Image();
-        avatar.onload = () => {
-          console.log('avatar image loaded');
-          $('.social .soc_avatar').hide().attr('src', _this.data.social[_this.random_index.social].avatar).fadeIn(300);
-          $('.social .soc_name').hide().html(_this.data.social[_this.random_index.social].name).fadeIn(300);
-          $('.social .soc_screen_name').hide().html(_this.data.social[_this.random_index.social].screen_name).fadeIn(300);
-          $('.social .soc_text').hide().html(_this.data.social[_this.random_index.social].text).fadeIn(300);
-          _this.ready.social = true;
-          console.log('trigger socialReady');
-          $('body').trigger('socialReady');
-        };
-        avatar.src = _this.data.social[_this.random_index.social].avatar;
-      }
-      _this.timer.social = setTimeout(social_update_ui, _this.tempo.social * 1000);
-    })();
-
+    this.animSocial.start(this.data.social_air);
+    $('.social_wrap').removeClass('expanded').addClass('folded');
   }
 
   /**
@@ -396,79 +293,23 @@ class App {
    */
   initEditoUI() {
     let _this = this;
+    let random_index = Math.floor(Math.random() * _this.data.edito.length);
     (function edito_update_ui() {
-      if (!_this.data.edito.length) {
-        _this.ready.edito = true;
-        $('body').trigger('editoReady');
-      } else {
-        _this.ready.edito = false;
+      if (_this.data.edito.length) {
         console.log('edito length = ' +  _this.data.edito.length);
-        if (_this.data.edito.length > 1) {
-          let random_index = _this.random_index.edito;
-          do {
-            _this.random_index.edito = Math.floor(Math.random() * _this.data.edito.length);
-          } while (_this.random_index.edito === random_index); // anti doublon consécutif
-        } else {
-          _this.random_index.edito = 0;
-        }
+        random_index =  Math.floor(Math.random() * _this.data.edito.length);
         let edito = new Image();
         edito.onload = () => {
           console.log('onload OK');
-          $('#edito-screen .background').css('backgroundImage', 'url(' + _this.data.edito[_this.random_index.edito].img + ')');
-          $('#edito-screen .pano').css('backgroundImage', 'url(' + _this.data.edito[_this.random_index.edito].img + ')');
-          _this.ready.edito = true;
-          console.log('trigger editoReady');
-          $('body').trigger('editoReady');
+          $('#edito-screen .background').css('backgroundImage', 'url(' + _this.data.edito[random_index].img + ')');
+          $('#edito-screen .pano').css('backgroundImage', 'url(' + _this.data.edito[random_index].img + ')');
         };
-        edito.src = _this.data.edito[_this.random_index.edito].img;
+        edito.src = _this.data.edito[random_index].img;
         console.log('--- : ' + edito.src);
       }
       _this.timer.edito = setTimeout(edito_update_ui, _this.tempo.edito * 1000);
     })();
 
-  }
-
-  /**
-   * Ajoute une news au tableau
-   *
-   * @var object news .title
-   */
-  addNews(news) {
-    // ajoute une news au début du tableau
-    this.data.news.unshift(news);
-
-    // limite la taille du tableau, efface la plus ancienne news
-    if (this.data.news.length > this.MAX_NEWS) {
-      this.data.news.pop();
-    }
-  }
-
-  /**
-   * Ajoute un message social au tableau
-   *
-   * @var object social .key .provider .message .avatar .date
-   */
-  addSocial(social) {
-    // ajoute un message au début du tableau
-    this.data.social.unshift(social);
-
-    // limite la taille du tableau, efface le plus ancien message social
-    if (this.data.social.length > this.MAX_SOCIAL) {
-      this.data.social.pop();
-    }
-  }
-
-  /**
-   * Retire un message social du tableau, identifié par sa clé
-   *
-   * @var string key
-   */
-  delSocial(key) {
-    if (!this.data.social.length) {
-      return;
-    }
-
-    this.data.social = this.data.social.filter(item => item.key !== key);
   }
 }
 

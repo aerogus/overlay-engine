@@ -49,6 +49,7 @@ client.stream('statuses/filter', {track: settings.twitter.TRACK, language: setti
 
     socket.on('connect', () => {
       socket.emit('SOC', social);
+      socket.emit('SOC_AIR', social);
       log('SOC emitted');
       socket.disconnect();
     });

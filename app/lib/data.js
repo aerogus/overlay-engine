@@ -66,6 +66,16 @@ module.exports = {
   }],
 
   /**
+   * Message social à afficher
+   */
+  tweet: {
+    avatar: 'https://pbs.twimg.com/profile_images/835778286731022337/kdE5YWci_bigger.jpg',
+    name: 'Le Fraik',
+    screen_name: '@leFraik',
+    text: 'Dévoiler la chanson titre de #NoTimeToDie aux #Oscars2020 ça aurait pas un peu de la gueule quand même ?....#BillieEilish #jamesbond'
+  },
+
+  /**
    * Liste des images éditoriales
    * @var array d'objets .img
    */
@@ -181,6 +191,7 @@ module.exports = {
       music: this.music,
       show: this.show,
       social: this.social,
+      tweet: this.tweet,
       edito: this.edito,
       telex: this.telex
     };

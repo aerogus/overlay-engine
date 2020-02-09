@@ -94,14 +94,21 @@ io.on('connection', socket => {
   });
 
   // réception d'une demande de retrait d'un message social
-  socket.on('SOCDEL', key => {
-    log('SOCDEL received with object');
+  socket.on('SOC_DEL', key => {
+    log('SOC_DEL received with object');
     log(key);
 
     data.delSocial(key);
 
-    io.emit('SOCDEL', key);
-    log('SOCDEL broadcasted');
+    io.emit('SOC_DEL', key);
+    log('SOC_DEL broadcasted');
+  });
+
+  socket.on('SOC_AIR', social => {
+    log('SOC_AIR received with object');
+    log(social);
+    data.tweet = social;
+    io.emit('SOC_AIR', social);
   });
 
   // réception de la liste des photos à diffuser

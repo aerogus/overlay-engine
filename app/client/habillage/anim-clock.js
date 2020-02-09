@@ -1,5 +1,5 @@
 /**
- * module d'animation de l'horloge + timeline + émission
+ * animation de l‘horloge + timeline + émission
  */
 
 'use strict';
