@@ -37,7 +37,7 @@ module.exports = {
    */
   show: {
     title: 'BLP Radio',
-    color: '#bfa267',
+    color: '#dfa14d',
     color_alt: '#ffffff',
     start: moment().startOf('day').unix() * 1000,
     end: (moment().endOf('day').unix() + 1) * 1000
