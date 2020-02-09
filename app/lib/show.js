@@ -27,7 +27,7 @@ function readGridFile(gridFile) {
       let [startTime, endTime] = showTimes.split('-');
       obj[dayName][startTime] = {
         title: showTitle,
-        color: '#bfa267',
+        color: '#dfa14d',
         color_alt: '#ffffff',
         start: absDayMTS + (startTime.substr(0, 2) * 3600 + startTime.substr(2, 2) * 60) * 1000,
         end: absDayMTS + (endTime.substr(0, 2) * 3600 + endTime.substr(2, 2) * 60) * 1000,
