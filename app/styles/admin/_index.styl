@@ -52,7 +52,7 @@ section#variables
 
 button.message
   padding 5px 5px 5px 30px
-  margin-left 1rem
+  margin 1rem
   background #ccc url(../img/icons/pulse.svg) no-repeat 2px / 24px
   color #000
   border 0
@@ -69,18 +69,6 @@ button.message
 
   &:hover
     background-color #fff
-
-button#conx
-  border 0
-  font-size 16px
-  font-weight bold
-  padding 5px
-
-  &.connected
-    background #c66
-
-  &.disconnected
-    background #6c6
 
 .dump
   font-family monospace
@@ -128,3 +116,14 @@ button.delete
 
   &:hover
     background-color #f7303c
+
+#cmd
+  label
+    display inline-block
+    width 100px
+    text-align right
+    padding .5rem
+
+  input
+    padding .5rem
+    font-size 1.4rem

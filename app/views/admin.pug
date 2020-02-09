@@ -8,10 +8,10 @@ html
 
   body
 
-    header
+    header(style="display:none")
       p#message_response
-      button(id="btn-onair" class="message" data-msg="AON" title="ON AIR") ON AIR
-      button(id="btn-offair" class="message" data-msg="AOF" title="OFF AIR") OFF AIR
+      button(id="btn-onair" style="display:none" class="message" data-msg="AON" title="ON AIR") ON AIR
+      button(id="btn-offair" style="display:none" class="message" data-msg="AOF" title="OFF AIR") OFF AIR
       button(id="refresh" class="message" data-msg="UPD" title="refresh habillage") UPD
 
     div#main
@@ -22,7 +22,7 @@ html
 
       section#variables
         table.dump
-          tr
+          tr(style="display:none")
             th screen
             td#var_screen
           tr
@@ -31,13 +31,13 @@ html
           tr
             th music
             td#var_music
-          tr
+          tr(style="display:none")
             th social
             td#var_social
           tr
             th telex
             td#var_telex
-          tr
+          tr(style="display:none")
             th edito
             td#var_edito
 

@@ -150,7 +150,7 @@ class App {
     let telex = $('<ul/>');
     data.telex.forEach(item => {
       let li = $('<li/>', { 'data-id': item.id })
-        .append($('<button/>', { text: 'Del' }))
+        .append($('<button/>', { text: 'Del' }).addClass('delete'))
         .append($('<span/>', { text: item.content } ));
       telex.append(li);
     });
