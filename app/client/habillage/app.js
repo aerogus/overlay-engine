@@ -70,7 +70,7 @@ class App {
     this.qtx = {};
 
     this.socket = io.connect(this.options.WEBSOCKET_SERVER);
-    this.socket.emit('dump');
+    this.socket.emit('DMP');
 
     this.socket.on('connect', () => {
       console.log(`[OK] connected to ${this.options.WEBSOCKET_SERVER}`);
@@ -85,8 +85,8 @@ class App {
     });
 
     // à la réception du dump initial de la mémoire
-    this.socket.on('dumped', dump => {
-      console.log('dump received');
+    this.socket.on('DMP', dump => {
+      console.log('DMP received');
       console.log(dump);
 
       this.data.music = dump.music;

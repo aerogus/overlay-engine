@@ -17,7 +17,7 @@ class App {
     this.social = [];
 
     this.socket = io(this.options.WEBSOCKET_SERVER);
-    this.socket.emit('dump');
+    this.socket.emit('DMP');
 
     this.socket.on('connect', () => {
       console.log(`[OK] connected to ${this.options.WEBSOCKET_SERVER}`);
@@ -32,8 +32,8 @@ class App {
     });
 
     // réception du dump initial de la mémoire
-    this.socket.on('dumped', dump => {
-      console.log('dump received');
+    this.socket.on('DMP', dump => {
+      console.log('DMP received');
       this.social = dump.social;
       this.initUI(this.social);
       this.initOnAirButtons();

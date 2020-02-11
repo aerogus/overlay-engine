@@ -24,10 +24,10 @@ io.on('connection', socket => {
   log('client connected');
 
   // demande le contenu de la mémoire
-  socket.on('dump', () => {
-    log('dump received');
-    socket.emit('dumped', data.dump());
-    log('dumped emitted');
+  socket.on('DMP', () => {
+    log('DMP received');
+    socket.emit('DMP', data.dump());
+    log('DMP emitted');
   });
 
   // réception d'une impulsion de début de chanson + metainfo

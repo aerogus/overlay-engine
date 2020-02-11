@@ -33,7 +33,7 @@ class App {
     this.initTelexDeleteButtons();
 
     this.socket = io(this.options.WEBSOCKET_SERVER);
-    this.socket.emit('dump');
+    this.socket.emit('DMP');
 
     this.socket.on('connect', () => {
       console.log(`[OK] connected to ${this.options.WEBSOCKET_SERVER}`);
@@ -50,8 +50,8 @@ class App {
     });
 
     // réception du dump initial de la mémoire
-    this.socket.on('dumped', dump => {
-      console.log('dump received');
+    this.socket.on('DMP', dump => {
+      console.log('DMP received');
       console.debug(dump);
       this.updateDumpUI(dump);
     });
@@ -69,7 +69,7 @@ class App {
     msgs_with_refresh.forEach(msg => {
       this.socket.on(msg, () => {
         // émet un dump pour mettre à jour les composants d'UI
-        this.socket.emit('dump');
+        this.socket.emit('DMP');
       });
     });
   }
