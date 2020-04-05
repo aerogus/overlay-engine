@@ -1,0 +1,33 @@
+/* thème habillage personnalisé */
+/* écrase les valeurs par défaut */
+/* saisissez vos propres styles */
+
+body {
+  /* transparent ou vers suivant l'incrust */
+  background-color: transparent;
+}
+
+#logo {
+  background-image: url(/img/badge.png);
+}
+
+#clock_wrap #clock {
+  background-image: none; /* écrase les gradient */
+  background-color: #253041;
+}
+
+#clock_wrap #timeline {
+  background-image: none; /* écrase les gradient */
+  background-color: #253041;
+}
+
+.footer .claim {
+  background-image: none; /* écrase les gradient */
+  background-color: #253041;
+  color: #f8f4ba;
+}
+
+.footer .news {
+  background-image: none;  /* écrase les gradient */
+  background-color: #253041;
+}
