@@ -22,7 +22,7 @@
     "twitter": "1.7.1"
   },
   "devDependencies": {
-    "autoprefixer": "9.7.4",
+    "autoprefixer": "9.7.6",
     "brunch": "2.10.2",
     "babel-brunch": "7.0.1",
     "clean-css-brunch": "2.10.0",
