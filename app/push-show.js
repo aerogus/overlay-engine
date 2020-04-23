@@ -5,6 +5,8 @@
  * à exécuter régulièrement par cron
  */
 
+'use strict';
+
 const settings = require('./lib/settings')
   , log = require('./lib/log')
   , show = require('./lib/show');

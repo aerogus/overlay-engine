@@ -82,9 +82,20 @@ io.on('connection', socket => {
     log('TLX broadcasted');
   });
 
-  // réception d'un nouveau message social + metainfo
+  // réception d'un nouveau message de twitter + metainfo
   socket.on('TWI', social => {
     log('TWI received with object');
+    log(social);
+
+    data.addSocial(social);
+
+    io.emit('SOC', social);
+    log('SOC broadcasted');
+  });
+
+  // réception d'un nouveau message social + metainfo
+  socket.on('FBL', social => {
+    log('FBL received with object');
     log(social);
 
     data.addSocial(social);

@@ -4,6 +4,8 @@
  * envoi de l‘événement TWI à chaque nouveau tweet reçu
  */
 
+'use strict';
+
 const Twitter = require('twitter')
   , sha1 = require('sha1');
 

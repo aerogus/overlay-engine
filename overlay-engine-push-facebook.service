@@ -1,11 +1,11 @@
 [Unit]
-Description=Mise à jour des messages twitter pour le moteur d'habillage
+Description=Surveille les commentaires d'un Facebook Live pour le moteur d'habillage
 After=network.target
 
 [Service]
 User=root
 Group=root
-ExecStart=/usr/bin/node /var/www/overlay-engine/app/push-social.js
+ExecStart=/usr/bin/node /var/www/overlay-engine/app/push-facebook.js
 Restart=always
 RestartSec=10
 StandardOutput=syslog

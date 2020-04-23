@@ -7,12 +7,12 @@
 
 'use strict';
 
-const settings = require('./lib/settings')
+const io = require('socket.io-client')
+  , settings = require('./lib/settings')
   , log = require('./lib/log')
   , music = require('./lib/music');
 
 const tempo = 10; // temporisation entre 2 poll, en secondes
-const io = require('socket.io-client');
 const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`, {autoConnect: false, reconnectionAttempts: 2});
 
 const currentSong = { // objet chanson
@@ -24,6 +24,7 @@ const currentSong = { // objet chanson
   let timer;
   music.getCurrent()
     .then(newSong => {
+      // anti doublon
       if ((currentSong.artist !== newSong.artist) || (currentSong.title !== newSong.title)) {
         log(newSong.artist + ' - ' + newSong.title);
         currentSong.artist = newSong.artist;

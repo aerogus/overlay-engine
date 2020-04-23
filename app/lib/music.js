@@ -1,3 +1,7 @@
+/**
+ * Parsing du titre en cours
+ */
+
 'use strict';
 
 const request = require('request');
@@ -40,4 +44,4 @@ module.exports = {
       });
     });
   }
-}
+};

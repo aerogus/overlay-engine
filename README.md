@@ -87,14 +87,15 @@ des échanges principaux
 * Les clients n'écoutent que les messages qui les intéressent
 * @TODO un schéma + visuel :)
 
-Nom     | Expéditeur  | Destinataire | Description
-------- | ----------- | ------------ | -----------
-TWI     | push-social | server       | Message issu de la stream API twitter
-SOC     | server      | wall         | Message social
-SOC_AIR | wall        | habillage    | Afficher le message social modéré
-ZIK     | push-title  | habillage    | Info de début de nouvelle chanson, mode auto
-ZIK     | admin       | habillage    | Info de début de nouvelle chanson, mode manuel
-EMI     | push-show   | habillage    | Infos sur l'émission courante
-TLX     | admin       | habillage    | Tableau des messages du telex
-TLX_DEL | admin       | server       | efface un message telex
-DMP     | client      | client       | client demandant le dump mémoire du serveur
+Nom     | Expéditeur    | Destinataire | Description
+------- | ------------- | ------------ | -----------
+TWI     | push-twitter  | server       | Message issu de la stream API twitter
+FBL     | push-facebook | server       | Message issu d'un Facebook Live
+SOC     | server        | wall         | Message social, format commun multi source
+SOC_AIR | wall          | habillage    | Afficher le message social modéré
+ZIK     | push-title    | habillage    | Info de début de nouvelle chanson, mode auto
+ZIK     | admin         | habillage    | Info de début de nouvelle chanson, mode manuel
+EMI     | push-show     | habillage    | Infos sur l'émission courante
+TLX     | admin         | habillage    | Tableau des messages du telex
+TLX_DEL | admin         | server       | efface un message telex
+DMP     | client        | client       | client demandant le dump mémoire du serveur

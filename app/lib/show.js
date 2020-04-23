@@ -1,8 +1,8 @@
-'use strict';
-
 /**
  * gestion de la grille des programmes
  */
+
+'use strict';
 
 const fs = require('fs')
   , moment = require('moment');

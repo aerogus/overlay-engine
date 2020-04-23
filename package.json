@@ -12,6 +12,7 @@
     "start": "./app/server.js"
   },
   "dependencies": {
+    "eventsource": "1.0.7",
     "express": "4.17.1",
     "moment": "2.24.0",
     "pug": "2.0.4",

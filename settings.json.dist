@@ -13,5 +13,11 @@
     "ACCESS_TOKEN_SECRET": "",
     "LANGUAGE": "fr",
     "TRACK": ""
+  },
+  "facebook": {
+    "FB_APP_ID": "",
+    "FB_APP_SECRET": "",
+    "FB_USER_ACCESS_TOKEN": "",
+    "FB_VIDEO_ID": ""
   }
 }
