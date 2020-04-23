@@ -55,27 +55,27 @@ function startReading(videoId, accessToken) {
     let data = JSON.parse(event.data);
     log(data);
 
-    // récupérer l'avatar localement
-    // @see https://developers.facebook.com/docs/graph-api/reference/user/picture/?locale=fr_FR
-    // GET https://graph.facebook.com/v6.0/$user_id$/picture (après redirections, stocker le jpg et le nommer)
-    //const avatarUrl = 'https://graph.facebook.com/v6.0/$user_id$/picture
-    const social = {
-      avatar: '',
-      name: data.from.name,
-      screen_name: data.from.name,
-      text: data.message
-    };
+    const FB_AVATAR_URL = `https://graph.facebook.com/v6.0/${data.from.id}/picture?redirect=0&access_token=${accessToken}`;
+    request.get({url: FB_AVATAR_URL, json: true}, (err, res, datavatar) => {
+      let avatar = '';
+      if (!err) {
+        avatar = datavatar.data.url;
+      }
+      const social = {
+        avatar: avatar,
+        name: data.from.name,
+        screen_name: data.from.name,
+        text: data.message
+      };
 
-    social.key = sha1(JSON.stringify(social));
+      social.key = sha1(JSON.stringify(social));
 
-    log(social);
-    log('-');
+      log(social);
+      log('-');
 
-    // filtrage des urls
-    //social.text = social.text.replace(/(?:https?):\/\/[\n\S]+/g, '');
-
-    socket.emit('FBL', social);
-    log('FBL emitted');
+      socket.emit('FBL', social);
+      log('FBL emitted');
+    });
 
   };
 }
