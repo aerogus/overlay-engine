@@ -9,15 +9,15 @@
   "twitter": {
     "CONSUMER_KEY": "",
     "CONSUMER_SECRET": "",
-    "TOKEN_KEY": "",
+    "ACCESS_TOKEN_KEY": "",
     "ACCESS_TOKEN_SECRET": "",
     "LANGUAGE": "fr",
     "TRACK": ""
   },
   "facebook": {
-    "FB_APP_ID": "",
-    "FB_APP_SECRET": "",
-    "FB_USER_ACCESS_TOKEN": "",
-    "FB_VIDEO_ID": ""
+    "APP_ID": "",
+    "APP_SECRET": "",
+    "USER_ACCESS_TOKEN": "",
+    "VIDEO_ID": ""
   }
 }

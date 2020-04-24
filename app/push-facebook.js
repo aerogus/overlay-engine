@@ -47,6 +47,7 @@ socket.on('connect', () => {
 function startReading(videoId, accessToken) {
   // Graph API URL
   const FB_LIVE_COMMENTS_URL = `https://streaming-graph.facebook.com/${videoId}/live_comments?access_token=${accessToken}&comment_rate=ten_per_second&fields=from{name,id},message`;
+  log(FB_LIVE_COMMENTS_URL);
   var es = new EventSource(FB_LIVE_COMMENTS_URL);
   es.onerror = (err) => {
     console.log(err);
