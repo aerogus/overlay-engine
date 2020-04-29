@@ -1,11 +1,11 @@
 [Unit]
-Description=Surveille les tweets pour le moteur d'habillage
+Description=Surveille les réactions d'un Facebook Live pour le moteur d'habillage
 After=network.target
 
 [Service]
 User=root
 Group=root
-ExecStart=/usr/bin/node /var/www/overlay-engine/app/push-twitter.js
+ExecStart=/usr/bin/node /var/www/overlay-engine/app/watch-fb-comments.js
 Restart=always
 RestartSec=10
 StandardOutput=syslog

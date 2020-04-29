@@ -12,12 +12,12 @@
 
 const EventSource = require('eventsource')
   , request = require('request')
+  , io = require('socket.io-client')
   , sha1 = require('sha1');
 
 const settings = require('./lib/settings')
   , log = require('./lib/log');
 
-const io = require('socket.io-client');
 const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
   
 socket.on('connect_error', () => {
@@ -28,7 +28,7 @@ socket.on('connect', () => {
   log('connecté');
   if (settings.facebook.USER_ACCESS_TOKEN) {
     log('via user access token');
-    startReading(settings.facebook.VIDEO_ID, settings.USER_ACCESS_TOKEN);
+    startWatching(settings.facebook.VIDEO_ID, settings.facebook.USER_ACCESS_TOKEN);
   } else {
     log('via app access token');
     // url pour récupérer l'app access token
@@ -38,13 +38,13 @@ socket.on('connect', () => {
       if (err) {
         log('Error:', err);
       } else {
-        startReading(settings.facebook.VIDEO_ID, data.access_token);
+        startWatching(settings.facebook.VIDEO_ID, data.access_token);
       }
     });
   }
 });
 
-function startReading(videoId, accessToken) {
+function startWatching(videoId, accessToken) {
   // Graph API URL
   const FB_LIVE_COMMENTS_URL = `https://streaming-graph.facebook.com/${videoId}/live_comments?access_token=${accessToken}&comment_rate=ten_per_second&fields=from{name,id},message`;
   log(FB_LIVE_COMMENTS_URL);
@@ -74,8 +74,8 @@ function startReading(videoId, accessToken) {
       log(social);
       log('-');
 
-      socket.emit('FBL', social);
-      log('FBL emitted');
+      socket.emit('FBL_COM', social);
+      log('FBL_COM emitted');
     });
 
   };

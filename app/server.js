@@ -93,15 +93,24 @@ io.on('connection', socket => {
     log('SOC broadcasted');
   });
 
-  // réception d'un nouveau message social + metainfo
-  socket.on('FBL', social => {
-    log('FBL received with object');
+  // réception d'un nouveau commentaire d'un FB Live + metainfo
+  socket.on('FBL_COM', social => {
+    log('FBL_COM received with object');
     log(social);
 
     data.addSocial(social);
 
     io.emit('SOC', social);
     log('SOC broadcasted');
+  });
+
+  // réception d'une nouvelle réaction d'un Facebook Live + metainfo
+  socket.on('FBL_COM', reaction => {
+    log('FBL_COM received with object');
+    log(reaction);
+
+    io.emit('SOC_REA', reaction);
+    log('SOC_REA broadcasted');
   });
 
   // réception d'une demande de retrait d'un message social
@@ -115,6 +124,7 @@ io.on('connection', socket => {
     log('SOC_DEL broadcasted');
   });
 
+  // envoi à l'habillage du message social modéré
   socket.on('SOC_AIR', social => {
     log('SOC_AIR received with object');
     log(social);
