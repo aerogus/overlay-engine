@@ -311,7 +311,16 @@ class App {
       }
       _this.timer.edito = setTimeout(edito_update_ui, _this.tempo.edito * 1000);
     })();
+  }
 
+  /**
+  * dessine une nouvelle réaction à l'écran
+  */
+  printReaction(reaction) {
+    let icon = document.createElement('div');
+    icon.className = 'icon ' + reaction.type;
+    icon.style = 'left:' + reaction.coords.x + 'px;top:' + reaction.coords.y + 'px';
+    document.getElementById('global').appendChild(icon);
   }
 }
 

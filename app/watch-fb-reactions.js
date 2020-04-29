@@ -16,9 +16,21 @@ const EventSource = require('eventsource')
 
 const settings = require('./lib/settings')
   , log = require('./lib/log');
-console.log(settings);
+
 const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
-  
+
+let firstLoop = true;
+
+// compteurs locaux des réactions
+const reactions = {
+  LIKE: 0,
+  LOVE: 0,
+  HAHA: 0,
+  WOW: 0,
+  SAD: 0,
+  ANGRY: 0,
+};
+
 socket.on('connect_error', () => {
   log('connexion WS impossible');
 });
@@ -53,12 +65,10 @@ function startWatching(videoId, accessToken) {
   };
   es.onmessage = (event) => {
     let data = JSON.parse(event.data);
-    log(data.reaction_stream);
 
+    log(data.reaction_stream);
     /*
     // on reçoit un tableau tableau de compteurs
-    // todo, gérer des compteurs locaux, envoyer autant de message
-    // que la différence
     reaction_stream: [
       { key: 'LIKE', value: 40094 },
       { key: 'LOVE', value: 75249 },
@@ -69,9 +79,24 @@ function startWatching(videoId, accessToken) {
     ]
     */
 
-    log('-');
-
-    socket.emit('FBL_REA', data.reaction_stream);
-    log('FBL_REA emitted');
+    if (firstLoop) {
+      data.reaction_stream.forEach(item => {
+        reactions[item.key] = item.value;
+      });
+      firstLoop = false;
+    } else {
+      data.reaction_stream.forEach(item => {
+        let diff = item.value - reactions[item.key];
+        reactions[item.key] += diff;
+        if (diff > 0) {
+          for (let i = 0 ; i < diff ; i++) {
+            socket.emit('FBL_REA', {
+              type: item.key
+            });
+            log(`FBL_REA emitted (${item.key})`);
+          }
+        }
+      });
+    }
   };
 }

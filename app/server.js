@@ -105,9 +105,18 @@ io.on('connection', socket => {
   });
 
   // réception d'une nouvelle réaction d'un Facebook Live + metainfo
-  socket.on('FBL_COM', reaction => {
-    log('FBL_COM received with object');
+  socket.on('FBL_REA', reaction => {
+    log('FBL_REA received with object');
     log(reaction);
+
+    // une réaction reçue de form
+    /*
+    socket.on('reaction', type => {
+    console.log('reaction ' + type + ' received');
+    // stockage, calcul position et réémission à tout le monde
+    let r = model.addReaction(type);
+    io.emit('react', r);
+    */
 
     io.emit('SOC_REA', reaction);
     log('SOC_REA broadcasted');
