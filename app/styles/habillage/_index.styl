@@ -20,6 +20,7 @@ body
 
 #logo
   position absolute
+  z-index 100
   top 30px
   left 30px
   background url(/img/logo.png) no-repeat center / cover
@@ -71,3 +72,43 @@ section
 @import _social
 @import _onair
 @import _footer
+
+.icon
+  position absolute
+  z-index 10
+  width 32px
+  height 32px
+  background-size contain
+  background-repeat no-repeat
+  animation .5s bounce
+  &.angry
+    background-image url(/img/reactions/angry.svg)
+  &.haha
+    background-image url(/img/reactions/haha.svg)
+  &.like
+    background-image url(/img/reactions/like.svg)
+  &.love
+    background-image url(/img/reactions/love.svg)
+  &.sad
+    background-image url(/img/reactions/sad.svg)
+  &.wow
+    background-image url(/img/reactions/wow.svg)
+
+@keyframes bounce{
+  0%{
+    opacity: 0;
+    transform: scale(0.3) translate3d(0,0,0);
+  }
+  50%{
+    opacity: 0.9;
+    transform: scale(1.25);
+  }
+  80%{
+    opacity: 1;
+    transform: scale(0.89);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1) translate3d(0,0,0);
+  }
+}

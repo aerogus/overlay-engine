@@ -149,7 +149,7 @@ class App {
     this.socket.on('SOC_REA', reaction => {
       console.log('SOC_REA');
       console.log(reaction);
-      // à implémenter
+      this.printReaction(reaction.type.toLowerCase());
     });
 
     // maj telex
@@ -321,13 +321,17 @@ class App {
   }
 
   /**
-  * dessine une nouvelle réaction à l'écran
-  */
+   * dessine une nouvelle réaction à l'écran
+   */
   printReaction(reaction) {
-    let icon = document.createElement('div');
-    icon.className = 'icon ' + reaction.type;
-    icon.style = 'left:' + reaction.coords.x + 'px;top:' + reaction.coords.y + 'px';
-    document.getElementById('global').appendChild(icon);
+    let x = Math.floor(Math.random() * (1920 - 32)); // 32 = icon width
+    let y = Math.floor(Math.random() * (1080 - 32)); // 32 = icon height
+    $('<div class="icon ' + reaction + '" style="left:' + x + 'px;top:' + y + 'px"></div>')
+      .appendTo('#global')
+      .delay(2000)
+      .queue(function() {
+        $(this).remove();
+      });
   }
 }
 
