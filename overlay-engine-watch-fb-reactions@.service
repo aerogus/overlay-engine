@@ -1,11 +1,11 @@
 [Unit]
-Description=Surveille les commentaires d'un Facebook Live pour le moteur d'habillage
+Description=Surveille les réactions du Facebook Live %I
 After=network.target
 
 [Service]
 User=root
 Group=root
-ExecStart=/usr/bin/node /var/www/overlay-engine/app/watch-fb-comments.js
+ExecStart=/usr/bin/node /var/www/overlay-engine/app/watch-fb-comments.js %i
 Restart=always
 RestartSec=10
 StandardOutput=syslog

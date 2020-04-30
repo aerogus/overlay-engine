@@ -145,6 +145,13 @@ class App {
       this.animSocial.start(this.data.social_air);
     });
 
+    // nouvelle réaction d'un réseau social reçue
+    this.socket.on('SOC_REA', reaction => {
+      console.log('SOC_REA');
+      console.log(reaction);
+      // à implémenter
+    });
+
     // maj telex
     this.socket.on('TLX', telex => {
       console.log('TLX');

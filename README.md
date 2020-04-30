@@ -59,26 +59,66 @@ et récupéré vos identifiants `CONSUMER_KEY`, `CONSUMER_SECRET`, `TOKEN_KEY` e
 
 Les webapps sont sur http://localhost, http://localhost/admin et http://localhost/wall
 
-### prod (sous Linux avec systemd, ex Debian)
+### prod (sous Debian GNU/Linux avec systemd)
 
 - ex raspberry pi avec sortie HDMI vers mélangeur vidéo
 - à l'allumage, doit lancer direct l'app d'habillage (Firefox plein écran, ou app electron)
 - cable ethernet direct vers PC d'admin
 
 ```
-# cd /var/www
-# git clone https://github.com/aerogus/overlay-engine.git .
-# cd overlay-engine
-# cp settings.json.dist settings.json
-# //adapter settings.json
-# npm install
-# npm run build
-# cp *.service /etc/systemd/system
-# systemctl daemon-reload
-# systemctl enable overlay-engine-*
-# systemctl start overlay-engine-*
-# crontab crontab
+cd /var/www
+git clone https://github.com/aerogus/overlay-engine.git .
+cd overlay-engine
+cp settings.json.dist settings.json
+vi settings.json
+npm install
+npm run build
+cp *.service /etc/systemd/system
+systemctl daemon-reload
+systemctl enable overlay-engine-server
+systemctl start overlay-engine-server
+crontab crontab
 ```
+
+### Récupération des tweets
+
+éditer dans `settings.json` la valeur de `settings.twitter.TRACKS` avec les hashtags et les comptes à suivre, séparés par des virgules. Ex: "@twitter,#twitter,#music"
+
+puis
+
+```
+systemctl enable overlay-engine-watch-twitter
+systemctl start overlay-engine-watch-twitter
+```
+
+### Récupération de l'émission courante
+
+Par crontab
+
+### Récupération du titre/artiste en cours
+
+```
+systemctl enable overlay-engine-watch-song
+systemctl start overlay-engine-watch-song
+```
+
+### Récupération des commentaires d'un Facebook Live
+
+```
+systemctl enable overlay-engine-watch-fb-comments 1234
+systemctl start overlay-engine-watch-fb-comments 1234
+```
+
+avec 1234 l'id de la vidéo live
+
+### Récupération des réactions d'un Facebook Live
+
+```
+systemctl enable overlay-engine-watch-fb-reactions 1234
+systemctl start overlay-engine-watch-fb-reactions 1234
+```
+
+avec 1234 l'id de la vidéo live
 
 ## Type de messages websocket
 
@@ -94,6 +134,7 @@ FBL_COM | watch-fb-comments  | server       | Commentaire issu d'un Facebook Liv
 FBL_REA | watch-fb-reactions | server       | Réaction issu d'un Facebook Live
 SOC     | server             | wall         | Message social, format commun multi source
 SOC_AIR | wall               | habillage    | Afficher le message social modéré
+SOC_REA | server             | habillage    | Afficher les réactions des réseaux sociaux
 ZIK     | watch-title        | habillage    | Info de début de nouvelle chanson, mode auto
 ZIK     | admin              | habillage    | Info de début de nouvelle chanson, mode manuel
 EMI     | watch-show         | habillage    | Infos sur l'émission courante

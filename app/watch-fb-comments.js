@@ -19,7 +19,13 @@ const settings = require('./lib/settings')
   , log = require('./lib/log');
 
 const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
-  
+
+if (process.argv[2]) {
+  settings.facebook.VIDEO_ID = process.argv[2];
+}
+
+log(`video ${settings.facebook.VIDEO_ID}`);
+
 socket.on('connect_error', () => {
   log('connexion WS impossible');
 });

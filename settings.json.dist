@@ -3,9 +3,6 @@
     "PORT": 80,
     "HOST": "localhost"
   },
-  "social": {
-    "max_messages": 10
-  },
   "twitter": {
     "CONSUMER_KEY": "",
     "CONSUMER_SECRET": "",
