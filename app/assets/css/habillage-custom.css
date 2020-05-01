@@ -3,31 +3,35 @@
 /* saisissez vos propres styles */
 
 body {
-  /* transparent ou vers suivant l'incrust */
+  /* transparent ou vert suivant l'incrust */
   background-color: transparent;
 }
 
 #logo {
-  background-image: url(/img/badge.png);
+  background-image: url(/img/logo-adhoc.png);
+  width: 192px;
+  height: 100px;
 }
 
 #clock_wrap #clock {
   background-image: none; /* écrase les gradient */
-  background-color: #253041;
+  background-color: #000;
 }
 
 #clock_wrap #timeline {
   background-image: none; /* écrase les gradient */
-  background-color: #253041;
+  background-color: #000;
 }
 
 .footer .claim {
+  display: none;
   background-image: none; /* écrase les gradient */
-  background-color: #253041;
-  color: #f8f4ba;
+  background-color: #000;
+  color: #fff;
 }
 
 .footer .news {
   background-image: none;  /* écrase les gradient */
-  background-color: #253041;
+  background-color: #000;
+  color: #fff;
 }
