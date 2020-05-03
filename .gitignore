@@ -5,8 +5,7 @@ Thumb.db
 log
 
 # paramètres
-#grid.json
-settings.json
+conf/*.json
 
 # dépendances npm
 node_modules

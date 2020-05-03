@@ -7,7 +7,7 @@
 const fs = require('fs')
   , moment = require('moment');
 
-const gridFile = `${__dirname}/../../grid.json`;
+const gridFile = `${__dirname}/../../conf/grid.json`;
 
 /**
  * Lit le fichier json de la grille

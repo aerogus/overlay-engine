@@ -49,8 +49,10 @@ Ce projet a été créé à la base pour le compte d'une radio rock parisienne e
 ```
 git clone https://github.com/aerogus/overlay-engine.git
 cd overlay-engine
-cp settings.json.dist settings.json
-vi settings.json
+cp conf/settings.json.dist conf/settings.json
+vi conf/settings.json
+cp conf/grid.json.dist conf/grid.json
+vi conf/grid.json
 npm install
 npm start
 ```
@@ -70,14 +72,16 @@ Les webapps sont sur http://localhost, http://localhost/admin et http://localhos
 cd /var/www
 git clone https://github.com/aerogus/overlay-engine.git .
 cd overlay-engine
-cp settings.json.dist settings.json
-vi settings.json
+cp conf/settings.json.dist conf/settings.json
+vi conf/settings.json
+cp conf/grid.json.dist conf/grid.json
+vi conf/grid.json
 npm install
-cp *.service /etc/systemd/system
+cp services/overlay-engone-server.service /etc/systemd/system
 systemctl daemon-reload
 systemctl enable overlay-engine-server
 systemctl start overlay-engine-server
-crontab crontab
+crontab services/crontab
 ```
 
 ### Récupération de l'émission courante (obligatoire)
