@@ -24,5 +24,5 @@ socket.on('connect', () => {
 });
 
 socket.on('connect_error', () => {
-  log('connexion WS impossible');
+  log('connexion impossible, service overlay-engine-server bien lancé ?');
 });

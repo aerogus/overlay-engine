@@ -36,7 +36,7 @@ const currentSong = { // objet chanson
           socket.disconnect();
         });
         socket.on('connect_error', () => {
-          log('connexion WS impossible');
+          log('connexion impossible, service overlay-engine-server bien lancé ?');
           socket.disconnect();
         });
       } else {

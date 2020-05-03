@@ -19,11 +19,15 @@ const settings = require('./lib/settings')
 
 const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
 
+let videoId = '';
 if (process.argv[2]) {
-  settings.facebook.VIDEO_ID = process.argv[2];
+  videoId = process.argv[2];
+} else {
+  log('videoId manquant');
+  process.exit(1);
 }
 
-log(`video ${settings.facebook.VIDEO_ID}`);
+log(`video ${videoId}`);
 
 let firstLoop = true;
 
@@ -38,27 +42,21 @@ const reactions = {
 };
 
 socket.on('connect_error', () => {
-  log('connexion WS impossible');
+  log('connexion impossible, service overlay-engine-server bien lancé ?');
 });
 
 socket.on('connect', () => {
-  log('connecté');
-  if (settings.facebook.USER_ACCESS_TOKEN) {
-    log('via user access token');
-    startWatching(settings.facebook.VIDEO_ID, settings.facebook.USER_ACCESS_TOKEN);
-  } else {
-    log('via app access token');
-    // url pour récupérer l'app access token
-    const FB_APP_ACCESS_TOKEN_URL= `https://graph.facebook.com/oauth/access_token?client_id=${settings.facebook.APP_ID}&client_secret=${settings.facebook.APP_SECRET}&grant_type=client_credentials`;
-    log(FB_APP_ACCESS_TOKEN_URL);
-    request.get({url: FB_APP_ACCESS_TOKEN_URL, json: true}, (err, res, data) => {
-      if (err) {
-        log('Error:', err);
-      } else {
-        startWatching(settings.facebook.VIDEO_ID, data.access_token);
-      }
-    });
-  }
+  log('connecté à overlay-engine-server');
+  // url pour récupérer l'app access token
+  const FB_APP_ACCESS_TOKEN_URL= `https://graph.facebook.com/oauth/access_token?client_id=${settings.facebook.APP_ID}&client_secret=${settings.facebook.APP_SECRET}&grant_type=client_credentials`;
+  log(FB_APP_ACCESS_TOKEN_URL);
+  request.get({url: FB_APP_ACCESS_TOKEN_URL, json: true}, (err, res, data) => {
+    if (err) {
+      log('Error:', err);
+    } else {
+      startWatching(videoId, data.access_token);
+    }
+  });
 });
 
 function startWatching(videoId, accessToken) {

@@ -2,17 +2,19 @@
 
 Système d‘incrustation dynamique et administrable pour stream live.
 
-* Gestion d'une **grille des programme** pour affichage auto du nom de l‘**émission courante** + **curseur de progression**
-* Suivi, modération et sélection des **tweets** à afficher
+* Gestion d'une **grille des programme** pour affichage auto du nom de l‘**émission courante** + **curseur de progression** + **Horloge**
+* Affichage d'un **logo**
+* Sélection des **tweets** à afficher, relatifs à un hashtag ou un compte
+* Sélection des **commentaires** à afficher, relatifs à une vidéo Facebook Live
+* Affichage des **réactions** relatives à une vidéo Facebook Live
 * **Bandeau de news** *telex* administrable
 * Affichage auto du **titre/artiste** à chaque début de chanson (+ mode manuel)
 
-## Histoire
+## Historique
 
-Ce projet a été utilisé pour la diffusion vidéo live de l'émission couvrant la cérémonie des Oscars 2020 le 9 février 2020
-sur [BLP Radio](http://www.blpradio.fr) à la [MJC Boby Lapointe](http://www.mjcvillebon.org) de Villebon-sur-Yvette.
+Ce projet a été créé à la base pour le compte d'une radio rock parisienne en 2015, qui l'a exploité plusieurs années ([vidéo 1](https://www.youtube.com/watch?v=jHVS-8zpo2s), [video 2](https://www.youtube.com/watch?v=q2kgZQjWs1M), [vidéo 3](https://www.youtube.com/watch?v=kBs-sjqsGXU)). Il a été libéré et utilisé pour la diffusion vidéo live de l'émission couvrant la cérémonie des Oscars 2020 le 9 février 2020 sur [BLP Radio](http://www.blpradio.fr) à la [MJC Boby Lapointe](http://www.mjcvillebon.org) de Villebon-sur-Yvette (). Depuis il sert d'habillage pour les streams Live de l'[association AD'HOC](https://www.adhocmusic.com), conjointement avec le projet [dynamic-background](https://github.com/aerogus/dynamic-background) pour générer un fond dynamique..
 
-![Incrustation de l'habillage dans le mélange vidéo](/doc/live.jpg)
+![Incrustation de l'habillage dans le mélangeur vidéo](/doc/live.jpg)
 
 ## Description
 
@@ -48,9 +50,8 @@ sur [BLP Radio](http://www.blpradio.fr) à la [MJC Boby Lapointe](http://www.mjc
 git clone https://github.com/aerogus/overlay-engine.git
 cd overlay-engine
 cp settings.json.dist settings.json
-//adapter settings.json
+vi settings.json
 npm install
-npm run build
 npm start
 ```
 
@@ -72,7 +73,6 @@ cd overlay-engine
 cp settings.json.dist settings.json
 vi settings.json
 npm install
-npm run build
 cp *.service /etc/systemd/system
 systemctl daemon-reload
 systemctl enable overlay-engine-server
@@ -80,7 +80,38 @@ systemctl start overlay-engine-server
 crontab crontab
 ```
 
-### Récupération des tweets
+### Récupération de l'émission courante (obligatoire)
+
+Par crontab, l'app `app/watch-show.js` est lancé toutes les minutes.
+
+### Récupération du titre/artiste en cours (optionnel)
+
+```
+systemctl enable overlay-engine-watch-song
+systemctl start overlay-engine-watch-song
+```
+
+L'app `app/watch-song.js` doit être adaptée, spécifier le fichier source des données et le parser correctement.
+
+### Récupération des commentaires et réactions d'un Facebook Live (optionnel)
+
+Pour récupérer en temps réel les commentaires et réactions d'un Facebook Live, il vous faut créer une app Facebook.
+
+* Créer une app FB sur https://developers.facebook.com/
+* Récupérer l'identifiant d'app + la clé secrète dans "Paramètres" / "Général"
+* L'app doit être "en ligne" (pas "en développement")
+
+```
+systemctl start overlay-engine-watch-fb-comments@1234
+systemctl start overlay-engine-watch-fb-reactions@1234
+```
+
+L'app `app/watch-fb-comments.js` prend 1 paramètre (1234), l'id de la vidéo facebook live
+L'app `app/watch-fb-reactions.js` prend 1 paramètre (1234), l'id de la vidéo facebook live
+
+éditer dans `settings.json` la valeur de `settings.facebook.APP_ID` et `settings.facebook.APP_SECRET`.
+
+### Récupération des tweets (optionnel)
 
 éditer dans `settings.json` la valeur de `settings.twitter.TRACKS` avec les hashtags et les comptes à suivre, séparés par des virgules. Ex: "@twitter,#twitter,#music"
 
@@ -91,39 +122,9 @@ systemctl enable overlay-engine-watch-twitter
 systemctl start overlay-engine-watch-twitter
 ```
 
-### Récupération de l'émission courante
-
-Par crontab
-
-### Récupération du titre/artiste en cours
-
-```
-systemctl enable overlay-engine-watch-song
-systemctl start overlay-engine-watch-song
-```
-
-### Récupération des commentaires d'un Facebook Live
-
-```
-systemctl enable overlay-engine-watch-fb-comments 1234
-systemctl start overlay-engine-watch-fb-comments 1234
-```
-
-avec 1234 l'id de la vidéo live
-
-### Récupération des réactions d'un Facebook Live
-
-```
-systemctl enable overlay-engine-watch-fb-reactions 1234
-systemctl start overlay-engine-watch-fb-reactions 1234
-```
-
-avec 1234 l'id de la vidéo live
-
 ## Type de messages websocket
 
-* Tous les messages clients sont techniquem,t émis vers le serveur, le tableau ci-dessous est une vue simplifiée
-des échanges principaux
+* Tous les messages clients sont techniquemt émis vers le serveur, le tableau ci-dessous est une vue simplifiée des échanges principaux
 * Les clients n'écoutent que les messages qui les intéressent
 * @TODO un schéma + visuel :)
 

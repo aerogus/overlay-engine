@@ -33,7 +33,7 @@ const io = require('socket.io-client');
 const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
 
 socket.on('connect_error', () => {
-  log('connexion WS impossible');
+  log('connexion impossible, service overlay-engine-server bien lancé ?');
 });
 
 socket.on('connect', () => {

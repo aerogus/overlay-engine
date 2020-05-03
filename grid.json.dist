@@ -1,0 +1,23 @@
+{
+    "monday": {
+      "0000-2400": "Show Name"
+    },
+    "tuesday": {
+      "0000-2400": "Show Name"
+    },
+    "wednesday": {
+      "0000-2400": "Show Name"
+    },
+    "thursday": {
+      "0000-2400": "Show Name"
+    },
+    "friday": {
+      "0000-2400": "Show Name"
+    },
+    "saturday": {
+      "0000-2400": "Show Name"
+    },
+    "sunday": {
+      "0000-2400": "Show Name"
+    }
+  }

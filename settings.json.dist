@@ -13,8 +13,6 @@
   },
   "facebook": {
     "APP_ID": "",
-    "APP_SECRET": "",
-    "USER_ACCESS_TOKEN": "",
-    "VIDEO_ID": ""
+    "APP_SECRET": ""
   }
 }
