@@ -12,7 +12,7 @@ let first = true;
 const t1 = 0;  // expand social
 const t4 = 10000; // fold social
 
-module.exports = {
+export const animSocial = {
 
   start: function (social) {
 

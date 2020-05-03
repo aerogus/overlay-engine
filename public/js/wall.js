@@ -6,7 +6,7 @@
 
 'use strict';
 
-class App {
+export class App {
 
   constructor() {
     this.options = {
@@ -137,5 +137,3 @@ class App {
   }
 
 }
-
-module.exports = App;

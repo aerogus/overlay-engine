@@ -7,7 +7,7 @@
 
 'use strict';
 
-class App {
+export class App {
 
   constructor() {
 
@@ -176,5 +176,3 @@ class App {
     $(this.UI.flash_msg).html(message).show().delay(500).fadeOut();
   }
 }
-
-module.exports = App;

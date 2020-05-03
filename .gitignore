@@ -10,9 +10,6 @@ settings.json
 # dépendances npm
 node_modules
 
-# export brunch
-public
-
 # journaux
 log
 npm-debug.log

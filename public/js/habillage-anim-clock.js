@@ -20,7 +20,7 @@ const t6 = 14000; // clock expand (durée 1s, cf. css)
 let timers = [];
 let first = true;
 
-module.exports = {
+export const animClock = {
 
   /**
    * Lancement de l'animation de l'alternance horloge / timeline + nom émission

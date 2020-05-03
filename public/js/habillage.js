@@ -6,11 +6,11 @@
 
 'use strict';
 
-let animClock = require('./anim-clock')
-  , animSong = require('./anim-song')
-  , animSocial = require('./anim-social');
+import {animClock} from './habillage-anim-clock.js';
+import {animSong} from './habillage-anim-song.js';
+import {animSocial} from './habillage-anim-social.js';
 
-class App {
+export class App {
 
   constructor() {
 
@@ -334,5 +334,3 @@ class App {
       });
   }
 }
-
-module.exports = App;

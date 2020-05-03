@@ -12,7 +12,7 @@ let first = true;
 const t1 = 2000; // expand titre/artiste
 const t2 = 8000; // fold titre/artiste
 
-module.exports = {
+export const animSong = {
 
   start: function (music) {
 

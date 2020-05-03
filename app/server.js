@@ -172,10 +172,7 @@ server.listen(settings.server.PORT, () => {
 app.disable('x-powered-by');
 
 app.set('views', `${__dirname}/views`);
-app.set('view engine', 'pug');
-
-// Pour letsencrypt
-//app.use('/.well-known', express.static(`${__dirname}/../public/.well-known`));
+app.set('view engine', 'ejs');
 
 // route habillage
 app.get(/^\/$/, (req, res) => {
