@@ -27,7 +27,12 @@
 :root {
   /* fond vert */
   --chromakey: #00ff01;
+  /* fond transparent */
   /*--chromakey: transparent;*/
+
+  --logo-url: url(/img/logo-adhoc.png);
+  --logo-width: 192px;
+  --logo-height: 100px;
 
   /* couleurs horloge */
   --clock_bgcolor: #1d1d21;
@@ -35,7 +40,7 @@
 }
 
 body {
-  background-color: var(chromakey);
+  background-color: var(--chromakey);
 }
 
 /* conteneur global */
@@ -53,9 +58,9 @@ body {
   top: 30px;
   left: 30px;
   background: no-repeat center/cover;
-  background-image: url("/img/logo.png");
-  width: 150px;
-  height: 150px;
+  background-image: var(--logo-url);
+  width: var(--logo-width);
+  height: var(--logo-height);
 }
 
 /* chaque écran est encapsulé dans une section */
@@ -117,8 +122,8 @@ section {
   position: absolute;
   right: 0;
   font-family: TradeGothic;
-  background: var(clock_bgcolor);
-  color: var(clock_color);
+  background: var(--clock_bgcolor);
+  color: var(--clock_color);
   font-size: 36px;
   line-height: 50px;
   padding: 0 10px;
@@ -132,8 +137,8 @@ section {
 #clock_wrap #timeline {
   display: flex;
   align-items: center;
-  background-color: var(clock_bgcolor);
-  color: var(clock_color);
+  background-color: var(--clock_bgcolor);
+  color: var(--clock_color);
   font-family: TradeGothic;
   font-size: 36px;
   line-height: 50px;
@@ -149,7 +154,7 @@ section {
   animation: timeline_fold 1s cubic-bezier(0, 0.5, 0.5, 1) forwards;
 }
 #clock_wrap #timeline #line {
-  background: var(clock_color);
+  background: var(--clock_color);
   width: 100%;
   padding: 2px;
   margin: 0 10px;
@@ -163,7 +168,7 @@ section {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background-color: var(clock_color);
+  background-color: var(--clock_color);
 }
 #clock_wrap #show {
   position: absolute;
