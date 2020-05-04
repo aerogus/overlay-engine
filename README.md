@@ -45,7 +45,7 @@ Ce projet a été créé à la base pour le compte d'une radio rock parisienne e
 
 L'exemple est prévu pour Debian GNU/Linux avec systemd. L'app marche aussi sous MacOS à l'exception des services systemd. Sans doute sous MS Windows aussi (non testé).
 
-```
+```bash
 cd /var/www
 git clone https://github.com/aerogus/overlay-engine.git .
 cd overlay-engine
@@ -63,7 +63,7 @@ crontab services/crontab
 
 Le fichier de conf principal : `conf/settings.json`: 
 
-```
+```json
 {
   "server": {
     "PORT": 80,
@@ -94,7 +94,7 @@ Par crontab, l'app `app/watch-show.js` est lancée toutes les minutes.
 
 La source de données est `conf/grid.json` qui doit être modifié manuellement. C'est une grille de programme hebdomadaire.
 
-```
+```json
 {
   "monday":    { "0000-2400": "Nom de l'émission" },
   "tuesday":   { "0000-2400": "Nom de l'émission" },
@@ -103,11 +103,12 @@ La source de données est `conf/grid.json` qui doit être modifié manuellement.
   "friday":    { "0000-2400": "Nom de l'émission" },
   "saturday":  { "0000-2400": "Nom de l'émission" },
   "sunday":    { "0000-2400": "Nom de l'émission" }
+}
 ```
 
 ### Récupération du titre/artiste en cours (optionnel)
 
-```
+```bash
 systemctl enable overlay-engine-watch-song
 systemctl start overlay-engine-watch-song
 ```
@@ -122,7 +123,7 @@ Pour récupérer en temps réel les commentaires et réactions d'un Facebook Liv
 * Récupérer l'identifiant d'app + la clé secrète dans "Paramètres" / "Général"
 * L'app doit être "en ligne" (= pas "en développement")
 
-```
+```bash
 systemctl start overlay-engine-watch-fb-comments@1234
 systemctl start overlay-engine-watch-fb-reactions@1234
 ```
@@ -141,7 +142,7 @@ et récupéré vos identifiants `CONSUMER_KEY`, `CONSUMER_SECRET`, `TOKEN_KEY` e
 
 puis
 
-```
+```bash
 systemctl enable overlay-engine-watch-twitter
 systemctl start overlay-engine-watch-twitter
 ```
