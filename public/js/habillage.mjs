@@ -6,9 +6,9 @@
 
 'use strict';
 
-import {animClock} from './habillage-anim-clock.js';
-import {animSong} from './habillage-anim-song.js';
-import {animSocial} from './habillage-anim-social.js';
+import {animClock} from './habillage-anim-clock.mjs';
+import {animSong} from './habillage-anim-song.mjs';
+import {animSocial} from './habillage-anim-social.mjs';
 
 export class App {
 
