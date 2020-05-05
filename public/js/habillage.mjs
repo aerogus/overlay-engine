@@ -36,13 +36,11 @@ export class App {
      * @var object
      */
     this.data = {
-      screen: '',
       music: {},
       show: {},
       social: [],
       social_air: {},
-      telex: [],
-      edito: []
+      telex: []
     };
 
     // éléments de l'interface
@@ -52,19 +50,12 @@ export class App {
 
     // les différents minuteurs
     this.timer = {
-      social: false,
-      edito: false,
+      social: false
     };
 
     // les différentes temporisation (en sec.)
     this.tempo = {
       edito: 20,
-    };
-
-    // écrans courant et précédent
-    this.screen = {
-      current: '',
-      previous: ''
     };
 
     this.qtx = {};
@@ -100,17 +91,6 @@ export class App {
 
       this.data.telex = dump.telex;
       this.initTelex();
-
-      this.data.edito = dump.edito;
-      this.initEditoUI();
-
-      this.switchToScreen(dump.screen);
-    });
-
-    // changement d'écran
-    this.socket.on('screen', screen => {
-      console.log(`switch to screen ${screen}`);
-      this.switchToScreen(screen);
     });
 
     // début nouvelle chanson
@@ -127,14 +107,6 @@ export class App {
       console.debug(show);
       this.data.show = show;
       this.updateShowUI();
-    });
-
-    // réception pack d'infos éditoriales
-    this.socket.on('EDI', edi => {
-      console.log('edi');
-      console.debug(edi);
-      this.data.edi = edi;
-      this.updateEdiUI();
     });
 
     // nouveau message social modéré reçu
@@ -213,34 +185,11 @@ export class App {
   initKeyboard() {
     $(document).bind('keypress', (e) => {
       switch (e.which) {
-        case 49: // touche 1
-          this.requestScreen('onair');
-          break;
-        case 50: // touche 2
-          this.requestScreen('offair');
-          break;
         case 102: // touche F pour fullscreen
           document.documentElement.requestFullscreen();
           break;
       }
     });
-  }
-
-  /**
-   * change d‘écran
-   *
-   * @param string screen
-   */
-  switchToScreen(screen) {
-
-    console.log(`switchToScreen ${screen}`);
-
-    this.screen.previous = this.screen.current;
-    this.screen.current = screen;
-
-    $('#' + this.screen.previous + '-screen').hide();
-    $('#' + this.screen.current + '-screen').show();
-
   }
 
   /**
@@ -284,40 +233,11 @@ export class App {
   }
 
   /**
-   * met à jour les composants relatifs aux photos éditoriales
-   */
-  updateEditoUI() {
-  }
-
-  /**
    * met à jour le composant social + init de la boucle
    */
   initSocialUI() {
     this.animSocial.start(this.data.social_air);
     $('.social_wrap').removeClass('expanded').addClass('folded');
-  }
-
-  /**
-   * met à jour le composant edito + init de la boucle
-   */
-  initEditoUI() {
-    let _this = this;
-    let random_index = Math.floor(Math.random() * _this.data.edito.length);
-    (function edito_update_ui() {
-      if (_this.data.edito.length) {
-        console.log('edito length = ' +  _this.data.edito.length);
-        random_index =  Math.floor(Math.random() * _this.data.edito.length);
-        let edito = new Image();
-        edito.onload = () => {
-          console.log('onload OK');
-          $('#edito-screen .background').css('backgroundImage', 'url(' + _this.data.edito[random_index].img + ')');
-          $('#edito-screen .pano').css('backgroundImage', 'url(' + _this.data.edito[random_index].img + ')');
-        };
-        edito.src = _this.data.edito[random_index].img;
-        console.log('--- : ' + edito.src);
-      }
-      _this.timer.edito = setTimeout(edito_update_ui, _this.tempo.edito * 1000);
-    })();
   }
 
   /**
