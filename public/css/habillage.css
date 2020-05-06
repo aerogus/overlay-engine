@@ -45,14 +45,6 @@ body {
 
 /* conteneur global */
 #global {
-/*  width: 100%;
-
-  height: 100%;*/
-  /*width: 1920px;
-  height: 1080px;*/
-/*
-  position: relative;
-  overflow: hidden;*/
 }
 
 /* logo */
@@ -195,8 +187,8 @@ body {
   background-color: #fff;
   width: 915px;
   transform: translateX(0);
-  border-radius: 1rem;
-  padding: 1rem;
+  border-radius: 10px;
+  padding: 10px;
   box-shadow: 2px 2px 5px #000;
 }
 .social_wrap .social.expanded {
@@ -213,7 +205,7 @@ body {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  margin-right: 1rem;
+  margin-right: 10px;
 }
 .social_wrap .social .soc_hdr .soc_name {
   font-size: 26px;
@@ -231,7 +223,7 @@ body {
   color: #000;
   font-size: 30px;
   line-height: 34px;
-  padding-top: 1rem;
+  padding-top: 10px;
 }
 /* animation relative à .social */
 @keyframes social_expand {
@@ -254,7 +246,7 @@ body {
   overflow: hidden;
   max-height: 0;
   background-color: #fff;
-  border-radius: 1rem;
+  border-radius: 10px;
 }
 .onair_wrap.expanded {
   animation: height_in 1s cubic-bezier(0, 0.5, 0.5, 1) forwards;
@@ -281,7 +273,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   max-width: 915px;
-  border-radius: 1rem;
+  border-radius: 10px;
 }
 .onair_wrap .onair .artist {
   font-weight: bold;
@@ -329,15 +321,15 @@ body {
   min-height: unset;
 }
 .footer .telex > div {
-  margin: 0 -2rem;
+  margin: 0 -20px;
 }
 .footer .claim {
   font-family: TradeGothic;
   text-transform: uppercase;
   background: #281c02;
   color: #fff;
-  padding: 0 0.8rem;
-  letter-spacing: -0.05rem;
+  padding: 0 8px;
+  letter-spacing: -1px;
   text-shadow: #000 1px 1px 1px;
   font-size: 35px;
   line-height: 50px;
@@ -353,6 +345,6 @@ body {
   background: linear-gradient(0.25turn, #281c02, #dfa14d, #281c02);
   color: #fff;
   width: 100%;
-  letter-spacing: -0.05rem;
+  letter-spacing: -1px;
   text-shadow: 1px 1px 1px #000;
 }
