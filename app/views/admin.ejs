@@ -9,12 +9,6 @@
 </head>
 
 <body>
-  <header style="display:none">
-    <p id="message_response"></p>
-    <button class="message" id="btn-onair" style="display:none" data-msg="AON" title="ON AIR">ON AIR</button>
-    <button class="message" id="btn-offair" style="display:none" data-msg="AOF" title="OFF AIR">OFF AIR</button>
-    <button class="message" id="refresh" data-msg="UPD" title="refresh habillage">UPD</button>
-  </header>
   <div id="main">
     <section id="habillage">
       <div id="video_wrap">
@@ -23,10 +17,6 @@
     </section>
     <section id="variables">
       <table class="dump">
-        <tr style="display:none">
-          <th>screen</th>
-          <td id="var_screen"></td>
-        </tr>
         <tr>
           <th>show</th>
           <td id="var_show"></td>
@@ -35,32 +25,28 @@
           <th>music</th>
           <td id="var_music"></td>
         </tr>
-        <tr style="display:none">
-          <th>social</th>
-          <td id="var_social"></td>
-        </tr>
         <tr>
           <th>telex</th>
           <td id="var_telex"></td>
-        </tr>
-        <tr style="display:none">
-          <th>edito</th>
-          <td id="var_edito"></td>
         </tr>
       </table>
     </section>
   </div>
   <div id="cmd">
-    <section id="live_song" style="display:block">
+
+    <section id="live_song">
       <h2>Musique</h2>
-      <div><label for="live_song_artist">Artiste</label><input type="text" id="live_song_artist" placeholder="Artiste"></div>
-      <div><label for="live_song_title">Titre</label><input type="text" id="live_song_title" placeholder="Titre"></div>
-      <div><button class="message" id="live_song_send">Envoyer</button></div>
+      <input type="text" id="live_song_artist" placeholder="Artiste"/>
+      <input type="text" id="live_song_title" placeholder="Titre"/>
+      <button class="message" id="live_song_send">Envoyer</button>
     </section>
-    <section id="live_telex" style="display:block">
+
+    <section id="live_telex">
       <h2>Telex</h2>
-      <div><input type="text" id="live_telex_content" value="" placeholder="Texte"><button class="message" id="live_telex_send">Envoyer</button></div>
+      <input type="text" id="live_telex_content" placeholder="Texte">
+      <button class="message" id="live_telex_send">Envoyer</button>
     </section>
+
   </div>
   <script>
     var app;
