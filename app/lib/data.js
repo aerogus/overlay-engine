@@ -15,10 +15,22 @@ let log = require('./log')
 module.exports = {
 
   /**
-   * Nom de l'écran courant
-   * @var string
+   * Affichage du logo ?
+   * @var bool
    */
-  screen: 'music',
+  logo: true,
+
+  /**
+   * Affichage de l'horloge ?
+   * @var bool
+   */
+  clock: true,
+
+  /**
+   * Affichage du telex ?
+   * @var bool
+   */
+  footer: true,
 
   /**
    * Objet musique / pige courante
@@ -42,12 +54,6 @@ module.exports = {
     start: moment().startOf('day').unix() * 1000,
     end: (moment().endOf('day').unix() + 1) * 1000
   },
-
-  /**
-   * nombre de messages sociaux à stocker
-   * @var int
-   */
-  MAX_SOCIAL: 100,
 
   /**
    * Liste des messages sociaux
@@ -76,14 +82,6 @@ module.exports = {
   },
 
   /**
-   * Liste des images éditoriales
-   * @var array d'objets .img
-   */
-  edito: [{
-    img: `http://${settings.server.HOST}:${settings.server.PORT}/img/edito/default.jpg`
-  }],
-
-  /**
    * nombre max de telex à stocker
    * @var int
    */
@@ -102,9 +100,6 @@ module.exports = {
   load() {
     log('data.load');
     this.show = show.getCurrent();
-    this.addTelex('La webradio du Nord Essonne');
-    this.addTelex('Émission spéciale Oscars');
-    this.addTelex('JJ Ben et ses invités débattent toute la soirée');
 
     log('show');
     log(this.show);
@@ -187,13 +182,14 @@ module.exports = {
    */
   dump() {
     return {
-      screen: this.screen,
       music: this.music,
       show: this.show,
       social: this.social,
       tweet: this.tweet,
-      edito: this.edito,
-      telex: this.telex
+      telex: this.telex,
+      logo: this.logo,
+      clock: this.clock,
+      footer: this.footer
     };
   }
 };

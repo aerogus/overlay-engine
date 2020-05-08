@@ -11,23 +11,26 @@ export class App {
 
   constructor() {
 
+    this.data = {};
+
     this.options = {
       // serveur temps réel
       WEBSOCKET_SERVER: settings.ws
     };
 
     this.UI = {
-      flash_msg: '#message_response',
       dump: {
-        screen: '#var_screen',
+        logo: '#var_logo',
         social: '#var_social',
         telex: '#var_telex',
         show: '#var_show',
         music: '#var_music',
-        edito: '#var_edito'
       }
     };
 
+    this.initToggleLogo();
+    this.initToggleClock();
+    this.initToggleTelex();
     this.initSongSendButton();
     this.initTelexSendButton();
     this.initTelexDeleteButtons();
@@ -37,7 +40,6 @@ export class App {
 
     this.socket.on('connect', () => {
       console.log(`[OK] connected to ${this.options.WEBSOCKET_SERVER}`);
-      this.flash(`Connecté à ${this.options.WEBSOCKET_SERVER}`);
     });
 
     this.socket.on('connect_error', () => {
@@ -46,14 +48,14 @@ export class App {
 
     this.socket.on('disconnect', () => {
       console.log(`[OK] disconnected from ${this.options.WEBSOCKET_SERVER}`);
-      this.flash('Déconnecté');
     });
 
     // réception du dump initial de la mémoire
     this.socket.on('DMP', dump => {
       console.log('DMP received');
+      this.data = dump;
       console.debug(dump);
-      this.updateDumpUI(dump);
+      this.updateUI();
     });
 
     // réception d'un message social brut
@@ -63,7 +65,7 @@ export class App {
 
     // liste des messages entrainant un rafraichissement de l‘interface d‘admin
     const msgs_with_refresh = [
-      'ZIK', 'EMI', 'SCR', 'TLX', 'EDI', 'PSO', 'USO'
+      'ZIK', 'EMI', 'TLX', 'EDI', 'PSO', 'USO'
     ];
 
     msgs_with_refresh.forEach(msg => {
@@ -74,9 +76,36 @@ export class App {
     });
   }
 
+  initToggleLogo() {
+    $('#admin_logo').click((e) => {
+      e.preventDefault();
+      this.data.logo = !this.data.logo;
+      this.socket.emit('LOGO', this.data.logo);
+    });
+  }
+
+  initToggleClock() {
+    $('#admin_clock').click((e) => {
+      e.preventDefault();
+      this.data.clock = !this.data.clock;
+      this.socket.emit('CLOCK', this.data.clock);
+    });
+  }
+
+  initToggleTelex() {
+    $('#admin_telex').click((e) => {
+      e.preventDefault();
+      this.data.footer = !this.data.footer;
+      this.socket.emit('TELEX', this.data.footer);
+    });
+  }
+
   initSongSendButton() {
     $('#live_song_send').click((e) => {
       e.preventDefault();
+      if (!$('#live_song_artist').val().length && !$('#live_song_title').val().length) {
+        return;
+      }
       let song = {
         artist: $('#live_song_artist').val(),
         title: $('#live_song_title').val()
@@ -109,18 +138,14 @@ export class App {
 
   /**
    * mise à jour de l'affichage des variables serveur
-   *
-   * @param object data
    */
-  updateDumpUI(data) {
-
-    $(this.UI.dump.screen).html(data.screen.toString());
+  updateUI() {
 
     let show = $('<ul/>');
-    for (let key in data.show) {
-      if (data.show.hasOwnProperty(key)) {
+    for (let key in this.data.show) {
+      if (this.data.show.hasOwnProperty(key)) {
         let li = $('<li/>', {
-          text: key + ': ' + data.show[key]
+          text: key + ': ' + this.data.show[key]
         });
         show.append(li);
       }
@@ -128,10 +153,10 @@ export class App {
     $(this.UI.dump.show).empty().append(show);
 
     let music = $('<ul/>');
-    for (let key in data.music) {
-      if (data.music.hasOwnProperty(key)) {
+    for (let key in this.data.music) {
+      if (this.data.music.hasOwnProperty(key)) {
         let li = $('<li/>', {
-          text: key + ': ' + data.music[key]
+          text: key + ': ' + this.data.music[key]
         });
         music.append(li);
       }
@@ -139,7 +164,7 @@ export class App {
     $(this.UI.dump.music).empty().append(music);
 
     let social = $('<ul/>');
-    data.social.forEach(item => {
+    this.data.social.forEach(item => {
       let li = $('<li/>', { 'data-key': item.key })
         .append($('<button/>', { text: 'Del' } ))
         .append($('<span/>', { text: item.text } ));
@@ -148,31 +173,12 @@ export class App {
     $(this.UI.dump.social).empty().append(social);
 
     let telex = $('<ul/>');
-    data.telex.forEach(item => {
+    this.data.telex.forEach(item => {
       let li = $('<li/>', { 'data-id': item.id })
         .append($('<button/>', { text: '' }).addClass('delete'))
         .append($('<span/>', { text: item.content } ));
       telex.append(li);
     });
     $(this.UI.dump.telex).empty().append(telex);
-
-    let edito = $('<ul/>');
-    data.edito.forEach(item => {
-      let li = $('<li/>', {
-        text: item.img
-      });
-      edito.append(li);
-    });
-    $(this.UI.dump.edito).empty().append(edito);
-
-  }
-
-  /**
-   * Affichage d'un message éclair
-   *
-   * @param string message
-   */
-  flash(message) {
-    $(this.UI.flash_msg).html(message).show().delay(500).fadeOut();
   }
 }

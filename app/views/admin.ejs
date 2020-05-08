@@ -23,10 +23,6 @@
     </section>
     <section id="variables">
       <table class="dump">
-        <tr style="display:none">
-          <th>screen</th>
-          <td id="var_screen"></td>
-        </tr>
         <tr>
           <th>show</th>
           <td id="var_show"></td>
@@ -53,13 +49,20 @@
   <div id="cmd">
     <section id="live_song" style="display:block">
       <h2>Musique</h2>
-      <div><label for="live_song_artist">Artiste</label><input type="text" id="live_song_artist" placeholder="Artiste"></div>
-      <div><label for="live_song_title">Titre</label><input type="text" id="live_song_title" placeholder="Titre"></div>
-      <div><button class="message" id="live_song_send">Envoyer</button></div>
+      <input type="text" id="live_song_artist" placeholder="Artiste">
+      <input type="text" id="live_song_title" placeholder="Titre">
+      <button class="message" id="live_song_send">Envoyer</button>
     </section>
     <section id="live_telex" style="display:block">
       <h2>Telex</h2>
-      <div><input type="text" id="live_telex_content" value="" placeholder="Texte"><button class="message" id="live_telex_send">Envoyer</button></div>
+      <input type="text" id="live_telex_content" placeholder="Texte">
+      <button class="message" id="live_telex_send">Envoyer</button>
+    </section>
+    <section>
+      <h2>Divers</h2>
+      <button class="message" id="admin_logo">Logo</button>
+      <button class="message" id="admin_clock">Horloge</button>
+      <button class="message" id="admin_telex">Telex</button>
     </section>
   </div>
   <script>

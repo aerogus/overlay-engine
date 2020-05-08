@@ -53,11 +53,6 @@ export class App {
       social: false
     };
 
-    // les différentes temporisation (en sec.)
-    this.tempo = {
-      edito: 20,
-    };
-
     this.qtx = {};
 
     this.socket = io.connect(this.options.WEBSOCKET_SERVER);
@@ -140,6 +135,27 @@ export class App {
     // rechargement complet de la page
     this.socket.on('UPD', () => {
       location.reload(true);
+    });
+
+    // affichage du logo
+    this.socket.on('LOGO', (display) => {
+      console.log('LOGO: ', display);
+      if (display) $('#logo').show();
+      else $('#logo').hide();
+    });
+
+    // affichage du logo
+    this.socket.on('CLOCK', (display) => {
+      console.log('CLOCK: ', display);
+      if (display) $('#clock_wrap').show();
+      else $('#clock_wrap').hide();
+    });
+
+    // affichage du telex
+    this.socket.on('TELEX', (display) => {
+      console.log('TELEX: ', display);
+      if (display) $('.footer').show();
+      else $('.footer').hide();
     });
 
     this.animClock = animClock;

@@ -320,9 +320,6 @@ body {
 .footer .telex {
   min-height: unset;
 }
-.footer .telex > div {
-  margin: 0 -20px;
-}
 .footer .claim {
   font-family: TradeGothic;
   text-transform: uppercase;

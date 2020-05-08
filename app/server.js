@@ -34,9 +34,7 @@ io.on('connection', socket => {
   socket.on('ZIK', music => {
     log('ZIK received with object');
     log(music);
-
     data.music = music;
-
     io.emit('ZIK', music);
     log('ZIK broadcasted with object');
   });
@@ -45,9 +43,7 @@ io.on('connection', socket => {
   socket.on('EMI', show => {
     log('EMI received with object:');
     log(show);
-
     data.show = show;
-
     io.emit('EMI', show);
     log('EMI broadcasted with object');
   });
@@ -64,9 +60,7 @@ io.on('connection', socket => {
   socket.on('TLX', telex => {
     log('TLX received width object');
     log(telex);
-
     data.addTelex(telex); // fait le check max
-
     io.emit('TLX', data.telex);
     log('TLX broadcasted');
   });
@@ -75,9 +69,7 @@ io.on('connection', socket => {
   // broadcast de l'ensemble des telex
   socket.on('TLX_DEL', (id) => {
     log(`TLX_DEL ${id}`);
-
     data.delTelex(id);
-
     io.emit('TLX', data.telex);
     log('TLX broadcasted');
   });
@@ -86,9 +78,7 @@ io.on('connection', socket => {
   socket.on('TWI', social => {
     log('TWI received with object');
     log(social);
-
     data.addSocial(social);
-
     io.emit('SOC', social);
     log('SOC broadcasted');
   });
@@ -97,9 +87,7 @@ io.on('connection', socket => {
   socket.on('FBL_COM', social => {
     log('FBL_COM received with object');
     log(social);
-
     data.addSocial(social);
-
     io.emit('SOC', social);
     log('SOC broadcasted');
   });
@@ -108,16 +96,6 @@ io.on('connection', socket => {
   socket.on('FBL_REA', reaction => {
     log('FBL_REA received with object');
     log(reaction);
-
-    // une réaction reçue de form
-    /*
-    socket.on('reaction', type => {
-    console.log('reaction ' + type + ' received');
-    // stockage, calcul position et réémission à tout le monde
-    let r = model.addReaction(type);
-    io.emit('react', r);
-    */
-
     io.emit('SOC_REA', reaction);
     log('SOC_REA broadcasted');
   });
@@ -126,9 +104,7 @@ io.on('connection', socket => {
   socket.on('SOC_DEL', key => {
     log('SOC_DEL received with object');
     log(key);
-
     data.delSocial(key);
-
     io.emit('SOC_DEL', key);
     log('SOC_DEL broadcasted');
   });
@@ -145,11 +121,36 @@ io.on('connection', socket => {
   socket.on('EDI', edi => {
     log('EDI received with object');
     log(edi);
-
     data.edi = edi;
-
     io.emit('EDI', data.edi);
     log('EDI broadcasted');
+  });
+
+  // réception LOGO
+  socket.on('LOGO', display => {
+    log('LOGO received with object');
+    log(display);
+    data.logo = display;
+    io.emit('LOGO', data.logo);
+    log('LOGO broadcasted');
+  });
+
+  // réception CLOCK
+  socket.on('CLOCK', display => {
+    log('CLOCK received with object');
+    log(display);
+    data.clock = display;
+    io.emit('CLOCK', data.clock);
+    log('CLOCK broadcasted');
+  });
+
+  // réception TELEX
+  socket.on('TELEX', display => {
+    log('TELEX received with object');
+    log(display);
+    data.footer = display;
+    io.emit('TELEX', data.footer);
+    log('TELEX broadcasted');
   });
 
   // déconnexion du client
@@ -191,12 +192,14 @@ app.get(/^\/admin$/, (req, res) => {
 });
 
 // route social wall
+/*
 app.get(/^\/wall$/, (req, res) => {
   res.render('wall', {
     ws_host: settings.server.HOST,
     ws_port: settings.server.PORT
   });
 });
+*/
 
 app.use(express.static(`${__dirname}/../public`), (req, res, next) => {
   // cache bust
