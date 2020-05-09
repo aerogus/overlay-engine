@@ -221,7 +221,7 @@ export class App {
         .addClass('btn')
         .append('ON AIR')
       )
-      .appendTo('.wall');
+      .prependTo('.wall');
   }
 
   /**

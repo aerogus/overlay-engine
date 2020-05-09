@@ -12,11 +12,15 @@
 
 const EventSource = require('eventsource')
   , request = require('request')
+  , fs = require('fs')
   , io = require('socket.io-client')
   , sha1 = require('sha1');
 
 const settings = require('./lib/settings')
   , log = require('./lib/log');
+
+const AVATAR_PATH = __dirname + '/../public/img/avatars';
+const AVATAR_URL = `//${settings.server.HOST}:${settings.server.PORT}/img/avatars`;
 
 const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
 
@@ -60,29 +64,43 @@ function startWatching(videoId, accessToken) {
     let data = JSON.parse(event.data);
     log(data);
 
-    const FB_AVATAR_URL = `https://graph.facebook.com/v7.0/${data.from.id}/picture?redirect=0&access_token=${accessToken}`;
-    request.get({url: FB_AVATAR_URL, json: true}, (err, res, datavatar) => {
-      let avatar = '';
-      if (!err) {
-        avatar = datavatar.data.url;
-      }
-      const social = {
-        avatar: avatar,
-        name: data.from.name,
-        screen_name: data.from.name,
-        text: data.message,
-        network: 'facebook',
-        timestamp: new Date()
-      };
+    let social = {
+      network: 'facebook',
+      timestamp: new Date(),
+      avatar: '',
+      name: data.from.name,
+      screen_name: data.from.name,
+      text: data.message
+    };
 
-      social.key = sha1(JSON.stringify(social));
-
-      log(social);
-      log('-');
-
-      socket.emit('FBL_COM', social);
-      log('FBL_COM emitted');
-    });
+    // todo mise en cache car quota API vite atteint
+    let AVATAR_FILE = `fb-${data.from.id}.jpg`;
+    if (fs.existsSync(`${AVATAR_PATH}/${AVATAR_FILE}`)) {
+      // avatar déjà en cache
+      social.avatar = `${AVATAR_URL}/${AVATAR_FILE}`;
+      log('avatar deja en cache');
+      pushSocial(social);
+    } else {
+      const FB_AVATAR_URL = `https://graph.facebook.com/v7.0/${data.from.id}/picture?type=large`;
+      log(`fetch avatar FB ${FB_AVATAR_URL}`);
+      request.get(FB_AVATAR_URL, {encoding: 'binary'}, (err, res, body) => {
+        if (!err) {
+          fs.writeFileSync(`${AVATAR_PATH}/${AVATAR_FILE}`, body, 'binary');
+          // mise en cache de l'avatar
+          log('avatar récupéré ');
+          social.avatar = `${AVATAR_URL}/${AVATAR_FILE}`;
+        }
+        pushSocial(social);
+      });
+    }
 
   };
+}
+
+function pushSocial(social) {
+  social.key = sha1(JSON.stringify(social));
+  log(social);
+  log('-');
+  socket.emit('FBL_COM', social);
+  log('FBL_COM emitted');
 }

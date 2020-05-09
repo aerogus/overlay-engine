@@ -62,22 +62,10 @@ module.exports = {
   social: [],
 
   /**
-   * Message social à afficher
-   */
-  /*
-  tweet: {
-    avatar: 'https://pbs.twimg.com/profile_images/835778286731022337/kdE5YWci_bigger.jpg',
-    name: 'Le Fraik',
-    screen_name: '@leFraik',
-    text: 'Dévoiler la chanson titre de #NoTimeToDie aux #Oscars2020 ça aurait pas un peu de la gueule quand même ?....#BillieEilish #jamesbond'
-  },
-  */
-
-  /**
-   * nombre max de telex à stocker
+   * nombre max de messages sociaux à stocker
    * @var int
    */
-  MAX_TELEX: 10,
+  MAX_SOCIAL: 100,
 
   /**
    * Liste des telex
@@ -85,6 +73,12 @@ module.exports = {
    * @var array de strings
    */
   telex: [],
+
+  /**
+   * nombre max de telex à stocker
+   * @var int
+   */
+  MAX_TELEX: 10,
 
   /**
    * Chargement initial des données
@@ -147,12 +141,12 @@ module.exports = {
     // on identifie le message par un hash pour potentiellement le modérer
     social.key = sha1(JSON.stringify(social));
 
-    // ajoute un message au début du tableau
-    this.social.unshift(social);
+    // ajoute un message à la fin du tableau
+    this.social.push(social);
 
-    // limite la taille du tableau, efface le plus ancien messahe social
+    // limite la taille du tableau, efface le plus ancien message social
     if (this.social.length > this.MAX_SOCIAL) {
-      this.social.pop();
+      this.social.shift();
     }
   },
 
