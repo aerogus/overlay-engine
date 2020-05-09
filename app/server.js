@@ -191,16 +191,6 @@ app.get(/^\/admin$/, (req, res) => {
   });
 });
 
-// route social wall
-/*
-app.get(/^\/wall$/, (req, res) => {
-  res.render('wall', {
-    ws_host: settings.server.HOST,
-    ws_port: settings.server.PORT
-  });
-});
-*/
-
 app.use(express.static(`${__dirname}/../public`), (req, res, next) => {
   // cache bust
   req.url = req.url.replace(/\/([^\/]+)\.[0-9]+\.(min\.)?(css|js)$/, '/$1.$2$3');

@@ -56,30 +56,22 @@ module.exports = {
   },
 
   /**
-   * Liste des messages sociaux
-   * @var array d'objets .avatar, .name, .network, .message
+   * Liste des derniers messages sociaux reçus
+   * @var array d'objets .avatar, .name, .network, .message, .timestamp
    */
-  social: [{
-    avatar: 'https://pbs.twimg.com/profile_images/1039188008543678464/3dzfOoBY_bigger.jpg',
-    name: 'Aurélien Taché',
-    screen_name: '@Aurelientache',
-    text: 'Très fier que #LesMiserables soient aux #Oscars2020. J‘espère de tout coeur que cette œuvre majeure, sur le plan cinématographique, comme sur celui de la lutte contre les #discriminations, sera primée. Et que ceux qui ont diffamés un homme qui a purgé sa peine, seront condamnés.'
-  }, {
-    avatar: 'https://pbs.twimg.com/profile_images/835778286731022337/kdE5YWci_bigger.jpg',
-    name: 'Le Fraik',
-    screen_name: '@leFraik',
-    text: 'Dévoiler la chanson titre de #NoTimeToDie aux #Oscars2020 ça aurait pas un peu de la gueule quand même ?....#BillieEilish #jamesbond'
-  }],
+  social: [],
 
   /**
    * Message social à afficher
    */
+  /*
   tweet: {
     avatar: 'https://pbs.twimg.com/profile_images/835778286731022337/kdE5YWci_bigger.jpg',
     name: 'Le Fraik',
     screen_name: '@leFraik',
     text: 'Dévoiler la chanson titre de #NoTimeToDie aux #Oscars2020 ça aurait pas un peu de la gueule quand même ?....#BillieEilish #jamesbond'
   },
+  */
 
   /**
    * nombre max de telex à stocker
@@ -100,6 +92,7 @@ module.exports = {
   load() {
     log('data.load');
     this.show = show.getCurrent();
+    this.addTelex('Welcome to Overlay Engine Telex');
 
     log('show');
     log(this.show);

@@ -49,7 +49,9 @@ socket.on('connect', () => {
         avatar: (tweet.user.default_profile_image ? 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png' : tweet.user.profile_image_url_https.replace('_normal', '_bigger')),
         name: tweet.user.name,
         screen_name: `@${tweet.user.screen_name}`,
-        text: (tweet.truncated ? tweet.extended_tweet.full_text : tweet.text)
+        text: (tweet.truncated ? tweet.extended_tweet.full_text : tweet.text),
+        network: 'twitter',
+        timestamp: new Date()
       };
 
       social.key = sha1(JSON.stringify(social));

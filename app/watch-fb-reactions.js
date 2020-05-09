@@ -95,7 +95,9 @@ function startWatching(videoId, accessToken) {
         if (diff > 0) {
           for (let i = 0 ; i < diff ; i++) {
             socket.emit('FBL_REA', {
-              type: item.key
+              type: item.key,
+              network: 'facebook',
+              timestamp: new Date()
             });
             log(`FBL_REA emitted (${item.key})`);
           }

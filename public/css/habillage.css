@@ -2,22 +2,22 @@
 
 @font-face {
   font-family: 'TradeGothic';
-  src: url("../fonts/trade-gothic.woff2") format('woff2'),
-       url("../fonts/trade-gothic.woff") format('woff');
+  src: url(../fonts/trade-gothic.woff2) format('woff2'),
+       url(../fonts/trade-gothic.woff) format('woff');
   font-weight: bold;
   font-style: normal;
 }
 @font-face {
   font-family: 'San Francisco Text';
-  src: url("../fonts/san-francisco-text-regular.woff2") format('woff2'),
-       url("../fonts/san-francisco-text-regular.woff") format('woff');
+  src: url(../fonts/san-francisco-text-regular.woff2) format('woff2'),
+       url(../fonts/san-francisco-text-regular.woff) format('woff');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'San Francisco Text';
-  src: url("../fonts/san-francisco-text-bold.woff2") format('woff2'),
-       url("../fonts/san-francisco-text-bold.woff") format('woff');
+  src: url(../fonts/san-francisco-text-bold.woff2) format('woff2'),
+       url(../fonts/san-francisco-text-bold.woff) format('woff');
   font-weight: bold;
   font-style: normal;
 }
@@ -40,7 +40,16 @@
 }
 
 body {
-  background-color: var(--chromakey);
+  background-color: transparent;
+  overflow: hidden;
+}
+body.green {
+  background-color: #00FF00;
+}
+body.mosaic {
+  background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
 /* conteneur global */
@@ -344,4 +353,64 @@ body {
   width: 100%;
   letter-spacing: -1px;
   text-shadow: 1px 1px 1px #000;
+}
+.icon {
+  position: absolute;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: 5s bounce;
+}
+.icon.angry {
+  background-image: url(/img/reactions/angry.svg);
+}
+.icon.haha {
+  background-image: url(/img/reactions/haha.svg);
+}
+.icon.like {
+  background-image: url(/img/reactions/like.svg);
+}
+.icon.love {
+  background-image: url(/img/reactions/love.svg);
+}
+.icon.sad {
+  background-image: url(/img/reactions/sad.svg);
+}
+.icon.wow {
+  background-image: url(/img/reactions/wow.svg);
+}
+
+@keyframes bounce{
+  0%{
+    opacity: 0;
+    transform: scale(0.3) translate3d(0,0,0);
+  }
+  5%{
+    opacity: 0.9;
+    transform: scale(1.25);
+  }
+  8%{
+    opacity: 1;
+    transform: scale(0.89);
+  }
+  10%{
+    opacity: 1;
+    transform: scale(1) translate3d(0,0,0);
+  }
+  90%{
+    opacity: 1;
+    transform: scale(1) translate3d(0,0,0);
+  }
+  95%{
+    transform: scale(1.25);
+  }
+  98%{
+    transform: scale(0.89);
+  }
+  100%{
+    opacity: 0;
+    transform: scale(1);
+  }
 }

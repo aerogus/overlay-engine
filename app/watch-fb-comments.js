@@ -60,7 +60,7 @@ function startWatching(videoId, accessToken) {
     let data = JSON.parse(event.data);
     log(data);
 
-    const FB_AVATAR_URL = `https://graph.facebook.com/v6.0/${data.from.id}/picture?redirect=0&access_token=${accessToken}`;
+    const FB_AVATAR_URL = `https://graph.facebook.com/v7.0/${data.from.id}/picture?redirect=0&access_token=${accessToken}`;
     request.get({url: FB_AVATAR_URL, json: true}, (err, res, datavatar) => {
       let avatar = '';
       if (!err) {
@@ -70,7 +70,9 @@ function startWatching(videoId, accessToken) {
         avatar: avatar,
         name: data.from.name,
         screen_name: data.from.name,
-        text: data.message
+        text: data.message,
+        network: 'facebook',
+        timestamp: new Date()
       };
 
       social.key = sha1(JSON.stringify(social));

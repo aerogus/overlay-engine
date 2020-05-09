@@ -53,6 +53,14 @@ export class App {
       social: false
     };
 
+    var urlParams = new URLSearchParams(window.location.search);
+    var bg = urlParams.get('bg');
+    if (bg === 'green') {
+      $('body').addClass('green');
+    } else if (bg === 'mosaic') {
+      $('body').addClass('mosaic');
+    }
+
     this.qtx = {};
 
     this.socket = io.connect(this.options.WEBSOCKET_SERVER);
@@ -260,11 +268,11 @@ export class App {
    * dessine une nouvelle réaction à l'écran
    */
   printReaction(reaction) {
-    let x = Math.floor(Math.random() * (1920 - 32)); // 32 = icon width
-    let y = Math.floor(Math.random() * (1080 - 32)); // 32 = icon height
-    $('<div class="icon ' + reaction + '" style="left:' + x + 'px;top:' + y + 'px"></div>')
+    let x = Math.floor(Math.random() * 100) + '%';
+    let y = Math.floor(Math.random() * 100) + '%';
+    $('<div class="icon ' + reaction + '" style="left:' + x + ';top:' + y + '"></div>')
       .appendTo('#global')
-      .delay(2000)
+      .delay(5000)
       .queue(function() {
         $(this).remove();
       });

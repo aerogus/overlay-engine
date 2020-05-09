@@ -12,25 +12,10 @@
   <div id="main">
     <section id="habillage">
       <div id="video_wrap">
-        <iframe id="video" src="/" width="640" height="360" frameborder="0"></iframe>
+        <iframe id="video" src="/?bg=green" width="640" height="360" frameborder="0"></iframe>
       </div>
     </section>
-    <section id="variables">
-      <table class="dump">
-        <tr>
-          <th>show</th>
-          <td id="var_show"></td>
-        </tr>
-        <tr>
-          <th>music</th>
-          <td id="var_music"></td>
-        </tr>
-        <tr>
-          <th>telex</th>
-          <td id="var_telex"></td>
-        </tr>
-      </table>
-    </section>
+    <div class="wall"></div>
   </div>
   <div id="cmd">
 
@@ -43,9 +28,9 @@
 
     <section id="live_telex">
       <h2>Telex</h2>
-      <input type="text" id="live_telex_content" placeholder="Texte">
-      <button class="message" id="live_telex_send">Envoyer</button>
+      <ul id="telex_list"></ul>
     </section>
+
     <section>
       <h2>Divers</h2>
       <button class="message" id="admin_logo">Logo</button>

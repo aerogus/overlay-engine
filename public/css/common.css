@@ -44,19 +44,6 @@ table {
   border-spacing: 0;
 }
 
-/* normalize */
-
-body {
-  -moz-osx-font-smoothing: grayscale; /* fix bold mac osx */
-  -webkit-font-smoothing: antialiased; /* fix bold mac osx */
-}
-strong {
-  font-weight: bold;
-}
-em {
-  font-style: italic;
-}
-
 /* clearfix */
 
 .clearfix {
@@ -79,4 +66,17 @@ html {
 }
 *, *:before, *:after {
   box-sizing: inherit;
+}
+
+/* normalize */
+
+body {
+  -moz-osx-font-smoothing: grayscale; /* fix bold mac osx */
+  -webkit-font-smoothing: antialiased; /* fix bold mac osx */
+}
+strong {
+  font-weight: bold;
+}
+em {
+  font-style: italic;
 }
