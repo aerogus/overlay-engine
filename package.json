@@ -6,8 +6,12 @@
   "author": "Guillaume Seznec <guillaume@seznec.fr>",
   "license": "GPL",
   "scripts": {
-    "clean": "rm -Rf node_modules log",
-    "start": "./app/server.js"
+    "start": "./app/server.js",
+    "watch-fb-comments": "./app/watch-fb-comments.js",
+    "watch-fb-reactions": "./app/watch-fb-reactions.js",
+    "watch-tweets": "./app/watch-tweets.js",
+    "clean-avatars": "rm public/img/avatars/*.jpg",
+    "clean": "rm -Rf node_modules log"
   },
   "dependencies": {
     "ejs": "3.1.2",

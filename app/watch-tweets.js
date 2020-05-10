@@ -2,6 +2,9 @@
 
 /**
  * envoi de l‘événement TWI à chaque nouveau tweet reçu
+ * 
+ * Usage:
+ * npm start watch-tweets "hashtag1,hashtag2,..." "language"
  */
 
 'use strict';
@@ -32,13 +35,26 @@ let client = new Twitter({
 const io = require('socket.io-client');
 const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
 
+let track = '';
+if (process.argv[2]) {
+  track = process.argv[2];
+} else {
+  log('track manquant');
+  process.exit(1);
+}
+
+let language = 'fr';
+if (process.argv[3]) {
+  language = process.argv[3];
+}
+
 socket.on('connect_error', () => {
   log('connexion impossible, service overlay-engine-server bien lancé ?');
 });
 
 socket.on('connect', () => {
   log('connecté');
-  client.stream('statuses/filter', {track: settings.twitter.TRACK, language: settings.twitter.LANGUAGE}, (stream) => {
+  client.stream('statuses/filter', {track, language}, (stream) => {
 
     stream.on('data', (tweet) => {
       if (!tweet.id) return;
@@ -56,14 +72,12 @@ socket.on('connect', () => {
 
       social.key = sha1(JSON.stringify(social));
 
-      log(social);
-      log('-');
-
       // filtrage des urls
-      //social.text = social.text.replace(/(?:https?):\/\/[\n\S]+/g, '');
+      social.text = social.text.replace(/(?:https?):\/\/[\n\S]+/g, '');
 
       socket.emit('TWI', social);
-      log('TWI emitted');
+      log('TWI emitted:');
+      log(social);
 
     });
 

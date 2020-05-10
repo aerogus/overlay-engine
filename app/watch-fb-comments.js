@@ -6,6 +6,9 @@
  * Todo créer une app FB sur https://developers.facebook.com/
  * et récupérer l'identifiant d'app + la clé secrète dans "Paramètres" / "Général"
  * L'app doit être "en ligne" (pas "en développement")
+ *
+ * Usage:
+ * npm start watch-fb-comments videoId
  */
 
 'use strict';
@@ -20,7 +23,6 @@ const settings = require('./lib/settings')
   , log = require('./lib/log');
 
 const AVATAR_PATH = __dirname + '/../public/img/avatars';
-const AVATAR_URL = `//${settings.server.HOST}:${settings.server.PORT}/img/avatars`;
 
 const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
 
@@ -62,7 +64,6 @@ function startWatching(videoId, accessToken) {
   };
   es.onmessage = (event) => {
     let data = JSON.parse(event.data);
-    log(data);
     if (!data.message) {
       return;
     }
@@ -79,7 +80,7 @@ function startWatching(videoId, accessToken) {
     let AVATAR_FILE = `fb-${data.from.id}.jpg`;
     if (fs.existsSync(`${AVATAR_PATH}/${AVATAR_FILE}`)) {
       // avatar déjà en cache
-      social.avatar = `${AVATAR_URL}/${AVATAR_FILE}`;
+      social.avatar = `/img/avatars/${AVATAR_FILE}`;
       log('avatar deja en cache');
       pushSocial(social);
     } else {
@@ -90,7 +91,7 @@ function startWatching(videoId, accessToken) {
           fs.writeFileSync(`${AVATAR_PATH}/${AVATAR_FILE}`, body, 'binary');
           // mise en cache de l'avatar
           log('avatar récupéré ');
-          social.avatar = `${AVATAR_URL}/${AVATAR_FILE}`;
+          social.avatar = `/img/avatars/${AVATAR_FILE}`;
         }
         pushSocial(social);
       });
@@ -101,8 +102,7 @@ function startWatching(videoId, accessToken) {
 
 function pushSocial(social) {
   social.key = sha1(JSON.stringify(social));
-  log(social);
-  log('-');
   socket.emit('FBL_COM', social);
-  log('FBL_COM emitted');
+  log('FBL_COM emitted:');
+  log(social);
 }

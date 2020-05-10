@@ -6,6 +6,9 @@
  * Todo créer une app FB sur https://developers.facebook.com/
  * et récupérer l'identifiant d'app + la clé secrète dans "Paramètres" / "Général"
  * L'app doit être "en ligne" (pas "en développement")
+ *
+ * Usage:
+ * npm start watch-fb-reactions videoId
  */
 
 'use strict';
@@ -69,8 +72,6 @@ function startWatching(videoId, accessToken) {
   };
   es.onmessage = (event) => {
     let data = JSON.parse(event.data);
-
-    log(data.reaction_stream);
     /*
     // on reçoit un tableau tableau de compteurs
     reaction_stream: [
@@ -84,22 +85,27 @@ function startWatching(videoId, accessToken) {
     */
 
     if (firstLoop) {
+      // 1ère boucle, on se contente de récupérer l'état des compteurs
       data.reaction_stream.forEach(item => {
         reactions[item.key] = item.value;
       });
+      log(reactions);
       firstLoop = false;
     } else {
+      // boucles suivantes, on calcule les deltas et on émet les événements nécessaires
       data.reaction_stream.forEach(item => {
         let diff = item.value - reactions[item.key];
         reactions[item.key] += diff;
         if (diff > 0) {
           for (let i = 0 ; i < diff ; i++) {
-            socket.emit('FBL_REA', {
+            let reaction = {
               type: item.key,
               network: 'facebook',
               timestamp: new Date()
-            });
-            log(`FBL_REA emitted (${item.key})`);
+            };
+            socket.emit('FBL_REA', reaction);
+            log('FBL_REA emitted:');
+            log(reaction);
           }
         }
       });

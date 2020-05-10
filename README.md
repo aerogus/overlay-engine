@@ -31,15 +31,12 @@ Ce projet a été créé à la base pour le compte d'une radio rock parisienne e
   * Prévisualisation live de l'habillage
   * Gestion (ajout/suppression) de messages telex
   * Gestion (ajout) du titre/artiste en mode manuel
+  * réception et modération des flux sociaux
+    * derniers tweets des critères (track+lang) sélectionnés
+    * derniers commentaires de la vidéo Facebook Live sélectionnée
+    * bouton ON AIR pour affichage sur l‘habillage
 
 ![Administration](/doc/admin.jpg)
-
-* Une webapp "social wall" : `/wall`
-  * derniers tweets des critères (track+lang) sélectionnés
-  * derniers commentaires de la vidéo Facebook Live sélectionnée
-  * bouton ON AIR pour affichage sur l‘habillage
-
-![Social Wall](/doc/wall.jpg)
 
 ## Installation
 
@@ -73,9 +70,7 @@ Le fichier de conf principal : `conf/settings.json`:
     "CONSUMER_KEY": "",
     "CONSUMER_SECRET": "",
     "ACCESS_TOKEN_KEY": "",
-    "ACCESS_TOKEN_SECRET": "",
-    "LANGUAGE": "fr",
-    "TRACK": ""
+    "ACCESS_TOKEN_SECRET": ""
   },
   "facebook": {
     "APP_ID": "",
@@ -86,7 +81,7 @@ Le fichier de conf principal : `conf/settings.json`:
 
 Les paramètres obligatoires sont `server.PORT` et `server.host` à renseigner.
 
-Les 3 webapps sont sur http://overlay-engine-host, http://overlay-engine-host/admin et http://overlay-engine-host/wall
+Les 3 webapps sont sur http://overlay-engine-host, http://overlay-engine-host/admin
 
 ### Récupération de l'émission courante (obligatoire)
 
@@ -128,6 +123,14 @@ systemctl start overlay-engine-watch-fb-comments@1234
 systemctl start overlay-engine-watch-fb-reactions@1234
 ```
 
+ou
+
+```bash
+cd /var/www/overlay-engine
+npm run watch-fb-comments 1234
+npm run watch-fb-reactions 1234
+```
+
 L'app `app/watch-fb-comments.js` prend 1 paramètre (1234), l'id de la vidéo facebook live
 L'app `app/watch-fb-reactions.js` prend 1 paramètre (1234), l'id de la vidéo facebook live
 
@@ -138,13 +141,22 @@ L'app `app/watch-fb-reactions.js` prend 1 paramètre (1234), l'id de la vidéo f
 Pour les messages sociaux twitter, vous devez avoir un compte sur cette plateforme, avoir créé une "app"
 et récupéré vos identifiants `CONSUMER_KEY`, `CONSUMER_SECRET`, `TOKEN_KEY` et `ACCESS_TOKEN_SECRET` et les saisir dans `settings.json`, section `twitter`.
 
-éditer dans `settings.json` la valeur de `settings.twitter.TRACKS` avec les hashtags et les comptes à suivre, séparés par des virgules. Ex: "@twitter,#twitter,#music" . On peut aussi filtrer la langue avec `settings.twitter.LANGUAGE` (`fr` par exemple).
+L'app prend en paramètres :
+* n°1 (obligatoire) `TRACKS` avec les hashtags et les comptes à suivre, séparés par des virgules. Ex: "@twitter,#twitter,#music"
+* n°2 (optionnel) `LANGUAGE`, filtrage par langue (défaut: `fr`).
 
 puis
 
 ```bash
-systemctl enable overlay-engine-watch-twitter
-systemctl start overlay-engine-watch-twitter
+systemctl enable overlay-engine-watch-tweets
+systemctl start overlay-engine-watch-tweets
+```
+
+ou
+
+```bash
+cd /var/www/overlay-engine
+npm run watch-tweets "@twitter,#twitter,#music" "fr"
 ```
 
 ## Type de messages websocket
@@ -154,7 +166,7 @@ systemctl start overlay-engine-watch-twitter
 
 Nom     | Expéditeur         | Destinataire | Description
 ------- | ------------------ | ------------ | -----------
-TWI     | watch-twitter      | server       | Message issu de la stream API twitter
+TWI     | watch-tweets       | server       | Message issu de la stream API twitter
 FBL_COM | watch-fb-comments  | server       | Commentaire issu d'un Facebook Live
 FBL_REA | watch-fb-reactions | server       | Réaction issu d'un Facebook Live
 SOC     | server             | wall         | Message social, format commun multi source
