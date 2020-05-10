@@ -35,6 +35,7 @@ section h2 {
   padding: 5px;
   color: #fff;
   font-weight: bold;
+  text-shadow: 1px 1px #000;
 }
 #cmd {
   margin: 2px 0;
@@ -76,54 +77,6 @@ button.message[data-msg="UPD"] {
 }
 button.message:hover {
   background-color: #fff;
-}
-.dump {
-  font-family: monospace;
-  color: #000;
-  background: #fff;
-  font-size: 16px;
-}
-.dump th,
-.dump td {
-  padding: 10px;
-}
-.dump th {
-  text-align: right;
-  font-weight: bold;
-}
-.dump td {
-  text-align: left;
-  color: #f00;
-  width: 100%;
-}
-#message_response {
-  position: absolute;
-  display: none;
-  top: 1rem;
-  left: 1rem;
-  padding: 5px;
-  background: #0ba8ff;
-  color: #fff;
-  font-weight: bold;
-}
-ol {
-  margin-left: 40px;
-  list-style: initial;
-  list-style-type: decimal-leading-zero;
-}
-button.delete {
-  cursor: pointer;
-  background: #292933 url(../img/icons/trash.svg) no-repeat center center/24px;
-  color: #fff;
-  border: 0;
-  padding: 16px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-button.delete:hover {
-  background-color: #f7303c;
 }
 .telex-msg {
   display: flex;

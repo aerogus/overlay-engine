@@ -63,7 +63,9 @@ function startWatching(videoId, accessToken) {
   es.onmessage = (event) => {
     let data = JSON.parse(event.data);
     log(data);
-
+    if (!data.message) {
+      return;
+    }
     let social = {
       network: 'facebook',
       timestamp: new Date(),
