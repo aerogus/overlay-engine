@@ -14,7 +14,7 @@
 'use strict';
 
 const EventSource = require('eventsource')
-  , request = require('request')
+  , axios = require('axios')
   , io = require('socket.io-client');
 
 const settings = require('./lib/settings')
@@ -53,13 +53,13 @@ socket.on('connect', () => {
   // url pour récupérer l'app access token
   const FB_APP_ACCESS_TOKEN_URL= `https://graph.facebook.com/oauth/access_token?client_id=${settings.facebook.APP_ID}&client_secret=${settings.facebook.APP_SECRET}&grant_type=client_credentials`;
   log(FB_APP_ACCESS_TOKEN_URL);
-  request.get({url: FB_APP_ACCESS_TOKEN_URL, json: true}, (err, res, data) => {
-    if (err) {
+  axios.get(FB_APP_ACCESS_TOKEN_URL)
+    .then(resp => {
+      startWatching(videoId, resp.data.access_token);
+    })
+    .catch(err => {
       log('Error:', err);
-    } else {
-      startWatching(videoId, data.access_token);
-    }
-  });
+    });
 });
 
 function startWatching(videoId, accessToken) {
@@ -68,7 +68,7 @@ function startWatching(videoId, accessToken) {
   log(FB_LIVE_REACTIONS_URL);
   var es = new EventSource(FB_LIVE_REACTIONS_URL);
   es.onerror = (err) => {
-    console.log(err);
+    log(err);
   };
   es.onmessage = (event) => {
     let data = JSON.parse(event.data);

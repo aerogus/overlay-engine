@@ -14,7 +14,7 @@
 'use strict';
 
 const EventSource = require('eventsource')
-  , request = require('request')
+  , axios = require('axios')
   , fs = require('fs')
   , io = require('socket.io-client')
   , sha1 = require('sha1');
@@ -45,13 +45,13 @@ socket.on('connect', () => {
   // url pour récupérer l'app access token
   const FB_APP_ACCESS_TOKEN_URL= `https://graph.facebook.com/oauth/access_token?client_id=${settings.facebook.APP_ID}&client_secret=${settings.facebook.APP_SECRET}&grant_type=client_credentials`;
   log(FB_APP_ACCESS_TOKEN_URL);
-  request.get({url: FB_APP_ACCESS_TOKEN_URL, json: true}, (err, res, data) => {
-    if (err) {
+  axios.get(FB_APP_ACCESS_TOKEN_URL)
+    .then(resp => {
+      startWatching(videoId, resp.data.access_token);
+    })
+    .catch(err => {
       log('Error:', err);
-    } else {
-      startWatching(videoId, data.access_token);
-    }
-  });
+    });
 });
 
 function startWatching(videoId, accessToken) {
@@ -60,7 +60,7 @@ function startWatching(videoId, accessToken) {
   log(FB_LIVE_COMMENTS_URL);
   var es = new EventSource(FB_LIVE_COMMENTS_URL);
   es.onerror = (err) => {
-    console.log(err);
+    log(err);
   };
   es.onmessage = (event) => {
     let data = JSON.parse(event.data);
@@ -76,25 +76,24 @@ function startWatching(videoId, accessToken) {
       text: data.message
     };
 
-    // todo mise en cache car quota API vite atteint
     let AVATAR_FILE = `fb-${data.from.id}.jpg`;
     if (fs.existsSync(`${AVATAR_PATH}/${AVATAR_FILE}`)) {
-      // avatar déjà en cache
       social.avatar = `/img/avatars/${AVATAR_FILE}`;
-      log('avatar deja en cache');
+      log('avatar FB déjà en cache');
       pushSocial(social);
     } else {
       const FB_AVATAR_URL = `https://graph.facebook.com/v7.0/${data.from.id}/picture?type=large`;
-      log(`fetch avatar FB ${FB_AVATAR_URL}`);
-      request.get(FB_AVATAR_URL, {encoding: 'binary'}, (err, res, body) => {
-        if (!err) {
-          fs.writeFileSync(`${AVATAR_PATH}/${AVATAR_FILE}`, body, 'binary');
-          // mise en cache de l'avatar
-          log('avatar récupéré ');
+      log(`récupération avatar FB ${FB_AVATAR_URL}`);
+      axios.get(FB_AVATAR_URL, {responseType: 'arraybuffer'})
+        .then(resp => {
+          fs.writeFileSync(`${AVATAR_PATH}/${AVATAR_FILE}`, resp.data, 'binary');
+          log('avatar FB mise en cache');
           social.avatar = `/img/avatars/${AVATAR_FILE}`;
-        }
-        pushSocial(social);
-      });
+          pushSocial(social);
+        })
+        .catch(err => {
+          log('err', err);
+        });
     }
 
   };

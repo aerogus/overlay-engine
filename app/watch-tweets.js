@@ -10,10 +10,14 @@
 'use strict';
 
 const Twitter = require('twitter')
+  , axios = require('axios')
+  , fs = require('fs')
   , sha1 = require('sha1');
 
 const settings = require('./lib/settings')
   , log = require('./lib/log');
+
+const AVATAR_PATH = __dirname + '/../public/img/avatars';
 
 function isReply(tweet) {
   if ( tweet.retweeted_status
@@ -62,7 +66,7 @@ socket.on('connect', () => {
       if (tweet.is_quote_status) return;
 
       const social = {
-        avatar: (tweet.user.default_profile_image ? 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png' : tweet.user.profile_image_url_https.replace('_normal', '_bigger')),
+        avatar: '',
         name: tweet.user.name,
         screen_name: `@${tweet.user.screen_name}`,
         text: (tweet.truncated ? tweet.extended_tweet.full_text : tweet.text),
@@ -70,14 +74,33 @@ socket.on('connect', () => {
         timestamp: new Date()
       };
 
-      social.key = sha1(JSON.stringify(social));
-
       // filtrage des urls
       social.text = social.text.replace(/(?:https?):\/\/[\n\S]+/g, '');
 
-      socket.emit('TWI', social);
-      log('TWI emitted:');
-      log(social);
+      if (tweet.user.default_profile_image) {
+        social.avatar = '/img/avatars/tw-default.png';
+        pushSocial(social);
+      } else {
+        let AVATAR_FILE = `tw-${tweet.user.id_str}.jpg`;
+        if (fs.existsSync(`${AVATAR_PATH}/${AVATAR_FILE}`)) {
+          log('avatar TW déjà en cache');
+          social.avatar = `/img/avatars/${AVATAR_FILE}`;
+          pushSocial(social);
+        } else {
+          const TW_AVATAR_URL = tweet.user.profile_image_url_https.replace('_normal', '_bigger');
+          log(`récupération avatar TW ${TW_AVATAR_URL}`);
+          axios.get(TW_AVATAR_URL, {responseType: 'arraybuffer'})
+            .then(resp => {
+              log('avatar TW mis en cache');
+              fs.writeFileSync(`${AVATAR_PATH}/${AVATAR_FILE}`, resp.data, 'binary');
+              social.avatar = `/img/avatars/${AVATAR_FILE}`;
+              pushSocial(social);
+            })
+            .catch(err => {
+              log('Error:', err);
+            });
+        }
+      }
 
     });
 
@@ -88,3 +111,10 @@ socket.on('connect', () => {
   });
 
 });
+
+function pushSocial(social) {
+  social.key = sha1(JSON.stringify(social));
+  socket.emit('TWI', social);
+  log('TWI emitted:');
+  log(social);
+}
