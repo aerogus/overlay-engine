@@ -20,18 +20,6 @@ export class App {
     };
 
     /**
-     * nombre de messages sociaux à stocker
-     * @var int
-     */
-    this.MAX_SOCIAL = 10;
-
-    /**
-     * nombre de news à stocker
-     * @var int
-     */
-    this.MAX_TELEX = 10;
-
-    /**
      * les données du serveur
      * @var object
      */
@@ -53,8 +41,9 @@ export class App {
       social: false
     };
 
-    var urlParams = new URLSearchParams(window.location.search);
-    var bg = urlParams.get('bg');
+    // fond d'écran custom
+    const urlParams = new URLSearchParams(window.location.search);
+    const bg = urlParams.get('bg');
     if (bg === 'green') {
       $('body').addClass('green');
     } else if (bg === 'mosaic') {
@@ -82,6 +71,15 @@ export class App {
     this.socket.on('DMP', dump => {
       console.log('DMP received');
       console.log(dump);
+
+      if (dump.logo) $('#logo').show();
+      else $('#logo').hide();
+
+      if (dump.clock) $('#clock_wrap').show();
+      else $('#clock_wrap').hide();
+
+      if (dump.footer) $('.footer').show();
+      else $('.footer').hide();
 
       this.data.music = dump.music;
       this.updateMusicUI();

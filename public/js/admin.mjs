@@ -117,7 +117,7 @@ export class App {
       $('#admin_clock').removeClass('off');
     } else {
       $('#admin_clock').addClass('off');
-    )
+    }
   }
 
   initToggleTelex() {
@@ -270,9 +270,9 @@ export class App {
       this.pushSocialUI(item);
     });
 
-    updateUIToggleLogo();
-    updateUIToggleClock();
-    updateUIToggleTelex();
+    this.updateUIToggleLogo();
+    this.updateUIToggleClock();
+    this.updateUIToggleTelex();
   }
 
   addTelexInput() {
