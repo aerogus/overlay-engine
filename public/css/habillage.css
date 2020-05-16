@@ -21,6 +21,13 @@
   font-weight: bold;
   font-style: normal;
 }
+@font-face {
+  font-family: 'DK Longreach';
+  src: url(../fonts/dk-longreach.woff2) format('woff2'),
+       url(../fonts/dk-longreach.woff) format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
 
 /* colors */
 
@@ -354,7 +361,7 @@ body.mosaic {
 .footer .news {
   display: flex;
   text-transform: uppercase;
-  font-family: TradeGothic;
+  font-family: DK Longreach;
   font-weight: bold;
   font-size: 35px;
   line-height: 50px;

@@ -7,16 +7,26 @@
 
 'use strict';
 
-let http = require('http')
-  , express = require('express');
+const express = require('express')
+  , app = express()
+  , path = require('path')
+  , server = require('http').Server(app)
+  , io = require('socket.io')(server)
+  , sqlite3 = require('sqlite3').verbose();
 
-let settings = require('./lib/settings')
+const settings = require('./lib/settings')
   , log = require('./lib/log')
-  , data = require('./lib/data');
+  , data = require('./lib/data')
+  , dbFile = path.join(__dirname, '/../db/overlay-engine.db');
 
-let app = express();
-let server = http.Server(app);
-let io = require('socket.io')(server);
+// connexion à la DB, la créée si inexistante
+const db = new sqlite3.Database(dbFile, (err) => {
+  if (err) {
+    console.error(err.message);
+  }
+  //db.run(`SQL QUERIES`);
+  console.log('Connecté');
+});
 
 // connexion d'un client
 io.on('connection', socket => {

@@ -70,11 +70,8 @@ button.message {
   width: 100%;
   text-align: left;
 }
-button.message[data-msg="AON"] {
-  background: #ccc url(../img/icons/mic.svg) no-repeat 0/30px;
-}
-button.message[data-msg="UPD"] {
-  background: #ccc url(../img/icons/refresh.svg) no-repeat 4px/20px;
+button.message.off {
+  opacity: .5;
 }
 button.message:hover {
   background-color: #fff;

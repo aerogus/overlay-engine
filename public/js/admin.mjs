@@ -90,24 +90,51 @@ export class App {
     $('#admin_logo').click((e) => {
       e.preventDefault();
       this.data.logo = !this.data.logo;
+      this.updateUIToggleLogo();
       this.socket.emit('LOGO', this.data.logo);
     });
+  }
+
+  updateUIToggleLogo() {
+    if (this.data.logo) {
+      $('#admin_logo').removeClass('off');
+    } else {
+      $('#admin_logo').addClass('off');
+    }
   }
 
   initToggleClock() {
     $('#admin_clock').click((e) => {
       e.preventDefault();
       this.data.clock = !this.data.clock;
+      this.updateUIToggleClock();
       this.socket.emit('CLOCK', this.data.clock);
     });
+  }
+
+  updateUIToggleClock() {
+    if (this.data.clock) {
+      $('#admin_clock').removeClass('off');
+    } else {
+      $('#admin_clock').addClass('off');
+    )
   }
 
   initToggleTelex() {
     $('#admin_telex').click((e) => {
       e.preventDefault();
       this.data.footer = !this.data.footer;
+      this.updateUIToggleTelex();
       this.socket.emit('TELEX', this.data.footer);
     });
+  }
+
+  updateUIToggleTelex() {
+    if (this.data.footer) {
+      $('#admin_telex').removeClass('off');
+    } else {
+      $('#admin_telex').addClass('off');
+    }
   }
 
   initSongSendButton() {
@@ -188,26 +215,26 @@ export class App {
         $('<div/>')
           .addClass('soc_hdr')
           .append(
-              $('<img/>', {
-                src: social.avatar,
-                alt: ''
-              })
+            $('<img/>', {
+              src: social.avatar,
+              alt: ''
+            })
               .addClass('soc_avatar')
           )
           .append(
-              $('<div/>')
-                .addClass('soc_hdr_meta')
-                .append(
-                    $('<div/>')
-                      .addClass('soc_name')
-                      .append(social.name)
-                )
-                .append(
-                    $('<div/>')
-                      .addClass('soc_screen_name')
-                      .append(social.screen_name)
-                )
-            )
+            $('<div/>')
+              .addClass('soc_hdr_meta')
+              .append(
+                $('<div/>')
+                  .addClass('soc_name')
+                  .append(social.name)
+              )
+              .append(
+                $('<div/>')
+                  .addClass('soc_screen_name')
+                  .append(social.screen_name)
+              )
+          )
       )
       .append(
         $('<div/>')
@@ -218,50 +245,16 @@ export class App {
         $('<button/>', {
           title: 'Mettre ce message à l‘écran'
         })
-        .addClass('btn')
-        .append('ON AIR')
+          .addClass('btn')
+          .append('ON AIR')
       )
       .prependTo('.wall');
   }
 
   /**
-   * mise à jour de l'affichage des variables serveur
+   * mise à jour global de l'affichage avec l'état des variables serveur
    */
   updateUI() {
-/*
-    let show = $('<ul/>');
-    for (let key in this.data.show) {
-      if (this.data.show.hasOwnProperty(key)) {
-        let li = $('<li/>', {
-          text: key + ': ' + this.data.show[key]
-        });
-        show.append(li);
-      }
-    }
-    $(this.UI.dump.show).empty().append(show);
-*/
-/*
-    let music = $('<ul/>');
-    for (let key in this.data.music) {
-      if (this.data.music.hasOwnProperty(key)) {
-        let li = $('<li/>', {
-          text: key + ': ' + this.data.music[key]
-        });
-        music.append(li);
-      }
-    }
-    $(this.UI.dump.music).empty().append(music);
-*/
-/*
-    let social = $('<ul/>');
-    this.data.social.forEach(item => {
-      let li = $('<li/>', { 'data-key': item.key })
-        .append($('<button/>', { text: 'Del' } ))
-        .append($('<span/>', { text: item.text } ));
-      social.append(li);
-    });
-    $(this.UI.dump.social).empty().append(social);
-*/
     let telex_list = $('#telex_list');
     telex_list.empty();
     this.data.telex.forEach(item => {
@@ -276,6 +269,10 @@ export class App {
     this.data.social.forEach((item) => {
       this.pushSocialUI(item);
     });
+
+    updateUIToggleLogo();
+    updateUIToggleClock();
+    updateUIToggleTelex();
   }
 
   addTelexInput() {
