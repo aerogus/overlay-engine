@@ -15,7 +15,7 @@ let currentShow = show.getCurrent();
 log('ON AIR: ' + currentShow.title);
 
 const io = require('socket.io-client');
-const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`, {reconnectionAttempts: 2});
+const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
 
 socket.on('connect', () => {
   socket.emit('EMI', currentShow);

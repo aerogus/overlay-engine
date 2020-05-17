@@ -37,16 +37,19 @@
   --logo-height: 125px;
 
   /* couleurs horloge */
-  --clock-bgcolor: #253041;
+  --clock-background-color: #253041;
   --clock-color: #ffffff;
 
-  --footer-radius: 10px;
-  --_footer-background: #253041;
-  --footer-background: linear-gradient(0.25turn, #202536, #253041, #202536);
+  --onair-background-color: #fff;
+  --onair-color: #253041;
+
+  --footer-border-radius: 20px;
+  /*--footer-background-color: #253041;*/
+  --footer-background-image: url(/img/bandeau.png);
   --footer-color: #f8f4ba;
 
   --footer-claim-display: none; /* none|block */
-  --footer-claim-bgcolor: #253041;
+  --footer-claim-background-color: #253041;
   --footer-claim-color: #fff;
 }
 
@@ -63,11 +66,8 @@ body.mosaic {
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
-/* conteneur global */
-#global {
-}
-
 /* logo */
+
 #logo {
   position: absolute;
   z-index: 100;
@@ -96,7 +96,7 @@ body.mosaic {
   position: absolute;
   right: 0;
   font-family: TradeGothic;
-  background: var(--clock-bgcolor);
+  background-color: var(--clock-background-color);
   color: var(--clock-color);
   font-size: 36px;
   line-height: 50px;
@@ -111,7 +111,7 @@ body.mosaic {
 #clock_wrap #timeline {
   display: flex;
   align-items: center;
-  background-color: var(--clock-bgcolor);
+  background-color: var(--clock-background-color);
   color: var(--clock-color);
   font-family: TradeGothic;
   font-size: 36px;
@@ -265,7 +265,8 @@ body.mosaic {
   bottom: 100px;
   overflow: hidden;
   max-height: 0;
-  background-color: #fff;
+  background-color: var(--onair-background-color);
+  color: var(--onair-color);
   border-radius: 10px;
 }
 .onair_wrap.expanded {
@@ -330,7 +331,8 @@ body.mosaic {
 /* footer / claim & news */
 
 .footer {
-  background: var(--footer-background);
+  background-color: var(--footer-background-color);
+  background-image: var(--footer-background-image);
   border-radius: var(--footer-radius);
   color: var(--footer-color);
   position: absolute;
@@ -349,7 +351,7 @@ body.mosaic {
   border-top-left-radius: var(--footer-radius);
   font-family: TradeGothic;
   text-transform: uppercase;
-  background: var(--footer-claim-bgcolor);
+  background-color: var(--footer-claim-background-color);
   color: var(--footer-claim-color);
   padding: 0 8px;
   letter-spacing: -1px;

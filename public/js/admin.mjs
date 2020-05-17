@@ -21,22 +21,10 @@ export class App {
       MAX_ITEMS: 100
     };
 
-    this.UI = {
-      dump: {
-        logo: '#var_logo',
-        social: '#var_social',
-        telex: '#var_telex',
-        show: '#var_show',
-        music: '#var_music',
-      }
-    };
-
-    this.initToggleLogo();
-    this.initToggleClock();
-    this.initToggleTelex();
-    this.initSongSendButton();
+    this.initToggleUIButtons();
+    this.initPushSongButton();
     this.initTelexButtons();
-    this.initOnAirButtons();
+    this.initSocialOnAirButtons();
 
     this.socket = io(this.options.WEBSOCKET_SERVER);
     this.socket.emit('DMP');
@@ -86,67 +74,75 @@ export class App {
     });
   }
 
-  initToggleLogo() {
+  initToggleUIButtons() {
     $('#admin_logo').click((e) => {
       e.preventDefault();
-      this.data.logo = !this.data.logo;
+      this.data.ui.logo = !this.data.ui.logo;
       this.updateUIToggleLogo();
-      this.socket.emit('LOGO', this.data.logo);
+      this.socket.emit('UI_LOGO', this.data.ui.logo);
+    });
+    $('#admin_clock').click((e) => {
+      e.preventDefault();
+      this.data.ui.clock = !this.data.ui.clock;
+      this.updateUIToggleClock();
+      this.socket.emit('UI_CLOCK', this.data.ui.clock);
+    });
+    $('#admin_telex').click((e) => {
+      e.preventDefault();
+      this.data.ui.telex = !this.data.ui.telex;
+      this.updateUIToggleTelex();
+      this.socket.emit('UI_TELEX', this.data.ui.telex);
+    });
+    $('#admin_reactions').click((e) => {
+      e.preventDefault();
+      this.data.ui.reactions = !this.data.ui.reactions;
+      this.updateUIToggleReactions();
+      this.socket.emit('UI_REACTIONS', this.data.ui.reactions);
+    });
+    $('#admin_autosong').click((e) => {
+      e.preventDefault();
+      this.data.ui.autosong = !this.data.ui.autosong;
+      this.updateUIToggleAutosong();
+      this.socket.emit('UI_AUTOSONG', this.data.ui.autosong);
     });
   }
 
   updateUIToggleLogo() {
-    if (this.data.logo) {
-      $('#admin_logo').removeClass('off');
-    } else {
-      $('#admin_logo').addClass('off');
-    }
-  }
-
-  initToggleClock() {
-    $('#admin_clock').click((e) => {
-      e.preventDefault();
-      this.data.clock = !this.data.clock;
-      this.updateUIToggleClock();
-      this.socket.emit('CLOCK', this.data.clock);
-    });
+    if (this.data.ui.logo) $('#admin_logo').removeClass('off');
+    else $('#admin_logo').addClass('off');
   }
 
   updateUIToggleClock() {
-    if (this.data.clock) {
-      $('#admin_clock').removeClass('off');
-    } else {
-      $('#admin_clock').addClass('off');
-    }
-  }
-
-  initToggleTelex() {
-    $('#admin_telex').click((e) => {
-      e.preventDefault();
-      this.data.footer = !this.data.footer;
-      this.updateUIToggleTelex();
-      this.socket.emit('TELEX', this.data.footer);
-    });
+    if (this.data.ui.clock) $('#admin_clock').removeClass('off');
+    else $('#admin_clock').addClass('off');
   }
 
   updateUIToggleTelex() {
-    if (this.data.footer) {
-      $('#admin_telex').removeClass('off');
-    } else {
-      $('#admin_telex').addClass('off');
-    }
+    if (this.data.ui.telex) $('#admin_telex').removeClass('off');
+    else $('#admin_telex').addClass('off');
   }
 
-  initSongSendButton() {
+  updateUIToggleReactions() {
+    if (this.data.ui.reactions) $('#admin_reactions').removeClass('off');
+    else $('#admin_reactions').addClass('off');
+  }
+
+  updateUIToggleAutosong() {
+    if (this.data.ui.autosong) $('#admin_autosong').removeClass('off');
+    else $('#admin_autosong').addClass('off');
+  }
+
+  initPushSongButton() {
     $('#live_song_send').click((e) => {
       e.preventDefault();
       // on push que s'il y a des données
       if (!$('#live_song_artist').val().length && !$('#live_song_title').val().length) {
         return;
       }
-      let song = {
+      const song = {
         artist: $('#live_song_artist').val(),
-        title: $('#live_song_title').val()
+        title: $('#live_song_title').val(),
+        from: 'admin'
       };
       this.socket.emit('ZIK', song);
       console.log('ZIK', song);
@@ -182,7 +178,7 @@ export class App {
   /**
    * envoi du msg SOC_AIR sur le tweet sélectionné
    */
-  initOnAirButtons() {
+  initSocialOnAirButtons() {
     $('body').on('click', '.btn', (e) => {
       e.preventDefault();
       let social = {
@@ -273,6 +269,8 @@ export class App {
     this.updateUIToggleLogo();
     this.updateUIToggleClock();
     this.updateUIToggleTelex();
+    this.updateUIToggleReactions();
+    this.updateUIToggleAutosong();
   }
 
   addTelexInput() {

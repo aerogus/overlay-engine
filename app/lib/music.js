@@ -30,7 +30,8 @@ module.exports = {
             } else {
               const song = {
                 artist: extractFlash[1],
-                title: 'BLP Radio'
+                title: 'BLP Radio',
+                from: 'autosong',
               };
               resolve(song);
             }

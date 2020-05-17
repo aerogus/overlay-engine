@@ -15,22 +15,16 @@ let log = require('./log')
 module.exports = {
 
   /**
-   * Affichage du logo ?
-   * @var bool
+   * Affichage des modules d'UI
+   * @var object
    */
-  logo: true,
-
-  /**
-   * Affichage de l'horloge ?
-   * @var bool
-   */
-  clock: true,
-
-  /**
-   * Affichage du telex ?
-   * @var bool
-   */
-  footer: true,
+  ui: {
+    logo: true,
+    clock: true,
+    footer: true,
+    reactions: true,
+    autosong: true,
+  },
 
   /**
    * Objet musique / pige courante
@@ -60,6 +54,11 @@ module.exports = {
    * @var array d'objets .avatar, .name, .network, .message, .timestamp
    */
   social: [],
+
+  /**
+   * message social actuellement ON AIR
+   */
+  social_air: {},
 
   /**
    * nombre max de messages sociaux à stocker
@@ -172,11 +171,10 @@ module.exports = {
       music: this.music,
       show: this.show,
       social: this.social,
+      social_air: this.social_air,
       tweet: this.tweet,
       telex: this.telex,
-      logo: this.logo,
-      clock: this.clock,
-      footer: this.footer
+      ui: this.ui,
     };
   }
 };

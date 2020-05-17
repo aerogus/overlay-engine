@@ -136,31 +136,49 @@ io.on('connection', socket => {
     log('EDI broadcasted');
   });
 
-  // réception LOGO
-  socket.on('LOGO', display => {
-    log('LOGO received with object');
+  // réception UI_LOGO
+  socket.on('UI_LOGO', display => {
+    log('UI_LOGO received with object');
     log(display);
-    data.logo = display;
-    io.emit('LOGO', data.logo);
-    log('LOGO broadcasted');
+    data.ui.logo = display;
+    io.emit('UI_LOGO', data.ui.logo);
+    log('UI_LOGO broadcasted');
   });
 
-  // réception CLOCK
-  socket.on('CLOCK', display => {
-    log('CLOCK received with object');
+  // réception UI_CLOCK
+  socket.on('UI_CLOCK', display => {
+    log('UI_CLOCK received with object');
     log(display);
-    data.clock = display;
-    io.emit('CLOCK', data.clock);
-    log('CLOCK broadcasted');
+    data.ui.clock = display;
+    io.emit('UI_CLOCK', data.ui.clock);
+    log('UI_CLOCK broadcasted');
   });
 
-  // réception TELEX
-  socket.on('TELEX', display => {
-    log('TELEX received with object');
+  // réception UI_TELEX
+  socket.on('UI_TELEX', display => {
+    log('UI_TELEX received with object');
     log(display);
-    data.footer = display;
-    io.emit('TELEX', data.footer);
-    log('TELEX broadcasted');
+    data.ui.telex = display;
+    io.emit('UI_TELEX', data.ui.telex);
+    log('UI_TELEX broadcasted');
+  });
+
+  // réception UI_REACTIONS
+  socket.on('UI_REACTIONS', display => {
+    log('UI_REACTIONS received with object');
+    log(display);
+    data.ui.reactions = display;
+    io.emit('UI_REACTIONS', data.ui.reactions);
+    log('UI_REACTIONS broadcasted');
+  });
+
+  // réception UI_AUTOSONG
+  socket.on('UI_AUTOSONG', display => {
+    log('UI_AUTOSONG received with object');
+    log(display);
+    data.ui.autosong = display;
+    io.emit('UI_AUTOSONG', data.ui.autosong);
+    log('UI_AUTOSONG broadcasted');
   });
 
   // déconnexion du client

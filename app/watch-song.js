@@ -13,7 +13,7 @@ const io = require('socket.io-client')
   , music = require('./lib/music');
 
 const tempo = 10; // temporisation entre 2 poll, en secondes
-const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`, {autoConnect: false, reconnectionAttempts: 2});
+const socket = io(`ws://${settings.server.HOST}:${settings.server.PORT}`);
 
 const currentSong = { // objet chanson
   'artist': '',
@@ -21,7 +21,6 @@ const currentSong = { // objet chanson
 };
 
 (function update_title() {
-  let timer;
   music.getCurrent()
     .then(newSong => {
       // anti doublon
@@ -29,6 +28,7 @@ const currentSong = { // objet chanson
         log(newSong.artist + ' - ' + newSong.title);
         currentSong.artist = newSong.artist;
         currentSong.title = newSong.title;
+        currentSong.from = 'autosong';
         socket.open();
         socket.on('connect', () => {
           socket.emit('ZIK', currentSong);
@@ -43,5 +43,5 @@ const currentSong = { // objet chanson
         log('-');
       }
     });
-  timer = setTimeout(update_title, tempo * 1000);
+  setTimeout(update_title, tempo * 1000);
 })();

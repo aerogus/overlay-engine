@@ -23,23 +23,7 @@ export class App {
      * les données du serveur
      * @var object
      */
-    this.data = {
-      music: {},
-      show: {},
-      social: [],
-      social_air: {},
-      telex: []
-    };
-
-    // éléments de l'interface
-    this.UI = {
-      clock: '#clock'
-    };
-
-    // les différents minuteurs
-    this.timer = {
-      social: false
-    };
+    this.data = {};
 
     // fond d'écran custom
     const urlParams = new URLSearchParams(window.location.search);
@@ -50,7 +34,7 @@ export class App {
       $('body').addClass('mosaic');
     }
 
-    this.qtx = {};
+    this.qtx = {}; // telex
 
     this.socket = io.connect(this.options.WEBSOCKET_SERVER);
     this.socket.emit('DMP');
@@ -71,26 +55,15 @@ export class App {
     this.socket.on('DMP', dump => {
       console.log('DMP received');
       console.log(dump);
+      this.data = dump;
 
-      if (dump.logo) $('#logo').show();
-      else $('#logo').hide();
+      this.updateUILogo();
+      this.updateUIClock();
+      this.updateUITelex();
 
-      if (dump.clock) $('#clock_wrap').show();
-      else $('#clock_wrap').hide();
-
-      if (dump.footer) $('.footer').show();
-      else $('.footer').hide();
-
-      this.data.music = dump.music;
       this.updateMusicUI();
-
-      this.data.show = dump.show;
       this.updateShowUI();
-
-      this.data.tweet = dump.tweet;
       this.initSocialUI();
-
-      this.data.telex = dump.telex;
       this.initTelex();
     });
 
@@ -122,7 +95,9 @@ export class App {
     this.socket.on('SOC_REA', reaction => {
       console.log('SOC_REA');
       console.log(reaction);
-      this.printReaction(reaction.type.toLowerCase());
+      if (this.data.ui.reactions) {
+        this.printReaction(reaction.type.toLowerCase());
+      }
     });
 
     // maj telex
@@ -144,24 +119,24 @@ export class App {
     });
 
     // affichage du logo
-    this.socket.on('LOGO', (display) => {
-      console.log('LOGO: ', display);
-      if (display) $('#logo').show();
-      else $('#logo').hide();
+    this.socket.on('UI_LOGO', (display) => {
+      this.data.ui.logo = display;
+      console.log('LOGO: ', this.data.ui.logo);
+      this.updateUILogo();
     });
 
-    // affichage du logo
-    this.socket.on('CLOCK', (display) => {
-      console.log('CLOCK: ', display);
-      if (display) $('#clock_wrap').show();
-      else $('#clock_wrap').hide();
+    // affichage de l'horloge
+    this.socket.on('UI_CLOCK', (display) => {
+      this.data.ui.clock = display;
+      console.log('UI_CLOCK: ', this.data.ui.clock);
+      this.updateUIClock();
     });
 
     // affichage du telex
-    this.socket.on('TELEX', (display) => {
-      console.log('TELEX: ', display);
-      if (display) $('.footer').show();
-      else $('.footer').hide();
+    this.socket.on('UI_TELEX', (display) => {
+      this.data.ui.telex = display;
+      console.log('UI_TELEX: ', this.data.ui.telex);
+      this.updateUITelex();
     });
 
     this.animClock = animClock;
@@ -177,7 +152,7 @@ export class App {
    * Calcule toutes les secondes et mise à jour de l'UI si besoin
    */
   initClock() {
-    let clock = $(this.UI.clock);
+    let clock = $('#clock');
     let animClock = this.animClock;
     (function clock_update_ui() {
       let now = new Date();
@@ -251,7 +226,9 @@ export class App {
    * déclenché à l'init + réception msg ZIK
    */
   updateMusicUI() {
-    this.animSong.start(this.data.music);
+    if (this.data.ui.autosong || (!this.data.ui.autosong && this.data.music.from === 'admin')) {
+      this.animSong.start(this.data.music);
+    }
   }
 
   /**
@@ -274,5 +251,20 @@ export class App {
       .queue(function() {
         $(this).remove();
       });
+  }
+
+  updateUILogo() {
+    if (this.data.ui.logo) $('#logo').show();
+    else $('#logo').hide();
+  }
+
+  updateUIClock() {
+    if (this.data.ui.clock) $('#clock_wrap').show();
+    else $('#clock_wrap').hide();
+  }
+
+  updateUITelex() {
+    if (this.data.ui.telex) $('.footer').show();
+    else $('.footer').hide();
   }
 }
