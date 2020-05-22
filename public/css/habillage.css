@@ -44,8 +44,8 @@
   --onair-color: #253041;
 
   --footer-border-radius: 20px;
-  /*--footer-background-color: #253041;*/
-  --footer-background-image: url(/img/bandeau.png);
+  --footer-background-color: #253041;
+  /*--footer-background-image: url(/img/bandeau.png);*/
   --footer-color: #f8f4ba;
 
   --footer-claim-display: none; /* none|block */

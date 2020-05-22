@@ -21,7 +21,7 @@ module.exports = {
   ui: {
     logo: true,
     clock: true,
-    footer: true,
+    telex: true,
     reactions: true,
     autosong: true,
   },
