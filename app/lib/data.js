@@ -19,11 +19,11 @@ module.exports = {
    * @var object
    */
   ui: {
-    logo: true,
-    clock: true,
-    telex: true,
-    reactions: true,
-    autosong: true,
+    logo: false,
+    clock: false,
+    telex: false,
+    reactions: false,
+    autosong: false,
   },
 
   /**
