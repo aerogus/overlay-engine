@@ -2,8 +2,6 @@
 .DS_Store
 Thumb.db
 
-db/overlay-engine.db
-
 log
 
 # paramètres
