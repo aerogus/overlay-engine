@@ -219,6 +219,22 @@ app.get(/^\/admin$/, (req, res) => {
   });
 });
 
+// route set titre/artiste
+app.get(/^\/api\/push-song$/, (req, res) => {
+  let music = {
+    from: 'admin',
+    artist: req.query.artist,
+    title: req.query.title
+  };
+  log('GET push-song received with params');
+  log(music);
+  data.music = music;
+  io.emit('ZIK', music);
+  log('ZIK broadcasted with object');
+
+  res.send('OK');
+});
+
 app.use(express.static(`${__dirname}/../public`), (req, res, next) => {
   // cache bust
   req.url = req.url.replace(/\/([^\/]+)\.[0-9]+\.(min\.)?(css|js)$/, '/$1.$2$3');
