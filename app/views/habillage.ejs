@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/css/habillage.css">
 </head>
 
-<body>
+<body class="green">
   <div id="global">
     <div id="logo"></div>
     <div id="clock_wrap">
@@ -49,9 +49,9 @@
     var settings = settings || [];
     settings.ws = 'http://<%= ws_host %>:<%= ws_port %>';
   </script>
-  <script src="/js/jquery-3.6.3.min.js"></script>
-  <script src="/js/moment-2.29.4.min.js"></script>
-  <script src="/js/telex-2.0.6.min.js"></script>
+  <script src="/library/jquery@3.7.1/jquery.min.js"></script>
+  <script src="/library/moment@2.29.4/moment.min.js"></script>
+  <script src="/library/telex@2.0.6/telex.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script type="module">
     import {App} from './js/habillage.mjs';
