@@ -32,9 +32,11 @@
 /* colors */
 
 :root {
-  --logo-url: url(/img/logo-lespiedsdanslorge.png);
-  --logo-width: 125px;
-  --logo-height: 125px;
+  --logo-url: url(/img/logo-verveine-underground.svg);
+  --logo-width: 65px;
+  --logo-height: 40px;
+
+  --main-margin: 20px;
 
   /* couleurs horloge */
   --clock-background-color: #253041;
@@ -42,6 +44,9 @@
 
   --onair-background-color: #fff;
   --onair-color: #253041;
+  --onair-border-radius: 0; /* 10px */
+
+  --social-border-raduis: 0; /* 10px */
 
   --footer-border-radius: 20px;
   --footer-background-color: #253041;
@@ -71,8 +76,8 @@ body.mosaic {
 #logo {
   position: absolute;
   z-index: 100;
-  top: 30px;
-  left: 30px;
+  top: var(--main-margin);
+  left: var(--main-margin);
   background: no-repeat center/cover;
   background-image: var(--logo-url);
   width: var(--logo-width);
@@ -85,8 +90,8 @@ body.mosaic {
   position: absolute;
   z-index: 100;
   overflow: hidden;
-  top: 30px;
-  right: 30px;
+  top: var(--main-margin);
+  right: var(--main-margin);
   height: 124px;
   width: 100%;
   /* fil du temps de l'émission */
@@ -198,8 +203,8 @@ body.mosaic {
 .social_wrap {
   position: absolute;
   z-index: 100;
-  right: 30px;
-  bottom: 100px;
+  right: var(--main-margin);
+  bottom: var(--main-margin); /* --main-margin + banner-height = 100px; */
 }
 .social_wrap .social {
   position: relative;
@@ -207,7 +212,7 @@ body.mosaic {
   background-color: #fff;
   width: 915px;
   transform: translateX(0);
-  border-radius: 10px;
+  border-radius: var(--social-border-radius);
   padding: 10px;
   box-shadow: 2px 2px 5px #000;
 }
@@ -261,13 +266,13 @@ body.mosaic {
   position: absolute;
   z-index: 100;
   display: flex;
-  left: 30px;
-  bottom: 100px;
+  left: var(--main-margin);
+  bottom: var(--main-margin); /* 100px = --main-margin + banner-height */
   overflow: hidden;
   max-height: 0;
   background-color: var(--onair-background-color);
   color: var(--onair-color);
-  border-radius: 10px;
+  border-radius: var(--onair-border-radius);
 }
 .onair_wrap.expanded {
   animation: height_in 1s cubic-bezier(0, 0.5, 0.5, 1) forwards;
@@ -284,28 +289,30 @@ body.mosaic {
 .onair_wrap .onair {
   display: inline-block;
   position: relative;
-  padding: 29px 10px;
+  padding: 10px 10px;
   margin-top: auto;
   margin-bottom: auto;
   transform: translateY(calc(100% + 1px));
   z-index: 2;
-  font-family: TradeGothic;
-  text-transform: uppercase;
+  font-family: helvetica;
+  /*text-transform: uppercase;*/
   white-space: nowrap;
   overflow: hidden;
   max-width: 915px;
-  border-radius: 10px;
+  border-radius: var(--onair-border-radius);
 }
 .onair_wrap .onair .artist {
   font-weight: bold;
-  font-size: 80px;
+  font-size: 64px;
   text-overflow: ellipsis;
   overflow: hidden;
+  color: #1a3b08;
 }
 .onair_wrap .onair .title {
-  font-size: 52px;
+  font-size: 48px;
   text-overflow: ellipsis;
   overflow: hidden;
+  color: #1a3b08;
 }
 @keyframes height_in {
     0% { max-height: 0; }
@@ -337,9 +344,9 @@ body.mosaic {
   color: var(--footer-color);
   position: absolute;
   z-index: 100;
-  bottom: 30px;
-  left: 30px;
-  right: 30px;
+  bottom: var(--main-margin);
+  left: var(--main-margin);
+  right: var(--main-margin);
   display: flex;
 }
 .footer .telex {
