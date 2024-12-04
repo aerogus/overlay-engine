@@ -1,3 +1,5 @@
+/* globals module, require */
+
 /**
  * Structure des données en mémoire + état initial
  */

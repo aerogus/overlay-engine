@@ -2,6 +2,8 @@
  * Parsing du titre en cours pour BLP Radio
  */
 
+/* globals module, require */
+
 'use strict';
 
 const axios = require('axios');

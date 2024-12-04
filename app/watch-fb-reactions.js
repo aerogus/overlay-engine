@@ -11,6 +11,8 @@
  * npm start watch-fb-reactions videoId
  */
 
+/* globals process, require */
+
 'use strict';
 
 const EventSource = require('eventsource')

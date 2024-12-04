@@ -5,6 +5,8 @@
  * à exécuter régulièrement par cron
  */
 
+/* globals require */
+
 'use strict';
 
 const settings = require('./lib/settings')

@@ -4,7 +4,7 @@
 
 'use strict';
 
-/*globals $ */
+/* globals $, clearTimeout, setTimeout */
 
 let timers = [];
 let first = true;

@@ -2,7 +2,7 @@
  * Module d'habillage
  */
 
-/*globals settings, $, io, moment, Telex */
+/* globals document, console, location, settings, $, io, moment, setTimeout, Telex, URLSearchParams, window */
 
 'use strict';
 

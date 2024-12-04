@@ -3,7 +3,7 @@
  * exporte la classe
  */
 
-/*globals settings, $, io */
+/* globals console, settings, $, io */
 
 'use strict';
 

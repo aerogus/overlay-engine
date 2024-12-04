@@ -4,6 +4,8 @@
  * persistence non gérée: l'arrêt de l'app vide la mémoire
  */
 
+/* globals module */
+
 'use strict';
 
 // taille de l'écran de destination

@@ -4,7 +4,7 @@
 
 'use strict';
 
-/*globals $ */
+/* globals $, clearTimeout, setTimeout */
 
 // animation "clock" (durée totale 15s, doit être sous-multiple de 60s)
 

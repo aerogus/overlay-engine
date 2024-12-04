@@ -7,6 +7,8 @@
  * npm start watch-tweets "hashtag1,hashtag2,..." "language"
  */
 
+/* globals process, require, __dirname */
+
 'use strict';
 
 const Twitter = require('twitter')

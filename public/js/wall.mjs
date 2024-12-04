@@ -2,7 +2,7 @@
  * Live Social Wall
  */
 
-/*globals settings, $, io */
+/* globals console settings, $, io */
 
 'use strict';
 

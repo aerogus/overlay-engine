@@ -2,6 +2,8 @@
  * Module de gestion de log horodaté
  */
 
+/* globals console, module, require */
+
 'use strict';
 
 let util = require('util')

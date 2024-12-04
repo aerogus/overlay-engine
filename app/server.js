@@ -5,6 +5,8 @@
  * reçoit et broadcast des messages websocket
  */
 
+/* globals console, process, require, __dirname */
+
 'use strict';
 
 const express = require('express')
@@ -237,7 +239,7 @@ app.get(/^\/api\/push-song$/, (req, res) => {
 
 app.use(express.static(`${__dirname}/../public`), (req, res, next) => {
   // cache bust
-  req.url = req.url.replace(/\/([^\/]+)\.[0-9]+\.(min\.)?(css|js)$/, '/$1.$2$3');
+  req.url = req.url.replace(/\/([^/]+)\.[0-9]+\.(min\.)?(css|js)$/, '/$1.$2$3');
   next();
 });
 app.use(express.static(`${__dirname}/../public`));

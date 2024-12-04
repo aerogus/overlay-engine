@@ -2,6 +2,8 @@
  * gestion de la grille des programmes
  */
 
+/* globals module, require, __dirname */
+
 'use strict';
 
 const fs = require('fs')

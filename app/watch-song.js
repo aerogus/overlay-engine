@@ -5,6 +5,8 @@
  * poll régulier sur l'url d'info titre/artiste courant de BLP Radio
  */
 
+/* globals require, setTimeout */
+
 'use strict';
 
 const io = require('socket.io-client')
